@@ -1,0 +1,18 @@
+Renegade enhancements/bug fix's:
+
+  1.  Removed a duplicate procedure for crediting the uploader for a
+      file that was downloaded by another user.
+
+  2.  During a batch download, if no DL/Temp log was specified in the
+      protocol editor, the uploader did not receive credit for the
+      download. Other system/user statistics were updated though,
+      fixed.
+
+  3.  The above credit procedure never worked anyway due to some
+      calculation errors in the code, fixed.
+
+  4.  A message telling the user to enjoy the file was only displayed
+      if the user was charged file points, fixed.
+
+  5.  Messages to the user and the sysop.log provide additonal
+      information about the Single Download.

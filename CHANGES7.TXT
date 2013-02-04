@@ -1,0 +1,42 @@
+Renegade Updates/Enhancements:
+
+  1. A file can no longer be copied onto itself or moved to the same
+     directory it currently resides in.
+
+  2. In local mode, you must have CoSysOp access to move or copy an
+     attached file or file selected for download.
+
+  3. I noticed that download and upload statistics were displayed for
+     batch transfers even if "Log-off after file transfer was selected",
+     but not for single download or upload transfers, fixed.
+
+  4. Some items selected for download went thru the DLX procedure and
+     some went directly to the send procedure.  Alot of extra code and
+     variables were required for the send procedures everytime it was
+     called.  Now, all download requests go thru the DLX procedure and
+     then to the send procedure.  With this change, file downloading
+     can be tracked for all downloads thru the same statistcal process.
+     This includes, File attach, QWK, Unlisted and user archive.
+
+  5. All regular downloads were checked to ensure the user met all
+     security requirements, ratio, etc prior to the download.  However,
+     if a user was exempt from certain ratio checks, the user was
+     charged anyway for the download unless the file area was marked
+     as No-Ratio.  This applied to users flagged as No UL/DL Ratio in
+     the User Record, No UL/DL Ratio in the System record, etc.
+
+  6. You will now be asked if the file exists on a CDROM for unlisted
+     downloads.  This will alow for faster file transfers since the
+     file is copied from the CDRom to the Temp Node Directory for
+     download.
+
+  7. The default file name for extracting text from a message has been
+     changed from "MSG.TXT" to MSG<Node>.TXT.  Of course, you still
+     have the option of changing this to whatever you like at the
+     prompt.
+
+  8. For Offline mail transfers, the bbs will no longer attempt to copy
+     the WELCOME, NEWS or GOODBYE file if they path to the file is
+     blank.
+
+Enjoy!!!

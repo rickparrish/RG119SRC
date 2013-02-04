@@ -1,0 +1,35 @@
+As I work my thru the editors, something stood out that could reduce the
+overall size of the code and memory requirements. The InputWN1
+Procedure was utilized in every editor just as you see it below and
+utilized four lines of code:
+
+NL;
+Print('New description: ');
+MPL(SizeOf(Name) - 1));
+InputWN1(Name,(SizeOf(Name) - 1),Changed);
+
+The above procedure has made modified to require only one line of code
+to do the same job.  I added the NL as %LF to the Print Procedure.  I
+then added an extra var to the InputWN1 to pass the Print procedure text
+into the InputWN1 Procedure.  I also added the MPL internal to the
+InputWN1 Procedure (See Below).
+
+InputWN1('%LFNew description: ',Name,(SizeOf(Name) - 1),Changed);
+
+
+The InputWNWC required 3 lines of code every time it was called (MPL
+isn't used for color input prompts).
+
+NL;
+Print('New description: ');
+InputWNWC(Name,(SizeOf(Name) - 1),Changed);
+
+The above procedure has made modified to require only one line of code
+to do the same job.  I added the NL as %LF to the Print Procedure.  I
+then added an extra var to the InputWNWC to pass the Print procedure text
+into the InputWNWC Procedure (See below).
+
+InputWNWC('%LFNew description: ',Name,(SizeOf(Name) - 1),Changed);
+
+I modified all numeric input routines in accordance with the above in
+a previous release of Renegade.

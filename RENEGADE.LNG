@@ -1,0 +1,283 @@
+$Anonymous_String
+^4[^0ş Anonymous ş^4]
+$
+
+$Echo_Char_For_Passwords
+İ
+$
+
+$Engage_Chat
+%LF^0Your SysOp, ^5%SN^0, Is Here To Chat With You!%LF%LF
+$
+
+$End_Chat
+%LF^0Welcome Back To ^9%BN.
+$
+
+$SysOp_Working
+^4[^0ş Please Wait ş^4]@
+$
+
+$Pause
+^4[^0ş Press any key ş^4]@
+$
+
+$Enter_Message_Line_One
+%LF|03Press |11ENTER |03to get a |11BLANK LINE |03and press the following:
+$
+
+$Enter_Message_Line_Two
+|03To Save: |11/S   |03To Quote: |11/Q   |03To Abort: |11/A   |03Help:  |11/?
+$
+
+$NewScan_Begin
+%CL|09Scanning ... |01[|11%MB |01- |11%HM|01]@
+$
+
+$NewScan_Done
+@
+$
+
+$Auto_Message_Title
+^9AutoMessage Posted Here By: ^3
+$
+
+$Auto_Message_Border_Characters
+Í
+$
+
+$SysOp_Shelling_To_DOS
+|09[|15ş Please Wait ş|09]@
+$
+
+$Read_Mail
+|09Read Mail (|14?|09=|14Help|09): @
+$
+
+$Paging_SysOp
+^9I will now attempt to call ^0%SN ^9to his computer!
+$
+
+$Chat_Call
+|09[|11(|15<|14*|15>|11)|09] @
+$
+
+
+$Bulletin_Prompt
+^4Time Left [^3%TL^4] (^3?^4=^3Help^4) %LFBulletin Menu^2: @
+$
+
+$Protocol_Prompt
+%DFPROTLIST%^4Selection^2: @
+$
+
+$List_Files
+|03List Files - |11P |03to Pause
+$
+
+$Search_For_New_Files
+|03Search for new files -
+$
+
+$Search_All_Dirs_For_File_Mask
+|03Search All Directories For a File Name|01: |11
+$
+
+$Search_For_Descriptions
+|03Enter a Description to Search For|01: |01[|11No Wildcards!|01]|01: |11
+$
+
+$Enter_The_String_To_Search_For
+|03Press |01[|11ENTER|01] |03to abort.%LF|11
+$
+
+$Download
+^3Download - From File Area %FB.
+$
+
+$Upload
+^3Upload - To File Area %FB^3.
+$
+
+$View_Interior_Files
+%LF^9Enter the name of the archive(s) you would like to view:
+%LF^4File name:^3 @
+$
+
+$Insufficient_File_Credits
+^5You have insufficient file points to download this.
+$
+
+$Ratio_Is_Unbalanced
+^5Your upload/download ratio is too poor to download this.
+$
+
+$All_Files
+
+$
+
+$File_Mask
+|03Press |01[|11ENTER|01] |03For |11ALL |03Files |01: |11@
+$
+
+$File_Added_To_Batch_Queue
+^5File added to Batch Queue
+$
+
+$Batch_Download_Flagging
+^9Enter filename(s) for addition to the batch queue.
+$
+
+$Read_Question_Prompt
+^4[^5%MB^4]%LFBegin reading at [^51^4-^5%HM^4] (^5Q^4=^5Quit^4): @
+$
+
+$System_Password_Prompt
+%LF|03SysOp Password|01: |11@
+$
+
+$Default_Message_To
+|03Press |01[|11ENTER|01] |03for |11ALL|03:%LF
+$
+
+$Newscan_All
+|01[= |11Global NewScan Beginning |01=]
+$
+
+$Newscan_Done
+%CL|01[= |11Global NewScan Completed |01=]
+$
+
+$Chat_Reason
+^9%UN^0, State your reason for a Chat Session.
+$
+
+$User_Defined_Question_One
+Is ALL of your information REAL & CORRECT? (Yes/No)
+$
+
+$User_Defined_Question_Two
+Do you run a Telnet BBS? (If so, type in address below)
+$
+
+$User_Defined_Question_Three
+What BBS or Web Site did you hear about this BBS? (Specific Please)
+$
+
+$User_Defined_Question_Editor_One
+Info Real
+$
+
+$User_Defined_Question_Editor_Two
+Telnet BBS
+$
+
+$User_Defined_Question_Editor_Three
+Reference
+$
+
+$Continue_Prompt
+|10ş |15Continue: [^5Y^0]es, [N]o, [C]ontinuous: @
+$
+
+$Invisible_Login
+Invisible Login: @
+$
+
+$Cant_Email
+|11Can't send mail to that user.
+$
+
+$Send_Email
+%CL|03Press |01[|11ENTER|01] |03to |11ABORT|03:
+$
+
+$Sending_Mass_Mail_To
+|01Sending Mail-Mass to:
+$
+
+$Sending_Mass_Mail_To_All_Users
+|01Sending mass-mail to ALL USERS.
+$
+
+$No_Netmail
+|01You are not allowed to send netmail.
+$
+
+$Netmail_Prompt
+%LF|09Is this to be a netmail message? @
+$
+
+$No_Mail_Waiting
+%LF^5You have no mail waiting.
+$
+
+$Must_Read_Message
+Sorry, you must read and reply to (or delete) your mail.
+$
+
+$Scan_For_New_Files
+               |11S|03can |11F|03or |11NEW |11F|03iles |11S|03ince |11MM|03/|11DD|03/|11YYYY|03: @
+$
+
+$New_Scan_Char_File
+ş
+$
+
+$Bulletins_Prompt
+^5There are new bulletins read them: @
+$
+
+$Quick_Logon
+Quick Logon: @
+$
+
+$Message_Area_Select_Header
+%CL7ÚÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+7³8 Num 7³9 Name                           7³8 Num 7³9 Name                          7³
+7ÀÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+$
+
+
+$File_Area_Select_Header
+%CL-ÚÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+-³. Num -³/ Name                           -³. Num -³/ Name                          -³
+-ÀÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+$
+
+$Receive_Email_Header
+%CL‡ÚÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+‡³ˆ Num ‡³‰ Date/Time         ‡³Š Sender                 ‡³‹ Subject                  ‡³
+‡ÀÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+$
+
+$Vote_List_Topics_Header
+%CL|03ÚÄÄÄÄÄÂÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+³|11|17 Num |03|16³|11|17Votes|03|16³|11|17 Choice                                                          |03|16³
+ÀÄÄÄÄÄÁÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+$
+
+$Vote_Topic_Result_Header
+|03ÚÄÄÄÂÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+³|11|17 N |03|16³|11|17  %  |03|16³|11|17 Choice                                                            |03|16³
+ÀÄÄÄÁÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+$
+
+$File_Area_Name_Header_No_Ratio
+%CLÚÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+³##³ File Name  ³   Size   ³ Description  %FB{32    ³
+ÀÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+$
+
+$File_Area_Name_Header_Ratio
+%CLÚÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÂÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+³##³ÿFile Name  ³Pts³ Size ³ Description  %FB{30    ³
+ÀÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÁÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+$
+
+$Sysop_Chat_Help
+^5/BYE^3:   Hang up
+^5/CLS^3:   Clear the screen
+^5/PAGE^3:  Page the SysOp and User
+^5/Q^3:     Exit chat mode%LF
+$

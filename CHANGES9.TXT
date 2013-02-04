@@ -1,0 +1,29 @@
+Renegade bug fix's/enhancements:
+
+  1.  Due to space limitations, the file listing display will utilize
+      bytes or kbytes depending on the file point settings in the
+      system configuration. To be consistant, this process is now
+      also being utilized for the file size displayed when a file is
+      selected for download.
+
+  2.  When a file is selected for viewing, the user will be cautioned
+      that the file is not checked to ensure it is an ascii text file
+      and then asked if they would like to continue.
+
+  3.  The file listing download and add batch prompt has been cleaned
+      up.  It would formally allow input of '-' by itself or the '-'
+      proceeding or following a file number and alpha characters. The
+      input of an invalid file number will now display a message to the
+      user.
+
+  4.  Adding a file to the batch queue from the file listing display
+      will now display all the file information related to that file.
+      It will also now properly check the file to ensure it is ok to
+      download and send it thru the proper ratio checks.  I have to
+      admit that this was an oversite on my part when I added the
+      ability to select a file by number.  Basically it now goes
+      directly thru the DLX procedure vice being added directly to
+      the batch download queue.
+
+Enjoy!!!
+

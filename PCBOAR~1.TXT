@@ -1,0 +1,57 @@
+FeatherNet PRO! v1.01 Documentation
+Page 44.15 
+
+This is the exit to DOS information FeatherNet PRO! uses to maintain a caller's stats and the system's configuration upon exit to DOS when running a DOOR, during file transfers, or viewing some archives 
+
+START POS   SAVED
+& LENGTH     AS       DESCRIPTION OF DATA
+---------  ------    --------------------------------------------
+1, 2       ASCII     "-1" always used by FeatherNet PRO!
+3, 2       ASCII     " 0" always used By FeatherNet PRO!
+5, 2       ASCII     "-1" if page allowed or 0 if not.
+7, 2       ASCII     User Number in Users file
+9, 1       ASCII     "Y" if Expert or "N"if Not
+10, 2      ASCII     "-1"  if  Error Correcting modem, "0" if not
+12, 1      ASCII     "Y" if Graphics Mode or "N" if Not
+13, 1      ASCII     "A" is always placed here by FeatherNet PRO!
+14, 5      ASCII     The DTE speed or PC  to Modem baud rate
+19, 5      ASCII     The connect baud rate:"300-38400" or "Local"
+24, 2      MKI$      User's Record # in "USERS" file
+26, 15     ASCII     User's FIRST Name padded with spaces
+41, 12     ASCII     User's Password
+53, 2      MKI$      Time user logged on in Mins: (60 x Hr)+Mins
+55, 2      MKI$      User's Time on today in minutes
+57, 5      ASCII     Time user logged on in HH:MM format. Ex: "12:30"
+62, 2      MKI$      Time user allowed today in minutes
+64, 2      ASCII     Daily D/L Limit from pwrd file
+66, 1      Chr$      Conference the user has last joined
+67, 5      Bitmap    Areas user has been in
+72, 5      Bitmap    Areas user has scanned
+77, 2      MKI$i     An mki$(0) used by FeatherNet PRO!
+79, 2      MKI$      Currently a value of 0 is here (MKI$(0))
+81, 4      ASCII     4 Spaces are placed here
+85, 25     ASCII     User's Full name placed here.
+110, 2     MKI$      Number of minutes user has left today
+112, 1     chr$      Node user is on (actual character)
+113, 5     ASCII     Scheduled EVENT time
+118, 2     ASCII     A "-1" if EVENT is active or a " 0"
+120, 2     ASCII     " 0" is Placed here by FeatherNet PRO!
+122, 4     MKS$      Time of day in secs format when user is on
+126, 1     ASCII     The Com port this node uses (0 - 8)
+127, 2     ASCII     Flag to let FNET PRO! know type of file xfer
+129, 1     CHAR      Ansi Detected Flag - Char[0] or Char[1]
+130, 13    ASCII     Unused by FeatherNet PRO! - SPACE filled
+143, 2     MKI$      Last Area User was in (0 - 32766 possible)
+145        BITMAP    Not Currently Used by FeatherNet PRO!
+
+
+--------------------------------------------------------------------------------
+Some BASIC functions: 
+CHR$ 
+Writes a character (8 bit value). One byte. 
+MKI$ 
+Writes a short integer (16 bit value). Low byte then high byte. 
+MKS$ 
+I didn't want to research this, and am writing four zeroes. Anyone know? 
+
+--------------------------------------------------------------------------------

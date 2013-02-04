@@ -1,0 +1,312 @@
+$FILE_AREA_HEADER_TOGGLE_ONE
+^0#####^4:^3File area name           ^4:^3Flags   ^4:^3ACS       ^4:^3UL ACS    ^4:^3DL ACS    ^4:^3MaxF
+^4=====:=========================:========:==========:==========:==========:=====
+$
+
+$FILE_AREA_HEADER_TOGGLE_TWO
+^0#####^4:^3File area name  ^4:^3FileName^4:^3Download path          ^4:^3Upload path
+^4=====:================:========:=======================:=======================
+$
+
+$FILE_AREA_HEADER_NO_FILE_AREAS
+^7*** No file areas defined ***^1
+$
+
+$FILE_AREA_EDITOR_PROMPT
+%LFFile area editor [^5?^4=^5Help^4]: @
+$
+
+$FILE_AREA_EDITOR_HELP
+%LF^1<^3CR^1>Next screen or redisplay current screen
+^1(^3?^1)Help/First file area
+^1(^3C^1)hange file area storage drive
+^1(^3D^1)elete file area   ^1(^3I^1)nsert file area
+^1(^3M^1)odify file area   ^1(^3P^1)osition file area
+^1(^3Q^1)uit               ^1(^3T^1)oggle display format
+$
+
+$NO_FILE_AREAS
+%LF^7No file areas exist!^1
+%PA
+$
+
+$FILE_CHANGE_DRIVE_START
+%LFFile area to start at?@
+$
+
+$FILE_CHANGE_DRIVE_END
+%LFFile area to end at?@
+$
+
+$FILE_CHANGE_DRIVE_DRIVE
+%LFChange to which drive? (^5A^4-^5Z^4): @
+$
+
+$FILE_CHANGE_INVALID_ORDER
+%LF^7Invalid record number order!^1
+%PA
+$
+
+$FILE_CHANGE_INVALID_DRIVE
+%LF^7Invalid drive!^1
+%PA
+$
+
+$FILE_CHANGE_UPDATING_DRIVE
+%LFUpdating the drive for file area %FR to %LR ... @
+$
+
+$FILE_CHANGE_UPDATING_DRIVE_DONE
+Done!
+$
+
+$FILE_CHANGE_UPDATING_SYSOPLOG
+* Changed file areas: ^5%FR^1-^5%LR^1 to ^5%DD:\
+$
+
+$FILE_DELETE_PROMPT
+%LFFile area to delete?@
+$
+
+$FILE_DELETE_DISPLAY_AREA
+%LFFile area: ^5%AN^1
+$
+
+$FILE_DELETE_VERIFY_DELETE
+%LFAre you sure you want to delete it? @
+$
+
+$FILE_DELETE_NOTICE
+%LF[> Deleting file area record ...
+$
+
+$FILE_DELETE_SYSOPLOG
+* Deleted file area: ^5%AN
+$
+
+$FILE_DELETE_DATA_FILES
+%LFDelete file area data files also? @
+$
+
+$FILE_DELETE_REMOVE_DL_DIRECTORY
+%LFRemove the download directory? @
+$
+
+$FILE_DELETE_REMOVE_UL_DIRECTORY
+%LFRemove the upload directory? @
+$
+
+$FILE_INSERT_MAX_FILE_AREAS
+^7No more then %MA file areas can exist!^1
+%PA
+$
+
+$FILE_INSERT_PROMPT
+%LFFile area to insert before?@
+$
+
+$FILE_INSERT_AFTER_ERROR_PROMPT
+%LFContinue inserting file area? @
+$
+
+$FILE_INSERT_CONFIRM_INSERT
+%LFIs this what you want? @
+$
+
+$FILE_INSERT_NOTICE
+%LF[> Inserting file area record ...
+$
+
+$FILE_INSERT_SYSOPLOG
+* Inserted file area: ^5%AN
+$
+
+$FILE_MODIFY_PROMPT
+%LFFile area to modify?@
+$
+
+$FILE_MODIFY_SYSOPLOG
+* Modified file area: ^5%AN
+$
+
+$FILE_POSITION_NO_AREAS
+%LF^7No file areas to position!^1
+%PA
+$
+
+$FILE_POSITION_PROMPT
+%LFPosition which file area?@
+$
+
+$FILE_POSITION_NUMBERING
+%LFAccording to the current numbering system.
+$
+
+$FILE_POSITION_BEFORE_WHICH
+%LFPosition before which file area?@
+$
+
+$FILE_POSITION_NOTICE
+%LF[> Positioning file area records ...
+$
+
+$FILE_EDITING_AREA_HEADER
+^5Editing file area #%RE of %NA
+$
+
+$FILE_INSERTING_AREA_HEADER
+^5Inserting file area #%RE of %NF
+$
+
+$FILE_EDITING_INSERTING_SCREEN
+%LF^11. Area name   : ^5%AN
+^12. File name   : ^5%FN   ^7(%GD.*)
+^13. DL path     : ^5%DP
+^14. UL path     : ^5%UP
+^15. ACS required: ^5%AR
+^16. DL/UL ACS   : ^5%DR^1 / ^5%UR
+^17. Max files   : ^5%MF
+^18. Password    : ^5%PW
+^19. Arc/cmt type: ^5%AT^1 / ^5%CT
+^1T. Flags       : ^5%FS
+$
+
+$FILE_EDITING_INSERTING_PROMPT
+%LFModify menu [^5?^4=^5Help^4]: @
+$
+
+$FILE_AREA_NAME_CHANGE
+%LFNew area name: @
+$
+
+$FILE_FILE_NAME_CHANGE
+%LFNew file name (^5Do not enter ^4"^5.EXT^4"): @
+$
+
+$FILE_DUPLICATE_FILE_NAME_ERROR
+%LF^7The file name is already in use!^1
+$
+
+$FILE_USE_DUPLICATE_FILE_NAME
+%LFUse this file name anyway? @
+$
+
+$FILE_OLD_DATA_FILES_PATH
+%LFOld DIR/EXT/SCN file names: "^5%OP.*^1"
+$
+
+$FILE_NEW_DATA_FILES_PATH
+%LFNew DIR/EXT/SCN file names: "^5%NP.*^1"
+$
+
+$FILE_RENAME_DATA_FILES
+%LFRename old data files? @
+$
+
+$FILE_DL_PATH
+%LF^1New download path (^5End with a ^1"^5\^1"):%LF^4:@
+$
+
+$FILE_SET_DL_PATH_TO_UL_PATH
+%LFSet the upload path to the download path? @
+$
+
+$FILE_UL_PATH
+%LF^1New upload path (^5End with a ^1"^5\^1"):%LF^4:@
+$
+
+$FILE_ACS
+%LFNew ACS: @
+$
+
+$FILE_DL_ACCESS
+%LFNew download ACS: @
+$
+
+$FILE_UL_ACCESS
+%LFNew upload ACS: @
+$
+
+$FILE_MAX_FILES
+%LFNew max files@
+$
+
+$FILE_PASSWORD
+%LFNew password: @
+$
+
+$FILE_ARCHIVE_TYPE
+%LFNew archive type (^50^4=^5None^4)@
+$
+
+$FILE_COMMENT_TYPE
+%LFNew comment type (^50^4=^5None^4)@
+$
+
+$FILE_TOGGLE_FLAGS
+%LFToggle which flag (%FT^4) [^5?^4=^5Help^4,^5<CR>^4=^5Quit^4]: @
+$
+
+$FILE_MOVE_DATA_FILES
+%LFMove old data files to new directory? @
+$
+
+$FILE_TOGGLE_HELP
+%LF^1(^3N^1)oRatio        ^1(^3U^1)nhidden
+^1(^3G^1)ifSpecs       ^1(^3I^1)*.DIR file in DLPath
+^1(^3C^1)D-ROM         ^1(^3S^1)how uploader Name
+^1(^3D^1)ate uploaded  ^1du(^3P^1)e checking off
+$
+
+$FILE_JUMP_TO
+%LFJump to entry?@
+$
+
+$FILE_FIRST_VALID_RECORD
+%LF^7You are at the first valid record!^1
+%PA
+$
+
+$FILE_LAST_VALID_RECORD
+%LF^7You are at the last valid record!^1
+%PA
+$
+
+$FILE_INSERT_EDIT_HELP
+%LF^1<^3CR^1>Redisplay current screen
+^31^1-^39^1,^3T^1:Modify item
+$
+
+$FILE_INSERT_HELP
+^1(^3Q^1)uit and save
+$
+
+$FILE_EDIT_HELP
+^1(^3[^1)Back entry          ^1(^3]^1)Forward entry
+^1(^3F^1)irst entry in list  ^1(^3J^1)ump to entry
+^1(^3L^1)ast entry in list   ^1(^3Q^1)uit and save
+$
+
+$CHECK_AREA_NAME_ERROR
+%LF^7The area name is invalid!^1
+$
+
+$CHECK_FILE_NAME_ERROR
+%LF^7The file name is invalid!^1
+$
+
+$CHECK_DL_PATH_ERROR
+%LF^7The download path is invalid!^1
+$
+
+$CHECK_UL_PATH_ERROR
+%LF^7The upload path is invalid!^1
+$
+
+$CHECK_ARCHIVE_TYPE_ERROR
+%LF^7The archive type is invalid!^1
+$
+
+$CHECK_COMMENT_TYPE_ERROR
+%LF^7The comment type is invalid!^1
+$

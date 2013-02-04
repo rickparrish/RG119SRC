@@ -1,0 +1,8 @@
+Renegade Enhancements/Bug Fix's:
+
+  1. Message Header Editing Option -
+
+     1. The MAScanOut Flag will no longer be set if the message status
+        is changed to Un-Sent by a MsgSysOp (or above) if the message
+        is in the private message area or the message area is not an
+        Echomail or Groupmail area.

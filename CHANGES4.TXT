@@ -1,0 +1,133 @@
+Renegade BBS Enhancements/Bug Fix's:
+
+  1.  Before the posting of a message or uploading of a file
+      (Batch/Single), the available drive space was checked to
+      ensure adequate space exists according to the system setup.
+      This section of the code was duplicated in 3 places.  I converted
+      this section to a function reducing numerous lines of code and
+      extra variabes whenever it was utilized in the code.
+
+  2.  The copy/move procedures are now combined into one function.
+      Variables for failure, no space and success were required
+      external to the procedures everytime they were called. Various
+      messages to the user/sysop.log were also reported external
+      to these procedures.  I also noticed that the move procedure
+      called the copy procedure if renaming a file was not successfull.
+      Now, no variables are required externally for the function and
+      messages to the user/sysop.log are handled internally within
+      the copy/move function.
+
+  3.  I noticed that a section of the code for executing file
+      transfer's was duplicated in 4 places.  This has been moved to
+      a single procedure reducing numerous lines of code and
+      variables.
+
+  4.  I noticed that a section of the code for checking the return
+      code on file transfer's was duplicated in 3 places.  This has
+      been moved to a single procedure reducing numerous lines of code
+      and variables.
+
+  5.  The FILES.BBS selected for download during a batch transfer by
+      the user now contains this starting entry:
+
+       "(BBS Name) Batch Download File Listing"
+
+      Previously, unlisted files were not written to the above list.
+      Now, they are with "[No Description Available]" as the description.
+      Also, files in the batch download queue with a bad path download
+      path will have "[Bad Download Path]" as the description. These
+      additions help account for files selected for Batch DL by the
+      user.
+
+  6.  The max dos character field in the protocol editor has now been
+      limited to 127 characters (Was 255).  I always thought it was 128,
+      however I couldn't type in any more then 127 characters on the
+      command line in DOS. Please feel free to check this out for
+      yoursele and change you editor accordingly.
+
+  7.  Removed spaces from the file name written to the protocol file
+      list for batch downloads.
+
+  8.  The procedure that reads the success/failure codes and file name
+      from the protocol temp log has been modified.  The starting
+      position of the code and file name is specified in the protocol
+      editor.  Assumming you set this up correctly, the success/failure
+      code and the filename are copied to temporary strings. The success
+      code is compared against the returncode from dos for single
+      download/upload protocols or the DLCode specified in the protocol
+      editor for batch downloads and the temp log.  This code is not
+      utilized for batch uploads, the file is simply checked for existance.
+      The temporary file name is compared against the batch queue for
+      existance.  Since different protocol programs like dsz, etc utilize
+      different log formats, it's impossible to tell the actual length of
+      the success code or filename read from the temp log.  RG would simply
+      read each string from the starting position and then chop off any
+      trailing spaces and compared them as per above.  However, with ZM
+      protocol, the file name ends with ",".  Therefore, I changed the
+      comparison to look for the success code/filename to a String POS
+      procedure rather then String = String.  In local tests (Both Single
+      and Batch) it seemed to work without issue, we will see? The way it
+      was handled before did not work with ZM protocol.  Hopefully, this
+      solves it for all others (assuming you set things up correctly in the
+      protocol editor.
+
+      Here's a few things I learned about protocols while editing the
+      RG code:
+
+        1.  If you set the option "Codes mean" in the protocol editor
+            to "Transfer Successfull", you must specify a return dlcode
+            and or ulcode for single protocols of zero.  Zero is hard
+            coded into the procedure that executes the protocol.  A
+            return code of zero from DOS indicates a successfull result.
+            Of course, you could also reverse the above and specify
+            "Codes mean" as "Transfer Failed" and specify all possible
+            DLCodes/ULCodes as something other then zero.
+
+        2.  If you do not specify a temp log for batch downloads, no
+            error checking occurs within RG.  RG assumes the files were
+            downloaded and increments statistics, etc.  RG does not create
+            the temp log, you must add it to the DL/UL command line. You
+            must also specify the proper file name and status starting
+            positions within the log for RG to locate them.  Please
+            read the protocol document for a description of the log
+            entries and then count out the status & filename positions
+            for the protocol editor.
+
+            Here's what you need for the ZM protocol:
+
+              1. Specify a Temp Log.
+              2. Add -lz%L to the DL/UL Command Line to create a ZM
+                 style log.
+              3. Set "Codes mean" to "Transfer Successfull".
+              4. Set DL/UL Code 1 as Z, Set DL/UL Code 2 as z.
+              5. Set "File name" to 22.
+              6. Set "Status" to 1.
+
+              OR
+
+              1. Specify a Temp Log.
+              2. Add -ld%L to the DL/UL Command Line to create a DSZ
+                 style log.
+              3. Set "Codes mean" to "Transfer Successfull".
+              4. Set DL/UL Code 1 as Z, Set DL/UL Code 2 as z.
+              5. Set "File name" to 51.
+              6. Set "Status" to 1.
+
+        3.  The temp log is deleted by RG automatically, if you need
+            or want a permanent log please specify a UL or DL Log.
+
+            NOTE:  I realize some of you may know all there is to know
+            about protocols and how they are handled by RG.  However,
+            some do not.  Remember, if you do not specify all the above,
+            your files will be transferred without error checking and
+            statistics will not be updated.  Of course, you could forgo
+            the above setup and RG will assume all files tranferred
+            successfully.
+
+        4.  Using the above setup may or may not work with currently
+            released versions of RG or all external protocol programs.
+
+Please feel free to drop me an email if you require any further
+explanation of the above!
+
+Enjoy!!!

@@ -1,0 +1,50 @@
+Renegade Updates
+
+FC Cmd (Files.BBS Importer)
+
+1.  Optimized by removing a duplicate procedure.
+2.  Reports duplicate files in the Sysop.log.
+3.  Reports missing files in the Sysop.log.
+4.  The "Hatched" flag is now set for all imported files.
+5.  The user can now enter file points per file uploaded when not
+    in the waiting for caller screen (Parameter switch -F).
+6.  All User/System upload statistics are checked for variable overrun.
+
+*1 Cmd (Edit Files)
+
+1.  File name change will no longer allow renaming a file if the new file
+    names exists in the upload or download path.
+2.  The Filesize limit as been increased to allow for a maximum of 1.9 Gigs.
+    You now also have the choice of updating with the actual file size or
+    entering whatever you like up to the 1.9 Gig limit.
+3.  You may now interactively edit the file description.
+4.  Changing the user name or number now reports an error if the user
+    does not exist.
+5.  Changing the upload date of the file will not allow entry of a date
+    beyond the current date.
+6.  The number of downloads has been increased to allow up to 2147483647.
+7.  The modify extended description option has been revamped.  If one exists,
+    you will first be asked if you would like to delete it, if one doesn't, you
+    will be asked if you would like to create one.  If you decide to keep the
+    exisiting one or created one, you will be taken to the standard full screen
+    message editor, the old line by line edit mode has been removed.  Existing
+    extended descriptions will be copied into the message editor for editing.
+    All message editing option are available for line edit or full screen edit
+    mode.
+8.  The file move cmd has been revamped provides clearer error message.
+9.  The User Editor option will now display messages if the user doesn't meet
+    the access requirement and also default to User #1 if the current owner
+    of the file has been deleted.
+10. All User/System upload statistics are checked for variable overrun.
+
+Please add this note to the one about ext desc now being 99 lines
+
+NOTE:
+
+  The way extended description were handled has been revamped.  Prior to this
+  release, every extended description required 950 bytes of hard drive space rather
+  the description required it or not and was limited to 19 lines.  This version now
+  allows up to 99 lines of 50 chars each and will only require space for the
+  actual characters utilized plus one byte for every line in the description.
+  For example:  "This is a great file" would only require 20 + 1 byte or 21 bytes
+  of harddrive space verses the old minimum of 950 bytes.

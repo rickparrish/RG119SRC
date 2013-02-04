@@ -1,0 +1,7 @@
+Renegade Bug Fix's/Enhancements:
+
+  1.  The update GIF specifications cmd will now allow updating of
+      all file areas vice just the current file area.  The total GIF
+      files updated is also now sent to the SysOp.Log.  I was also
+      able to reduce a number of vars utilized in 3 different
+      procedures down to just one.

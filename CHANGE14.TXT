@@ -1,0 +1,29 @@
+Renegade Bug Fix's/Enhancements:
+
+  1.  The History Editor has made modified with the following:
+
+      A. You can not delete the history record for the current date.
+
+      B. You will not be able to insert a new history record for
+         a date beyond the current date. You can only insert missing
+         history dates and or dates prior to the first History date.
+
+      C. The History Editor Insert command will now display the
+         history record information for editing verses just inserting
+         the new record and then requiring you to go to the modify
+         command to edit. Upon completion of editing the inserted
+         record, you will be prompted to save or discard the new
+         history record.
+
+      D. You can not change a history record date if the date is
+         utilized by another history record.
+
+      E. The history editor listing will now display one page at a time
+         verses scrolling to the prompt.
+
+      F. Other changes included adding some missing help data for
+         certain commands and color changes.
+
+
+
+

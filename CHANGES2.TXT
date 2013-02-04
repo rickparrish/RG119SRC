@@ -1,0 +1,57 @@
+
+Additional Message Editor Changes:
+
+  1.  Non-abortable message changes (New User, etc):
+
+      A. File attachment not allowed - Attaching a file
+         would change the original subject of the message.
+
+      B. Title change not allowed - The original receiver and
+         subject should remain the same.
+
+         Note:  The user can not abort or save a message that
+                contains no text.
+
+  2.  File attachment changes:
+
+      A.  In previous releases, a user with file attachment access
+          was not warned if they tried to attach a file when a file
+          was already attached. However, this basically allowed the
+          user to swap out the file should they attach an incorrect
+          file.  In this release, if a file is already attached, the
+          attached file will be displayed and the user will be prompted
+          to replace the file.  I took this a step further, a user may
+          also want to remove the attached file all together.  Presently,
+          there is no option for this without aborting the message.
+          Therefore, an option has been added for removing the attached
+          file.  In this case, the user is also prompted to change the
+          message subject.  If the subject contains no text, removing
+          the attached file is aborted.
+
+  3.  Error messages:
+
+      A.  I did not feel there was adequate messages to the user as to
+          certain editor options.  So, this area has been greatly
+          expanded.  For example: Pressing "C" to clear a message
+          when the message contains no text, now informs the user of
+          this situation rather then nothing at all.
+
+  4.  Empty messages:
+
+      A.  In an effort to reduce the possibilty of an empty message being
+          saved, the following apply:
+
+          1.  All null lines at the end of a message are deleted.
+          2.  All lines at the end of a message containing nothing
+              but spaces are deleted.
+
+          NOTE:  Lines are reviewed in reverse order up to the first
+                 line containing text. The user will not be able to
+                 save the message unless it contains some kind of
+                 text.
+
+  5.  Title change:
+
+      A.  In certain cases, changing the title would actually remove
+          the subject of the message.  I believe this error has now
+          been corrected.

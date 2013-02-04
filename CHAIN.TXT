@@ -1,0 +1,32 @@
+2
+John Smith
+John Smith
+
+47
+M
+00.00
+09/16/07
+80
+24
+255
+1
+0
+1
+0
+359992
+C:\RG\DATA\
+C:\RG\DATA\
+C:\RG\LOGS\SYSOP.LOG
+0
+0
+Renegade Bbs
+Renegade SysOp
+8
+-732954620
+0
+0
+26450
+98
+8N1
+
+0

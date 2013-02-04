@@ -1,0 +1,5 @@
+  Scan All new public messages
+
+  SAPM[Node#].DAT
+
+  FoundMap: ARRAY [0..4095] OF SET OF 0..7;

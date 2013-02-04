@@ -1,0 +1,53 @@
+Renegade Bug Fix's/Enhancements:
+
+  1.  Fixed a bug that would not allowing the saving of an added voting
+      answer by the user.
+
+  2.  The Voting Topic Editor has made modified with the following:
+
+      A. The Voting Topic Editor has been modified to have pretty much
+         the same look and feel of the Menu Editor.
+
+      B. The Voting Topic and Topic Choice Editor Listing will now
+         display one page at a time verses scrolling to the prompt.
+
+      C. The Voting Topic and Topic Choice Editor question and answer
+         can not be blank or the default of << New Voting Topic >> or
+         << New Topic Choice >>.
+
+      D. Unused fields in the Voting Topic and Topic Choice Editor
+         Insert/Modify command will now display *None*.
+
+      E. The Voting Topic and Topic Choice Editor Insert command will
+         now display the Topic and Choice Record information for editing
+         verses just inserting the new record and then requiring you to
+         go to the modify command to edit. You will not be able to save
+         the new topic or choice record until all of the above items
+         are correct. Upon completion of editing the inserted record,
+         you will be prompted to save or discard the new Topic record.
+
+      F. The Reset Topic option has been moved to the Voting Topic Editor
+         Main screen and is accessed by pressing "R".  You will then be
+         prompted to enter the record number of the topic you want to
+         reset.
+
+      G. A Recalculate Voting Topics command has also been added to the
+         Voting Topic Editor main screen and is accessed by pressing "S".
+         This option will clear all voting data from the voting topic
+         records. It will then access the vote array for all User Records
+         and update the voting topic records based on what question the
+         user voted on and the choice the user made.  This option excludes
+         deleted users and will ensure that the values in the user.vote
+         array are set to zero.  Depending on Sysop Input, locked out users
+         could also be excluded per above.
+
+      E. Other changes included adding some missing help data for
+         certain commands and color changes.
+
+  3.  I recommend that you access the Voting Topic Modify Command
+      once you have installed this update and toggle thru all
+      of the voting topic records and make corrections as they are
+      presented to you.
+
+
+

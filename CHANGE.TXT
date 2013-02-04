@@ -1,0 +1,212 @@
+Renegade Bug Fixes/Enhancements:
+
+Batch Uploads:
+
+  1.  Duplicate files can no longer be added to the batch upload queue.
+
+  2.  The number of files that can be added to the batch upload queue
+      is now limited by the "Max Batch Uploads" setting in the System
+      Configuration.
+
+  3.  You will now see SysOp Log entries when a user adds, removes,
+      clears or lists the batch upload queue.
+
+  4.  Changed batch upload listing header/footers from '-' to '=' to
+      match header/footers in other listings.
+
+  5.  The minimum/maximum batch uploads can now be between 1-255.
+
+  6.  You can now force a user to batch upload all files in the
+      batch upload queue.  This is controlled by the System Configuration
+      setting "Force batch uploads at login".
+
+  7.  Previously, files were added to the batch upload queue and were
+      stored in memory utilizing the following:
+
+      TYPE
+        BatchULRecordType = RECORD
+          BULFileName: STRING[12];
+          BULSection: Integer;
+          BULDescription: STRING[50];
+          BULVPointer: Byte;
+        END;
+
+      VAR
+        BatchULArray: ARRAY [1..100] OF ^BatchULRecordType;
+        NumBatchULFiles: Byte;
+
+      TYPE
+        ExtendedArray = ARRAY [1..99] OF STRING[50];
+
+        BatchULV: ARRAY [1..100] OF ^ExtendedArray;
+        BatchULVPointer: Byte;
+
+      Now, this system has been revamped so that all files added to the
+      batch upload queue are stored in the external file "BATCHUL.DAT"
+      and "BATCHUL.EXT".  These files are updated by adding, removing,
+      clearing or uploading batch queued files.  This system utilizes
+      the following:
+
+      TYPE
+        BatchULRecordType = RECORD
+          BULFileName: Str12;
+          BULUserNum,
+          BULSection: Integer;
+          BULDescription: Str50;
+          BULVPointer: LongInt;
+          BULVTextSize: Integer;
+        END;
+
+      VAR
+        BatchULFile: FILE OF BatchULRecordType;
+        BatchUL: BatchULRecordType;
+        NumBatchULFiles: Byte;
+
+      TYPE
+        ExtendedArray = ARRAY [1..99] OF Str50;
+
+      VAR
+        BatchULF: FILE;
+
+
+Batch Downloads:
+
+  1.  The minimum/maximum batch downloads can now be between 1-255.
+
+  2.  You will now see SysOp Log entries when a user lists the
+      batch download queue.
+
+  3.  Removed a section of code that would reaccess the *.DIR file to
+      obtain the file information to a add a file to the batch download
+      queue.  The file information is now passed from the download
+      command.  Of course, numerous variables were no longer required
+      and were removed.
+
+  4.  Removed a section of code that would reaccess the file to be
+      downloaded to obtain the filesize of the file for a ratio check.
+      The filesize is now passed from the download command.  Of course,
+      numerous variables were no longer required and were removed.
+
+  5.  Previously, files were added to the batch download queue and were
+      stored in memory and in the external file "BATCHDL.DAT" utilizing
+      the following:
+
+      TYPE
+        StorageType =
+         (Disk,
+         CD,
+         Copied);
+
+        TransferFlagType =
+         (lIsAddDLBatch,
+         IsFileAttach,
+         IsUnlisted,
+         IsTempArc,
+         IsQWK,
+         IsNoFilePoints,
+         IsNoRatio,
+         IsCheckRatio,
+         IsCDRom,
+         IsPaused,
+         IsAutoLogOff,
+         IsKeyboardAbort,
+         IsTransferOk);
+
+        BatchDLRecordType = RECORD
+          BDLFileName: STRING[52];
+          BDLStorage: StorageType;
+          BDLUserNum,
+          BDLSection,
+          BDLPoints,
+          BDLUploader: Integer;
+          BDLFSize,
+          BDLTime,
+          BDLOwnerCRC: LongInt;
+          BDLFlags: TransferFlagSet;
+        END;
+
+      VAR
+        BatchDLArray: ARRAY [1..101] OF ^BatchDLRecordType;
+        BatchDLFile: FILE OF BatchDLRecordType;
+        BatchDL: BatchDLRecordType;
+        BatchDLSize,
+        BatchDLPoints,
+        BatchDLTime: LongInt;
+        NumBatchDLFiles: Byte;
+
+      Now, this system has been revamped so that all files added to the
+      batch upload queue are stored in the external file "BATCHDL.DAT"
+      and not in memory.  This file is updated by adding, removing,
+      clearing or downloading batch queued files. This system utilizes
+      the following:
+
+      TYPE
+        StorageType =
+         (Disk,
+         CD,
+         Copied);
+
+        TransferFlagType =
+         (lIsAddDLBatch,
+         IsFileAttach,
+         IsUnlisted,
+         IsTempArc,
+         IsQWK,
+         IsNoFilePoints,
+         IsNoRatio,
+         IsCheckRatio,
+         IsCDRom,
+         IsPaused,
+         IsAutoLogOff,
+         IsKeyboardAbort,
+         IsTransferOk);
+
+        BatchDLRecordType = RECORD
+          BDLFileName: Str52;
+          BDLOwnerName: Str36;
+          BDLStorage: StorageType;
+          BDLUserNum,
+          BDLSection,
+          BDLPoints,
+          BDLUploader: Integer;
+          BDLFSize,
+          BDLTime: LongInt;
+          BDLFlags: TransferFlagSet;
+        END;
+
+      VAR
+        BatchDLFile: FILE OF BatchDLRecordType;
+        BatchDL: BatchDLRecordType;
+        NumBatchDLFiles: Byte;
+        BatchDLSize,
+        BatchDLPoints,
+        BatchDLTime: LongInt;
+
+
+File Points:
+
+  1.  The file credit/debit system has now been changed to a standalone
+      file point system.  As a result, a new variable was added to the
+      user record for awarding/removing file points.  No internal change
+      was made to how these file points are awarded or removed.  Initial
+      file points can be awarded thru the New User Configuration and/or
+      the Validation Editor.  Some minor verbage changes were made
+      thru-out the code to accomodate this change.
+
+
+Light Bar Support:
+
+  1.  You can now toggle lightbar support on or off in the System
+      Configuration for the file area with the option "Use file
+      area lightbar" or for the message area with the option "Use
+      message area light bar".
+
+  2.  Menu commands were also added to allow the user to toggle file or
+      message lightbar support on or off (Assuming these options are
+      available - See above).
+
+      File Area LightBar Support:  CmdKeys = OP, Options = 31
+      Message Area LightBar Support:  CmdKeys = OP, Options = 32
+
+
+Enjoy!!!

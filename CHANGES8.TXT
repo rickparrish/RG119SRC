@@ -1,0 +1,35 @@
+Renegade updates/enhancements:
+
+  1. Fixed a bug related to the length of the dlcode/ulcode in the
+     protocol editor.  The maximum length of this string is 6 chars.
+
+  2. No process was in place to prevent ul/dl statistical variable
+     overrun, fixed.
+
+  3. The color from the auto-logoff countdown procedure carried the
+     last color to the next line, fixed.  This would only be noticed
+     if the user escaped or cancelled the auto-logoff.
+
+  5. The color from the scaninput procedure carried the last color to
+     the next line, fixed. I noticed this with the batch download file
+     remove command.
+
+  6. Since files added to the batch downloaded queue are listed as such
+     in the sysop.log, it only made since to list files removed from
+     the batch download queue in the sysop.log as well. An entry to
+     the sysop.log is also made when the batch download queue is
+     cleared.
+
+  8. The uploader name/date and the message to the user to continue a
+     resume file did not redisplay the file name when wrapped to the
+     next page while utlizing the file list command, fixed.
+
+  9. I think I finally have some issues corrected with the file
+     listing display.  Every now and then an extra file area
+     header would display when not needed.  Also, sometimes the line
+     counter would be off by one or two lines and push the file area
+     header up one or two lines or completely off the screen.  I also
+     noticed a line feed missing when the listing was aborted or
+     exited normally.
+
+Enjoy!!!

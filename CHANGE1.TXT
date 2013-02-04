@@ -1,0 +1,27 @@
+Renegade Bug Fixes/Enhancements:
+
+Variables:
+
+   1.  Numerous local variables that were referenced thru-out the code were
+       moved to global variables.  Hopefully, this will reduce the overall
+       memory requirements.
+
+   2.  Numerous variables were modified to prevent variable overrun
+       thru-out the code.
+
+File Validation:
+
+   1.  Corrected a few places that utilized the SysOp or FileSysOp access
+       level instead of the global ULValReq System Settings as in other
+       instances to determine if a file should be validated or not.
+
+Files.BBS Processing:
+
+   1.  Reduced the total variables required to process a hatched file.
+
+   2.  A successful upload will now show "Hatched" instead of "Added"
+       in the SysOp Log Entry.  As before, you will still see "Duplicate"
+       if the file already exists or "Missing" if the hatched file can
+       not be found.
+
+Enjoy!

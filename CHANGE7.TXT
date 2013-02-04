@@ -1,0 +1,75 @@
+Renegade bug enhancements:
+
+1.  The file/message area compression routines have been replaced
+    completely. In the previous version the following variables,
+    functions and procedures were utilized:
+
+    VAR - "FileCompArray = ARRAY[0..4095] OF SET OF 0..7"
+    VAR - "MsgCompArray = ARRAY[0..4095] OF SET OF 0..7"
+    Procedure - "NewCompTables:
+    Function - "CompFileArea(FArea: Integer): Integer"
+    Function - "CompMsgArea(MArea: Integer): Integer"
+    Function - "AFBase(FArea: Integer): Integer"
+    Function - "AMBase(MArea: Integer): Integer"
+
+    The FileCompArray/MsgCompArray were previously updated by the
+    NewCompTables Procedure.  The NewCompTables Procedure would
+    simply read in all file/message areas and set a bit to on or off.
+    The CompFileArea/CompMsgArea Functions would then display the proper
+    File/Message area after counting from the first file/message area to
+    the file/message area that needed to be displayed based on the user
+    access and compression setting in System Configuration.  The
+    AFBase/AMBase Functions were utilized to return the proper file/message
+    area after counting from the first file/message area to the
+    file/message area the user actually selected based on the user access
+    and compression settings in System Confguration.
+
+    As you can see from the above discription, this required alot of
+    memory to maintain the FileCompArray/MsgCompArray.  It also required
+    four functions for area number display and access. Not to mention
+    that the real area number for both display and access had to be
+    counted up to every time an area was displayed or accessed.
+
+    The following varibales, functions and procedures are being
+    utilized in this release:
+
+    FILE - "FACT[Node].DAT" (Stored in the Node Temp Directory)
+    FILE - "MACT[Node].DAT" (Stored in the Node Temp Directory)
+    TYPE - "CompArrayType = ARRAY[0..1] OF INTEGER"
+    VAR - "LowFileArea: Integer"
+    VAR - "HighFileArea: Integer"
+    VAR - "LowMsgArea: Integer"
+    VAR - "HighMsgArea: Integer"
+    Procedure - "NewCompTables"
+    Function - "CompFileArea(FArea,ArrayNum: Integer): Integer"
+    Function - "CompMsgArea(MArea,ArrayNum: Integer): Integer"
+
+    Two new files (FACT[Node].DAT/MACT[Node].DAT have been created and
+    are temporarily stored in the Node temp directory.  A record of type
+    ARRAY[0..1] OF Integer is the storage method utilized for the
+    individual file areas.  ARRAY 0 is utilized for storage of the
+    file/message area to display and ARRAY 1 is utilized for the storage
+    of the file/message area being accessed. Each record takes up 2 bytes
+    of space on your harddrive and the above file will only contain
+    records for the actual number of message/file areas you actually have
+    available. Both of these files are created at user logon and updated
+    at other appropriate times as Renegade requires and then deleted when
+    the user logs off.  The NewCompTables Procedure creates and updates
+    the actual file/message area for display (ARRAY 0) and the actual
+    file/message area to access (ARRAY 1).  This saves on the need to
+    have the FileCompArray/MsgCompArray and the need for the
+    CompFileArea/CompMsgArea And AFBase/AMBAse to count everytime
+    from 1 to the file/message area displayed or accessed. The
+    CompFileArea/CompMsgArea Functions have been modified to access the
+    record contained in the FACT[Node].DAT/MACT[Node].DAT file for the
+    file/message area being display/accessed.  This eliminated the need
+    for the AFBase/AMBase Functions.  CompFileArea(FArea,0) or
+    CompMsgArea(FArea,0) is called to obtained the display area number
+    and CompFileArea(FArea,1) or CompMsgArea(FArea,1) is called for
+    the area number to access.  NewCompTables will now also return the
+    LowFileArea, HighFile, LowMsgArea & HighMsgArea for trapping correct
+    or incorrect file/message area user input.
+
+    As you can see, this enhancement saved alot of memory. Display and
+    access to a file/message areas should now be faster.  Adding the
+    low/high File/Messae variables will also help trap user input errors.

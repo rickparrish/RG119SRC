@@ -1,0 +1,46 @@
+$Baud_Override_PW
+%LFBaud rate override password: @
+$
+
+$Caller_Logon
+%LF|01[|03Node |11%ND|01] |03Login|01: |11@
+$
+
+$Logon_As_New
+%LFLogon as new? @
+$
+
+$User_Logon_Password
+%LF|03Enter Password|01: |11@
+$
+
+$User_Logon_Phone_Number
+%LF|03Last 4 Digits of phone #|01: |08###-###-|11@
+$
+
+$SysOp_Logon_Password
+%LF|03SysOp Password|01: |11@
+$
+
+$Forgot_PW_Question
+%LF|03Please answer the following question to logon to the BBS.
+
+|03What is your mothers maiden name?
+: @
+$
+
+$Verify_Birth_Date
+%LFPlease verify your date of birth (mm/dd/yyyy): @
+$
+
+$Logon_Withdraw_Bank
+Withdraw from Time Bank? @
+$
+
+$Shuttle_Logon
+%LF|01[|09Node %ND|01] |09Login|11: @
+$
+
+$New_User_Password
+%LF|03New User Password|01: @
+$

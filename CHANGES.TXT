@@ -1,0 +1,38 @@
+Renegade changes/bug fixes:
+
+1.  File Downloads -
+
+    A.  If an actual protocol (Like ZModem) was the first protocol
+        (or record zero), the downloaded file would not have the UL/DL
+        ratio checked.  This was do to the ratio being set to look for
+        protocol records from [1..200].  Also, the maximum protocols
+        allowed at present is 120.  The above should have been [0..120]
+        to be correct.
+
+    B.  For the ratio check, the FindFirst procedure would look for the
+        file on the harddrive even if the ratio didn't need to be checked.
+        This procedure was moved to only get the filesize if the ratio
+        needs to be checked.  This applies to unlisted downloads, etc.
+
+        NOTE:  The FindFirst procedure would allow searching of any type
+        of file on the hardrive.  This has been changed to not allow
+        searching of Directory, VolumnID, Hidden & SysFiles.
+
+    C.  In the present version, duplicate files could be added to the
+        batch download queue.  This alpha release no longer allows
+        duplicate files in the queue.
+
+    D.  Downloading any file locally would place an entry in
+        the sysop.log that the DL was successfull, fixed.
+
+    E.  Adding a file to the batch DL queue will no loner indicate in the
+        sysop.log that the file was downloaded successfully.  Now, it
+        will either indicate that the file was added to the batch queue or
+        that an unlisted file was added to the batch queue.  Adding a file
+        to the queue doesn't complete the DL.
+
+    F.  The ASCII download of a file has been modified.  The allow
+        continue prompt and a pause after the DL has been added.
+
+Enjoy!!!
+

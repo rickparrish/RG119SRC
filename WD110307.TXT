@@ -1,0 +1,48 @@
+Renegade Updates
+
+
+FC Cmd (Files.BBS Importer)
+
+1.  File_ID.DIZ will only be checked if allowed by System Config
+    setting.
+
+
+*1 Cmd (Edit Files)
+
+1.  While editing the file owner name, the owner name will be checked
+    against the user name stored in the user editor.  If the names do
+    not match, the file owner name will be converted to the Sysop name
+    (User #1).  The editor will assume that the orignal uploader account
+    has been deleted.
+
+2.  While updating the file size, if the file does not exist, you will be
+    asked if you would like to set the file to offline or request status.
+
+3.  Use File_ID.DIZ must now be turn on in System Config to be able to
+    update or upload the Extended Description (if it exists).
+
+5.  The internal archive viewer will now only attempt to display files with
+    the following extentions (ZIP,ARC,PAK,ZOO,LZH,ARK,ARJ). IF the extention
+    is valid and the file doesn't exist, you will be prompted to set the
+    file to offline or to request status.
+
+OB Cmd (User Statistics)
+
+1.  Renegade now has built in User Top 10 Statistics.  I recommend that
+    a new menu be created for these cmds.  Menu options are listed below
+    along with the title of the action performed.
+
+    Option     Top 10 Result
+
+     A         High Time Users
+     B         File Kbyte Uploaders
+     C         File Kbyte Downloaders
+     D         Private Message Senders
+     E         Public Message Posters
+     F         SysOp Feedback Senders
+     G         All Time Callers
+     H         File Uploaders
+     I         File Downloaders
+     J         File Points
+     K         Upload/Download Ratios
+     L         Post/Call Ratios

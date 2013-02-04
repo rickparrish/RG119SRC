@@ -1,0 +1,28 @@
+Renegade Bug Fix's/Enhancements:
+
+  1.  The Scheme Editor has made modified with the following:
+
+      A. The Scheme Editor description can not be blank or the default
+         of << New Color Scheme >>.
+
+      B. Unused fields in the Scheme Editor Insert/Modify command
+         will now display *None*.
+
+      C. The Scheme Editor Insert command will now display the
+         scheme record information for editing verses just inserting
+         the new record and then requiring you to go to the modify
+         command to edit. You will not be able to save the new scheme
+         record until all of the above items are correct. Upon completion
+         of editing the inserted record, you will be prompted to save
+         or discard the new scheme record.
+
+      D. Other changes included adding some missing help data for
+         certain commands and color changes.
+
+  2.  I recommend that you access the Scheme Modify Command
+      once you have installed this update and toggle thru all
+      of the scheme records and make corrections as they are
+      presented to you.
+
+
+

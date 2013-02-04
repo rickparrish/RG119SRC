@@ -1,0 +1,33 @@
+Renegade Bug Fix's/Enhancements:
+
+  1.  The 'Q' and 'q' are no longer available for Validation Keys.
+
+  2.  The Validation Editor has made modified with the following:
+
+      A. The Validation Editor Listing will now display one page at
+         a time verses scrolling to the prompt.
+
+      B. The Validation Level Description can not be blank or the
+         default of << New Validation Record >>.
+
+      C. Unused fields in the Validation Editor Insert/Modify command
+         will now display *None*.
+
+      D. The Validation Editor Insert command will now display the
+         Validation Record information for editing verses just inserting
+         the new record and then requiring you to go to the modify
+         command to edit. You will not be able to save the
+         new validation record until all of the above items are correct.
+         Upon completion of editing the inserted record, you will
+         be prompted to save or discard the new validation record.
+
+      E. Other changes included added some missing help data for
+         certain commands and color changes.
+
+  3.  I recommend that you access the Validation Modify command
+      once you have installed this update and toggle thru all
+      the validation records and make corrections as they are presented
+      to you.
+
+
+

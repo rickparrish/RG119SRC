@@ -1,0 +1,835 @@
+{$A+,B-,D+,E-,F+,I-,L+,N-,O+,R-,S+,V-}
+
+UNIT File10;
+
+INTERFACE
+
+USES
+  Common;
+
+PROCEDURE CreditFile(VAR User: UserRecordType; F: FileInfoRecordType; Credit: Boolean; GotPts: Integer);
+PROCEDURE EditFiles;
+PROCEDURE ValidateFiles;
+
+IMPLEMENTATION
+
+USES
+  Dos,
+  ArcView,
+  File0,
+  File1,
+  File2,
+  File9,
+  Mail1,
+  SysOp3,
+  TimeFunc,
+  MiscUser;
+
+PROCEDURE CreditFile(VAR User: UserRecordType; F: FileInfoRecordType; Credit: Boolean; GotPts: Integer);
+VAR
+  FilePointsReceived: Integer;
+BEGIN
+  IF (AllCaps(F.OwnerName) <> AllCaps(User.Name)) THEN
+  BEGIN
+    Print('Uploader name does not match user name!');
+    Print('Cannot add/remove credit from user.');
+    Exit;
+  END;
+  IF (NOT General.FileCreditRatio) THEN
+    GotPts := 0
+  ELSE IF (GotPts = 0) THEN
+  BEGIN
+    FilePointsReceived := 0;
+    IF (General.FileCreditCompBaseSize <> 0) THEN
+      FilePointsReceived := ((F.Blocks DIV 8) DIV General.FileCreditCompBaseSize);
+    GotPts := (FilePointsReceived * General.FileCreditComp);
+    IF (GotPts < 1) THEN
+      GotPts := 1;
+  END;
+  Print(AOnOff(Credit,'^5Awarding upload','^5Removing upload')+
+         ' credits: 1 file, '+ConvertKB(F.Blocks DIV 8,FALSE)+', '+IntToStr(GotPts)+' credits.');
+  IF (Credit) THEN
+  BEGIN
+    IF (User.Uploads < 2147483647) THEN
+      Inc(User.Uploads);
+    IF ((User.UK + (F.Blocks DIV 8)) < 2147483647) THEN
+      Inc(User.UK,(F.Blocks DIV 8))
+    ELSE
+      User.UK := 2147483647;
+    IF ((User.Credit + GotPts) < 2147483647) THEN
+      Inc(User.Credit,GotPts)
+    ELSE
+      User.UK := 2147483647;
+  END
+  ELSE
+  BEGIN
+    IF (User.Uploads > 0) THEN
+      Dec(User.Uploads);
+    IF ((User.UK - (F.Blocks DIV 8)) > 0) THEN
+      Dec(User.UK,(F.Blocks DIV 8))
+    ELSE
+      User.UK := 0;
+    IF ((User.Credit - GotPts) > 0) THEN
+      Dec(User.Credit,GotPts)
+    ELSE
+      User.Credit := 0;
+  END;
+  SaveURec(User,F.OwnerNum);
+END;
+
+PROCEDURE EditFile(DirFileRecNum: Integer; VAR Cmd: Char; NoPrompt,IsPoints: Boolean; VAR BackUp: Boolean);
+VAR
+  FF: FILE;
+  ExtText: Text;
+  User: UserRecordType;
+  F: FileInfoRecordType;
+  V: VerbRec;
+  Mheader: MheaderRec;
+  InputStr,
+  MoveFromDir,
+  MoveToDir: AStr;
+  LineNum,
+  NumExtDesc: Byte;
+  UNum,
+  NewFileArea,
+  SaveFileArea,
+  Totload: Integer;
+  FSize: Longint;
+  SaveConfSystem,
+  DontShowList,
+  Done,
+  Ok,
+  NoSpace: Boolean;
+
+  PROCEDURE ToggleFIFlag(FIFlagT: FileInfoFlagType; VAR FIFlagS: FIFlagSet);
+  BEGIN
+    IF (FIFlagT IN FIFlagS) THEN
+      Exclude(FIFlagS,FIFlagT)
+    ELSE
+      Include(FIFlagS,FIFlagT);
+  END;
+
+  PROCEDURE ToggleFIFlags(C: Char; VAR FIFlagS: FIFlagSet);
+  BEGIN
+    CASE C OF
+      'V' : ToggleFIFlag(FiNotVal,FIFlagS);
+      'T' : ToggleFIFlag(FiIsRequest,FIFlagS);
+      'R' : ToggleFIFlag(FIResumeLater,FIFlagS);
+      'H' : ToggleFIFlag(FIHatched,FIFlagS);
+    END;
+  END;
+
+BEGIN
+  Seek(DirFile,DirFileRecNum);
+  Read(DirFile,F);
+  IF (IOResult <> 0) THEN
+    Exit;
+  IF (F.OwnerNum > (MaxUsers - 1)) THEN
+    F.OwnerNum := 1;
+  LoadURec(User,F.OwnerNum);
+  IF (IsPoints) THEN
+  BEGIN
+    NL;
+    FileInfo(F,TRUE);
+    NL;
+    Prt('Credits for file (0-999) ([Enter]=Skip,Q=Quit): ');
+    Input(InputStr,3);
+    NL;
+    IF (InputStr = '') OR (InputStr = 'Q') THEN
+    BEGIN
+      Print('Aborted.');
+      Abort := TRUE
+    END
+    ELSE IF (StrToInt(InputStr) >= 0) AND (StrToInt(InputStr) <= 999) THEN
+    BEGIN
+      F.FilePoints := StrToInt(InputStr);
+      Exclude(F.FIFlagS,FINotVal);
+      Seek(DirFile,DirFileRecNum);
+      Write(DirFile,F);
+      CreditFile(User,F,TRUE,F.FilePoints);
+      NL;
+      Prt('Credits for ^5'+Caps(F.OwnerName)+'^4 (-999 to 999): ');
+      Input(InputStr,4);
+      IF (InputStr <> '') AND (StrToInt(InputStr) >= -999) AND (StrToInt(InputStr) <= 999) THEN
+      BEGIN
+        IF (F.OwnerNum = UserNum) THEN
+          AdjustBalance(-StrToInt(InputStr))
+        ELSE IF (StrToInt(InputStr) > 0) THEN
+          Inc(User.Debit,StrToInt(InputStr))
+        ELSE
+          Dec(User.Credit,StrToInt(InputStr));
+        SaveURec(User,F.OwnerNum);
+      END;
+    END;
+    NL;
+    Exit;
+  END;
+  IF (NoPrompt) THEN
+  BEGIN
+    Exclude(F.FIFlagS,FINotVal);
+    Seek(DirFile,DirFileRecNum);
+    Write(DirFile,F);
+    CreditFile(User,F,TRUE,0);
+    Exit;
+  END;
+  DontShowList := FALSE;
+  REPEAT
+    Abort := FALSE;
+    Next := FALSE;
+    IF (NOT DontShowList) THEN
+    BEGIN
+      NL;
+      FileInfo(F,TRUE);
+      Abort := FALSE;
+    END
+    ELSE
+      DontShowList := FALSE;
+    NL;
+    Abort := FALSE;
+    IF (Next) THEN
+      Cmd := 'N'
+    ELSE
+    BEGIN
+      Prt('Edit files (^5?^4=^5Help^4): ');
+      OneK(Cmd,'Q1234567DEGHIMNPRTUVW?'^M,TRUE,TRUE);
+      IF (NOT (Cmd IN ['H','I','M','N','P','R','T','U',^M])) THEN
+        NL;
+    END;
+    CASE Cmd OF
+      '1' : BEGIN
+              Prt('New file name: ');
+              MPL((SizeOf(F.FileName) - 1));
+              Input(InputStr,(SizeOf(F.FileName) - 1));
+              IF (InputStr = '') THEN
+              BEGIN
+                NL;
+                Print('Aborted.');
+              END
+              ELSE
+              BEGIN
+                IF (SQOutSp(InputStr) = SQOutSp(F.FileName)) THEN
+                BEGIN
+                  NL;
+                  Print('You must specify a different file name.');
+                END
+                ELSE
+                BEGIN
+                  Ok := TRUE;
+                  IF (Exist(MemFileArea.DLPath+InputStr) OR Exist(MemFileArea.ULPath+InputStr)) THEN
+                  BEGIN
+                    NL;
+                    Print('That file name exists in the download or upload path.');
+                    Ok := FALSE;
+                  END;
+                  IF (Ok) THEN
+                    IF (NOT Exist(MemFileArea.DLPath+F.FileName)) OR (NOT Exist(MemFileArea.ULPath+F.FileName)) THEN
+                    BEGIN
+                      NL;
+                      Print('That file name does not exist in the download or upload path.');
+                      Ok := FALSE;
+                      IF (CoSysOp) THEN
+                      BEGIN
+                        IF (NOT (FIIsRequest IN F.FIFlagS)) THEN
+                        BEGIN
+                          NL;
+                          IF (PYNQ('Do you want to set this file to Offline? ',0,FALSE)) THEN
+                          BEGIN
+                            F.Blocks := 0;
+                            F.SizeMod := 0;
+                            Include(F.FIFlagS,FIIsRequest);
+                          END;
+                        END;
+                        NL;
+                        IF (PYNQ('Do you want to rename the file anyway? ', 0,FALSE)) THEN
+                          Ok := TRUE;
+                      END;
+                    END;
+                  IF (Ok) THEN
+                  BEGIN
+                    IF (Exist(MemFileArea.DLPath+F.FileName)) THEN
+                    BEGIN
+                      Assign(FF,MemFileArea.DLPath+F.FileName);
+                      ReName(FF,MemFileArea.DLPath+InputStr);
+                    END
+                    ELSE IF (Exist(MemFileArea.ULPath+F.FileName)) THEN
+                    BEGIN
+                      Assign(FF,MemFileArea.ULPath+F.FileName);
+                      ReName(FF,MemFileArea.ULPath+InputStr);
+                    END;
+                    LastError := IOResult;
+                    F.FileName := Align(InputStr);
+                  END;
+                END;
+              END;
+            END;
+      '2' : BEGIN
+              Print('Limit on file size restricted to 1.9 Gig.');
+              OK := TRUE;
+              IF (NOT Exist(MemFileArea.DLPath+F.FileName)) OR (NOT Exist(MemFileArea.ULPath+F.FileName)) THEN
+              BEGIN
+                NL;
+                IF (PYNQ('File does not exist, set to Offline? ',0,FALSE)) THEN
+                BEGIN
+                  FSize := 0;
+                  Include(F.FIFlags,FiIsRequest);
+                  OK := FALSE;
+                END;
+              END;
+              IF (Ok) THEN
+              BEGIN
+                NL;
+                IF PYNQ('Update with actual file size? ', 0,FALSE) THEN
+                BEGIN
+                  FSize := 0;
+                  IF (Exist(MemFileArea.DLPath+F.FileName)) THEN
+                    FSize := GetFileSize(MemFileArea.DLPath+SQOutSp(F.FileName))
+                  ELSE IF (Exist(MemFileArea.ULPath+F.FileName)) THEN
+                    FSize := GetFileSize(MemFileArea.ULPath+SqOutSp(F.FileName));
+                END
+                ELSE
+                BEGIN
+                  FSize := ((F.Blocks * 128) + F.SizeMod);
+                  NL;
+                  InputLongIntWOC('/New file size in bytes',FSize,0,2147483647);
+                END;
+              END;
+              IF (FSize >= 0) AND (FSize <= 2147483647) THEN
+              BEGIN
+                F.Blocks := (FSize DIV 128);
+                F.SizeMod := (FSize MOD 128);
+              END;
+            END;
+      '3' : BEGIN
+              Print('New description: ');
+              Prt(': ');
+              MPL((SizeOf(F.Description) - 1));
+              InputMain(F.Description,(SizeOf(F.Description) - 1),[InteractiveEdit]);
+            END;
+      '4' : BEGIN
+              LoadURec(User,F.OwnerNum);
+              IF (AllCaps(F.OwnerName) <> AllCaps(User.Name)) THEN
+              BEGIN
+                Print('Previous owner was '+Caps(F.OwnerName)+' #'+IntToStr(F.OwnerNum));
+                NL;
+                LoadURec(User,1);
+                F.OwnerNum := 1;
+                F.OwnerName := AllCaps(User.Name);
+              END;
+              Print('New owner user number or name ('+Caps(F.OwnerName)+' #'+IntToStr(F.OwnerNum)+'): ');
+              Prt(': ');
+              MPL((SizeOf(F.OwnerName) - 1));
+              FindUser(UNum);
+              IF (UNum <= 0) THEN
+              BEGIN
+                NL;
+                Print('User not found.');
+              END
+              ELSE
+              BEGIN
+                LoadURec(User,UNum);
+                F.OwnerNum := UNum;
+                F.OwnerName := AllCaps(User.Name);
+              END;
+            END;
+      '5' : BEGIN
+              Prt('New upload file date ('+PD2Date(F.Date)+'): ');
+              InputFormatted(InputStr,'##/##/####',TRUE);
+              IF (InputStr = '') THEN
+              BEGIN
+                NL;
+                Print('Aborted.');
+              END
+              ELSE
+              BEGIN
+                IF (DayNum(InputStr) = 0) OR (DayNum(InputStr) > DayNum(DateStr)) THEN
+                BEGIN
+                  NL;
+                  Print('Invalid date entered.');
+                END
+                ELSE
+                BEGIN
+                  F.Date := Date2PD(InputStr);
+                  F.DateN := DayNum(PD2Date(F.Date));
+                END;
+              END;
+            END;
+      '6' : InputLongIntWOC('/New number of downloads',F.DownLoaded,0,2147483647);
+      '7' : InputIntegerWOC('/New amount of credits',F.FilePoints,0,999);
+      'D' : IF PYNQ('Are you sure? ',0,FALSE) THEN
+            BEGIN
+              Deleteff(F,DirFileRecNum);
+              Dec(LastDIRRecNum);
+              InputStr := 'Removed "'+SQOutSp(F.FileName)+'" from '+MemFileArea.AreaName;
+              IF (Exist(MemFileArea.DLPath+F.FileName) OR Exist(MemFileArea.ULPath+F.FileName)) THEN
+              BEGIN
+                NL;
+                IF PYNQ('Erase file also? ',0,FALSE) THEN
+                BEGIN
+                  Kill(MemFileArea.DLPath+F.FileName);
+                  Kill(MemFileArea.ULPath+F.FileName);
+                  InputStr := InputStr+' [FILE DELETED]'
+                END;
+              END;
+              IF (NOT (FINotVal IN F.FIFlagS)) THEN
+              BEGIN
+                NL;
+                IF PYNQ('Remove from ^5'+Caps(User.Name)+' #'+IntToStr(F.OwnerNum)+'^7''s ratio? ',0,FALSE) THEN
+                BEGIN
+                  NL;
+                  CreditFile(User,F,FALSE,F.FilePoints);
+                END;
+              END;
+              SysOpLog(InputStr);
+              Cmd := 'N';
+            END;
+      'E' : BEGIN
+              OK := TRUE;
+              IF (F.VPointer <> -1) THEN
+              BEGIN
+                IF (NOT PYNQ('Delete the extended description for this file? ',0,FALSE)) THEN
+                  LoadVerbArray(F,V,NumExtDesc)
+                ELSE
+                BEGIN
+                  F.VPointer := -1;
+                  F.VTextSize := 0;
+                  OK := FALSE;
+                END;
+              END
+              ELSE
+              BEGIN
+                IF (NOT PYNQ('Create an extended description for this file? ',0,FALSE)) THEN
+                BEGIN
+                  F.VPointer := -1;
+                  F.VTextSize := 0;
+                  OK := FALSE
+                END
+                ELSE
+                BEGIN
+                  FillChar(V,SizeOf(V),0);
+                  NumExtDesc := 1;
+                END;
+              END;
+              IF (Ok) THEN
+              BEGIN
+                Assign(ExtText,TempDir+MemFileArea.FileName+'.TMP');
+                ReWrite(ExtText);
+                LineNum := 0;
+                REPEAT
+                  Inc(LineNum);
+                  IF (V[LineNum] <> '') THEN
+                    WriteLn(ExtText,V[LineNum]);
+                UNTIL (LineNum = NumExtDesc);
+                Close(ExtText);
+                MHeader.Status := [];
+                InResponseTo := '';
+                IF (InputMessage(TRUE,FALSE,FALSE,'Extended Description',
+                                 MHeader,TempDir+MemFileArea.FileName+'.TMP')) then
+                  IF Exist(TempDir+MemFileArea.FileName+'.TMP') THEN
+                  BEGIN
+                    FillChar(V,SizeOf(V),0);
+                    Assign(ExtText,TempDir+MemFileArea.FileName+'.TMP');
+                    Reset(ExtText);
+                    NumExtDesc := 0;
+                    REPEAT
+                      ReadLn(ExtText,InputStr);
+                      IF (InputStr <> '') THEN
+                      BEGIN
+                        Inc(NumExtDesc);
+                        V[NumExtDesc] := InputStr;
+                      END;
+                    UNTIL (NumExtDesc = MaxExtDesc) OR EOF(ExtText);
+                    Close(ExtText);
+                    IF (V[1] <> '') THEN
+                      SaveVerbArray(F,V,NumExtDesc);
+                  END;
+                Kill(TempDir+MemFileArea.FileName+'.TMP');
+              END;
+              Cmd := #0;
+            END;
+      'G' : IF (NOT General.FileDiz) THEN
+              Print('This option is not active in the System Configuration.')
+            ELSE
+            BEGIN
+              IF (Exist(MemFileArea.ULPath+F.FileName)) THEN
+                InputStr := MemFileArea.ULPath+SQOutSp(F.FileName)
+              ELSE
+                InputStr := MemFileArea.DLPath+SQOutSp(F.FileName);
+              IF (NOT DizExists(InputStr)) THEN
+                Print('File has no internal description.')
+              ELSE
+              BEGIN
+                GetDiz(F,V,NumExtDesc);
+                IF (V[1] <> '') THEN
+                  SaveVerbArray(F,V,NumExtDesc)
+                ELSE
+                BEGIN
+                  F.VPointer := -1;
+                  F.VTextSize := 0;
+                END;
+              END;
+            END;
+      'H' : ToggleFIFlags('H',F.FIFlagS);
+      'I' : IF (NOT ValidIntArcType(F.FileName)) THEN
+            BEGIN
+              NL;
+              Print('Not a valid archive type or not supported.')
+            END
+            ELSE
+            BEGIN
+              OK := FALSE;
+              IF Exist(MemFileArea.DLPath+F.FileName) THEN
+              BEGIN
+                LFI(MemFileArea.DLPath+SQOutSp(F.FileName));
+                OK := TRUE;
+              END
+              ELSE IF Exist(MemFileArea.ULPath+F.FileName) THEN
+              BEGIN
+                LFI(MemFileArea.ULPath+SQOutSp(F.FileName));
+                OK := TRUE;
+              END;
+              IF (NOT Ok) THEN
+              BEGIN
+                NL;
+                IF (PYNQ('File does not exist, set to offline? ',0,FALSE)) THEN
+                BEGIN
+                  F.Blocks := 0;
+                  F.SizeMod := 0;
+                  ToggleFIFlags('T',F.FIFlagS);
+                END;
+              END;
+              Abort := FALSE;
+            END;
+      'M' : BEGIN
+              SaveConfSystem := ConfSystem;
+              IF (SaveConfSystem) THEN
+                 NewCompTables;
+              InputStr := '';
+              Done := FALSE;
+              REPEAT
+                IF (InputStr <> '?') THEN
+                  NL;
+                Prt('Move file to which file area (1-'+IntToStr(NumFileAreas)+') [?=List,Q=Quit]: ');
+                MPL(Length(IntToStr(NumFileAreas)));
+                Input(InputStr,Length(IntToStr(NumFileAreas)));
+                NewFileArea := AFBase(StrToInt(InputStr));
+                IF (InputStr = '') THEN
+                BEGIN
+                  NL;
+                  Print('Aborted.');
+                  Done := TRUE;
+                END
+                ELSE IF (InputStr = 'Q') THEN
+                  Done := TRUE
+                ELSE IF (InputStr = '?') THEN
+                BEGIN
+                  FileAreaList(FALSE);
+                  Abort := FALSE;
+                END
+                ELSE IF (NewFileArea < 1) OR (NewFileArea > NumFileAreas) THEN
+                BEGIN
+                  NL;
+                  Print('The range must be from 1 to '+IntToStr(NumFileAreas)+'.');
+                END
+                ELSE IF (NewFileArea = FileArea) THEN
+                BEGIN
+                  NL;
+                  Print('This file can not be moved to the same file area.');
+                END
+                ELSE
+                BEGIN
+                  SaveFileArea := FileArea;
+                  IF (FileArea <> NewFileArea) THEN
+                    ChangeFileArea(NewFileArea);
+                  IF (FileArea = NewFileArea) THEN
+                  BEGIN
+                    Done := TRUE;
+                    FileArea := SaveFileArea;
+                    LoadFileArea(FileArea);
+                    IF Exist(MemFileArea.DLPath+F.FileName) THEN
+                      InputStr := MemFileArea.DLPath+F.FileName
+                    ELSE
+                      InputStr := MemFileArea.ULPath+F.FileName;
+                    MoveFromDir := BSlash(MemFileArea.DLPath,FALSE);
+                    LoadFileArea(NewFileArea);
+                    NL;
+                    Print('^5Moving file to: ^3'+MemFileArea.AreaName+'^5');
+                    MoveToDir := BSlash(MemFileArea.ULPath,FALSE);
+                    Ok := TRUE;
+                    IF Exist(MemFileArea.ULPath+F.FileName) THEN
+                    BEGIN
+                      NL;
+                      Print('There is already a file by that name there.');
+                      NL;
+                      IF (NOT PYNQ('Overwrite it? ',0,FALSE)) THEN
+                      BEGIN
+                        FileArea := SaveFileArea;
+                        InitFileArea(FileArea);
+                        Exit;
+                      END;
+                    END;
+                    IF (MoveFromDir = MoveToDir) THEN
+                    BEGIN
+                      NL;
+                      Print('^7No move: directory paths are the same.');
+                      Ok := TRUE;
+                    END
+                    ELSE IF (NOT Exist(InputStr)) THEN
+                    BEGIN
+                      NL;
+                      Print('File does not actually exist.');
+                    END
+                    ELSE
+                    BEGIN
+                      NL;
+                      Prompt('^5Progress: ');
+                      MoveFile(Ok,NoSpace,TRUE,InputStr,MemFileArea.ULPath+F.FileName);
+                      IF (Ok) THEN
+                        NL;
+                      IF (NOT Ok) THEN
+                      BEGIN
+                        Prompt('^7Move Failed');
+                        IF (NOT NoSpace) THEN
+                          NL
+                        ELSE
+                          Prompt(' - Insuffient space on drive '+Chr(ExtractDriveNumber(MemFileArea.ULPath) + 64)+':');
+                        Print('!');
+                      END;
+                    END;
+                    IF ((Ok)) OR (NOT Exist(InputStr)) THEN
+                    BEGIN
+                      Prompt('^5Moving file records ... ');
+                      FileArea := SaveFileArea;
+                      InitFileArea(FileArea);
+                      IF (BadDownloadPath) THEN
+                        Exit;
+                      IF (F.VPointer <> -1) THEN
+                        LoadVerbArray(F,V,NumExtDesc);
+                      Deleteff(F,DirFileRecNum);
+                      FileArea := NewFileArea;
+                      InitFileArea(FileArea);
+                      IF (BadDownloadPath) THEN
+                        Exit;
+                      IF (F.VPointer <> - 1) THEN
+                        SaveVerbArray(F,V,NumExtDesc);
+                      Seek(DirFile,FileSize(DirFile));
+                      Write(DirFile,F);
+                      FileArea := SaveFileArea;
+                      InitFileArea(FileArea);
+                      IF (BadDownloadPath) THEN
+                        Exit;
+                      SysOpLog('Moved '+SQOutSp(F.FileName)+' from Dir#'+IntToStr(FileArea)+' to Dir#'+IntToStr(NewFileArea));
+                      Print('^5Done.');
+                      Dec(LastDIRRecNum);
+                      Cmd := 'N';
+                    END;
+                  END;
+                END;
+              UNTIL ((Done) OR (HangUp));
+              ConfSystem := SaveConfSystem;
+              IF (SaveConfSystem) THEN
+                NewCompTables;
+            END;
+      'P' : BackUp := TRUE;
+      'Q' : Abort := TRUE;
+      'R' : ToggleFIFlags('R',F.FIFlagS);
+      'T' : ToggleFIFlags('T',F.FIFlagS);
+      'U' : IF (NOT CoSysOp) THEN
+            BEGIN
+              NL;
+              Print('You do not have the required access level for this option.')
+            END
+            ELSE
+            BEGIN
+              IF (F.OwnerNum < 1) OR (F.OwnerNum > (MaxUsers - 1)) THEN
+              BEGIN
+                LoadURec(User,1);
+                F.OwnerNum := 1;
+                F.OwnerName := AllCaps(User.Name);
+              END;
+              UserEditor(F.OwnerNum);
+            END;
+      'V' : BEGIN
+              ToggleFIFlags('V',F.FIFlagS);
+              CreditFile(User,F,(NOT (FINotVal IN F.FIFlagS)),0)
+            END;
+      'W' : BEGIN
+              Print('^8WARNING: ^5User may not have received credit for upload!');
+              NL;
+              IF PYNQ('Withdraw credit? ',0,FALSE) THEN
+              BEGIN
+                NL;
+                CreditFile(User,F,FALSE,F.FilePoints);
+              END;
+            END;
+      '?' : BEGIN
+              Print('^31-7^1:Modify item');
+              LCmds(18,3,'Move file','Delete file');
+              LCmds(18,3,'Extended edit','Hatched toggle');
+              LCmds(18,3,'Previous file','Next file');
+              LCmds(18,3,'Resume toggle','Toggle availability');
+              LCmds(18,3,'Validation toggle','Withdraw credit');
+              LCmds(18,3,'Internal listing','Get Description');
+              LCmds(18,3,'Uploader','Quit');
+              DontShowList := TRUE;
+            END;
+      ^M  : Cmd := 'N';
+    ELSE
+      Next := TRUE;
+    END;
+    IF NOT (Cmd IN ['P','N','Q']) THEN
+    BEGIN
+      Seek(DirFile,DirFileRecNum);
+      Write(DirFile,F);
+    END;
+  UNTIL (Cmd IN ['P','Q','N']) OR (Abort) OR (Next) OR (HangUp);
+END;
+
+PROCEDURE EditFiles;
+VAR
+  F: FileInfoRecordType;
+  FN: Str12;
+  Cmd: Char;
+  DirFileRecNum: Integer;
+  BackUp: Boolean;
+BEGIN
+  NL;
+  Print('File editor:');
+  GetFileName(FN);
+  IF (FN = '') OR (Pos('.',FN) = 0) THEN
+  BEGIN
+    NL;
+    Print('Aborted.');
+  END
+  ELSE
+  BEGIN
+    RecNo(F,FN,DirFileRecNum);
+    IF (BadDownloadPath) THEN
+      Exit;
+    IF (DirFileRecNum = -1) THEN
+    BEGIN
+      NL;
+      Print('No matching files.');
+    END
+    ELSE
+    BEGIN
+      Abort := FALSE;
+      Next := FALSE;
+      WHILE (DirFileRecNum <> -1) AND (NOT Abort) AND (NOT HangUp) DO
+      BEGIN
+        EditFile(DirFileRecNum,Cmd,FALSE,FALSE,BackUp);
+        IF (Cmd = 'Q') THEN
+          Abort := TRUE
+        ELSE
+        BEGIN
+          IF (Cmd = 'P') THEN
+            LRecNo(F,FN,DirFileRecNum)
+          ELSE
+            NRecNo(F,FN,DirFileRecNum);
+        END;
+        WKey;
+      END;
+    END;
+    Close(DirFile);
+    Close(VerbF);
+    LastCommandOvr := TRUE;
+  END;
+  LastError := IOResult;
+END;
+
+PROCEDURE ValidateFiles;
+VAR
+  Cmd: Char;
+  FArea,
+  SaveFileArea: Integer;
+  SaveConfSystem: Boolean;
+
+  PROCEDURE ValFiles(FArea: Integer; Cmd1: Char; NoPrompt,IsPoints: BOOLEAN);
+  VAR
+    F: FileInfoRecordType;
+    DirFileRecNum: Integer;
+    BackUp,
+    ShownAlready: Boolean;
+  BEGIN
+    IF (FileArea <> FArea) THEN
+      ChangeFileArea(FArea);
+    IF (FileArea = FArea) THEN
+    BEGIN
+      RecNo(F,'*.*',DirFileRecNum);
+      IF (BadDownloadPath) THEN
+        Exit;
+      ShownAlready := FALSE;
+      WHILE (DirFileRecNum <> -1) AND (NOT Abort) AND (NOT HangUp) DO
+      BEGIN
+        Seek(DirFile,DirFileRecNum);
+        Read(DirFile,F);
+        BackUp := FALSE;
+        IF (FINotVal IN F.FIFlagS) AND (NOT (FIResumeLater IN F.FIFlagS)) THEN
+        BEGIN
+          IF (NOT ShownAlready) THEN
+          BEGIN
+            NL;
+            Print('^1Unvalidated files present in ^5'+MemFileArea.AreaName+'^5 #'+IntToStr(FileArea));
+            ShownAlready := TRUE;
+          END;
+          EditFile(DirFileRecNum,Cmd1,NoPrompt,IsPoints,BackUp);
+        END;
+        IF (BackUp) THEN
+        BEGIN
+          REPEAT
+            LRecNo(F,'*.*',DirFileRecNum);
+          UNTIL (DirFileRecNum = -1) OR ((FINotVal IN F.FIFlags) AND NOT (FIResumeLater IN F.FIFlags));
+        END
+        ELSE
+          NRecNo(F,'*.*',DirFileRecNum);
+        WKey;
+      END;
+      Close(DirFile);
+      Close(VerbF);
+    END;
+    LastError := IOResult;
+  END;
+
+BEGIN
+  NL;
+  Print('^4[^5M^4]anual, [^5A^4]utomatic, [^5P^4]oint entry, [^5Q^4]uit');
+  NL;
+  Prt('File validation: ');
+  OneK(Cmd,'QMAP',TRUE,TRUE);
+  IF (Cmd <> 'Q') THEN
+  BEGIN
+    SaveFileArea := FileArea;
+    SaveConfSystem := ConfSystem;
+    ConfSystem := FALSE;
+    IF (SaveConfSystem) THEN
+      NewCompTables;
+    TempPause := (Cmd <> 'A');
+    Abort := FALSE;
+    Next := FALSE;
+    NL;
+    IF (NOT InWFCMenu) AND (NOT PYNQ('Search all file areas? ',0,TRUE)) THEN
+      ValFiles(FileArea,Cmd,(Cmd = 'A'),(Cmd = 'P'))
+    ELSE
+    BEGIN
+      FArea := 1;
+      WHILE (FArea <= NumFileAreas) AND (NOT Next) AND (NOT Abort) AND (NOT HangUp) DO
+      BEGIN
+        ValFiles(FArea,Cmd,(Cmd = 'A'),(Cmd = 'P'));
+        WKey;
+        IF (Next) THEN
+        BEGIN
+          Abort := FALSE;
+          Next := FALSE;
+        END;
+        Inc(FArea);
+      END;
+    END;
+    ConfSystem := SaveConfSystem;
+    IF (SaveConfSystem) THEN
+      NewCompTables;
+    FileArea := SaveFileArea;
+    LoadFileArea(FileArea);
+  END;
+  LastError := IOResult;
+END;
+
+END.

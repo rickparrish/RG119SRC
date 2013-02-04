@@ -1,0 +1,13 @@
+Renemail Echomail Interface update log for Renegade v1.10
+
+10/04/09
+
+1.  Changed the Style of the code for easier updating.
+
+2.  Removed numerous unused variables thru-out the code.
+
+3.  Replaced all instances of "i := IOResult" with "LastError := IOResult".
+
+4.  Added/Replaced "Include/Excludes" where appropriate tru-out the code.
+
+5.  Replaced the Scan - Fido Message Date/Time calculation routine.

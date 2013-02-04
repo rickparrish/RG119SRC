@@ -1,0 +1,29 @@
+Lines are ended with carriage return and linefeed combination. The fields are: 
+Node name 
+The name of the system. 
+Sysop f.name 
+The sysop's name up to the first space. 
+Sysop l.name 
+The sysop's name following the first space. 
+Com port 
+The serial port the modem is connected to, or 0 if logged in on console. 
+Baud rate 
+The current port (DTE) rate. 
+Networked 
+The number "0" 
+User's first name 
+The current user's name, up to the first space. 
+User's last name 
+The current user's name, following the first space. 
+City 
+Where the user lives, or a blank line if unknown. 
+Terminal type 
+The number "0" if TTY, or "1" if ANSI. 
+Security level 
+The number 5 for problem users, 30 for regular users, 80 for Aides, and 100 for Sysops. 
+Minutes remaining 
+The number of minutes left in the current user's account, limited to 546 to keep from overflowing other software. 
+FOSSIL 
+The number "-1" if using an external serial driver or "0" if using internal serial routines. 
+
+--------------------------------------------------------------------------------

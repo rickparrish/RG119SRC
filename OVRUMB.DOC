@@ -1,0 +1,220 @@
+			    OvrUMB version 1.2
+			  by Jean-Marc Lasgouttes
+		       ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+
+
+
+Overview
+ÄÄÄÄÄÄÄÄÄ
+
+The purpose of this unit for Turbo Pascal 6/7 is to allow your programs
+that use overlays to free more conventional memory.  This is made possible
+by the relocation of the overlay buffer in upper memory on systems that
+support that kind of memory.
+
+This unit should be compatible with the use of OvrInitEMS, OvrInitXMS (from
+the unit OverXMS - overxms.zip at garbo.uwasa.fi) or the procedures from the
+Streams unit (streams15.zip by Duncan Murdoch).  The purpose of all these
+procedures is to speed up the overlay reading by keeping the overlay file in
+EMS or XMS memory.  It is recommended to use OvrInitEMS/XMS or the streams
+unit in conjunction with OvrUMB.
+
+This unit is released to the Public Domain.  Feel free to use it in your
+applications and distribute it, as long as this documentation is included.
+You can distribute a modified version of it, as long as credit is given to me
+as the original author; in this case, I would appreciate to get a copy of
+your modifications.  Although this unit has been tested on several systems,
+there is no warranty that it will work for your application and I should
+not be liable of any damage that it may cause.  However, I would be glad
+to try to correct any problem that you may encounter (see my address at the
+end of this document).
+
+
+
+Why you should use OvrUMB
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+
+If you use overlays in your applications, you are probably aware that
+all the free memory that you can get will be welcome.  One way to gain
+memory is to use the upper memory which is accessible for real-mode
+programs on a wide range of systems (most 80386/486/... and some
+8086/286).  With this unit, your applications will make use of upper
+memory if it is available, with a slight modification of your code.
+
+The idea of this unit is very simple: Borland Pascal overlay manager
+uses a part of the heap as a buffer where it loads the overlaid code
+that needs to be executed. OvrMovBufToUMB tries to allocate a buffer
+of at least the same size in upper memory and to set the variables of
+the overlay manager to point to this new buffer. The old block can
+then be disposed of and is added to the heap. The gains in memory will
+be equal to the size of the biggest overlaid unit (20-30k in my case)
+if you use the default buffer.  But I find it more efficient to
+overlay as many units as possible and to declare a buffer of 60-80k
+with OvrSetBuf. This will free more memory and the slowdown will be
+hardly noticeable. In this case, OvrUMB will free even more
+conventional memory (as long as there is a 60-80k contiguous upper
+memory block on the host computer).
+
+There are other means to use upper memory in your Turbo Pascal
+applications; one of them is the unit UMB_Heap published in PC
+Magazine (vol. 11 no. 20).  This unit will map the existing upper
+memory blocks in the regular Turbo Pascal heap.  Although this is the
+most transparent way to use upper memory, this unit has some
+shortcomings:
+
+  - a program using this unit could have big problems when trying to
+    execute child DOS processes, since Turbo Pascal does not expect its
+    memory to be allocated as several DOS memory blocks;
+  - the unit itself has some bugs concerning the restoration of the DOS
+    memory allocation strategy and tests for the presence of an XMS driver,
+    which cannot be installed on a 8086 based computer.
+
+
+
+System Requirements
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+
+  - TP6 or TP7/BP7
+  - A program that uses overlays...
+  - Some free UMBs in the system on which your program is to be executed.
+    Note that your program will work without UMB, except that no memory
+    will be gained.  Since the overhead of the unit is about 320 bytes,
+    decrease in available memory will hardly noticeable.
+
+
+
+Contents
+ÄÄÄÄÄÄÄÄÄ
+
+The complete package contains:
+
+  - ovrumb.doc          This file
+
+  - ovrumb.pas          The main unit source
+
+  - ovrtest.pas         A test program that demonstrates the use of the
+    ovr1.pas            OvrUMB unit.
+    ovr2.pas
+
+
+
+How to use this unit in your programs
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+
+This is very easy : the modifications must be done in the main program
+or in the initialization part of a unit that is declared before any
+overlaid unit.
+
+  - Add "OvrUMB" in your uses statement;
+  - Instead of code like
+
+      ...
+      OvrInit('MYPROG.OVR');   {Opens the overlay files}
+      OvrSetBuf(MyBufSize);    {Sets the overlay buffer size to MyBufSize,
+				since the default value is often too small}
+      ...
+
+    use:
+
+      ...
+      OvrInit('MYPROG.OVR');   {Opens the overlay files}
+      OvrSetBuf(MyBufSize);    {Sets the overlay buffer size to MyBufSize,
+				since the default value is often too small}
+      OvrMovBufToUMB;          {Tries to move the overlay buffer in upper
+				memory.  It this is not possible,
+				nothing happens}
+      ...
+
+  - That's all : OvrUMB will automatically free the UMB on exit.
+
+
+You can also use the procedure OvrSetBufUMB(Size:longint) that allows
+you to specify the size of the wanted buffer.  This function can be
+useful if you want to change the buffer size when it is in upper
+memory.
+
+In order to help you to select the best block size, OvrUMB provides
+the function umb_MaxAvail which returns the size of the biggest upper
+memory block as a longint.
+
+In fact, OvrMovBufToUMB is logically equivalent to:
+
+  if umb_MaxAvail>OvrGetBuf then OvrSetBufUMB(umb_MaxAvail);
+
+But of course it is more efficient and generate less code.
+
+These two procedure will do nothing if they detect any problem and
+return an error value in OvrResult.  I have tried to map the error
+conditions to existing error codes.
+
+The procedures return ovrError when:
+  - the overlay file has not be opened (use OvrInit to open it)
+  - there are some overlays loaded (use OvrClearBuf to unload them)
+  - the heap is not empty
+  - the buffer has already been reallocated somewhere
+  - you tried to allocate a buffer smaller than the minimum allowed
+    (only with OvrSetBufUMB).
+
+The procedures return ovrNoMemory when:
+  - There is no upper memory manager running
+  - There is no big enough upper memory block to contain the overlay
+    buffer.
+
+
+
+Acknowledgments
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+
+I would like to thank the testers without whom I could not have
+written this unit, since I have no upper memory dispenser on my 286 :-( 
+In particular, my thanks go to Mike McWhinney (elja.inc@mixcom.com),
+Herbert Zarb (hzarb@unimt.mt) and Jack Nomssi
+(Nomssi@Physik.TU-Chemnitz.DE).
+
+
+
+Revision history
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+
+  version 1.0 (27/10/93)
+       First public version.
+  version 1.1 (21/07/94)
+       Added function umb_MaxAvail;
+       OvrMovBufToUMB now tries to allocate the biggest possible block.
+  version 1.2 (15/09/94)
+       Fixed bug that could make program fail in some cases where there
+         are no UMB available.
+       Changed the compilation directives of the test program so that 
+         they compile on Timo Salmi's PC :-)  
+
+
+
+Known Bugs and limitations
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+
+  - The system will crash if you try to call OvrSetBuf after reallocating
+    the overlay buffer in upper memory (however, I don't know why you
+    would want to do that...)
+  - There might be a compatibility problem with ExecWithSwap (from
+    TurboPower Software)
+
+If you use this unit (or even if you don't like it), please send me a
+message at the address below.  Any feedback that I can get is welcome.
+
+
+
+Contacting me
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+
+Report bugs and send comments and suggestions to:
+
+    Jean-Marc Lasgouttes
+
+         e-mail  Jean-Marc.Lasgouttes@inria.fr
+
+         tel.    (33) 1 39 63 56 40
+
+         postal address
+                 118, rue Marcadet
+                 75018 Paris
+                 FRANCE

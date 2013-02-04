@@ -1,0 +1,70 @@
+Renegade Bug Fix's/Enhancements:
+
+  1.  You will now be prompt to set the upload path to the download
+      path when editing the download path in the File Area Editor.  The
+      'D' option has been removed due to drive conflicts.
+
+  2.  The File Area Delete has been modified to prompt you to delete
+      the download/upload directory if they are not being utilized by
+      another file area.
+
+  3.  The Message Area Editor has made modified with the following:
+
+      A. The message area listing will now display one page at a time
+         verses scrolling to the prompt.
+
+      B. The File Area Name can not be blank or the default of
+         << New Message Area >>.
+
+      C. The File Area File Name can not be blank or the default of
+         NEWBOARD.
+
+      D. The Message Path for Echomail/Groupmail can not be blank.
+
+      E. The Message AKA Address must be an active address setup in
+         the System Configuration.
+
+      F. The Message Origin for Echomail/Groupmail/QWKmail can not be
+         blank.
+
+      G. Unused fields in the Insert/Modify command will now
+         display *None*.
+
+      H. The Message Area Insert command will now display the Message
+         Area information for editing verses just inserting the
+         new record and then requiring you to go to the modify
+         command to edit. You will not be able to save the
+         new message area until all of the above items are correct.
+         Upon completion of editing the inserted record, you will
+         be prompted to save or discard the new message area.  The
+         message directory and the data files will be auto-created
+         after the new message area is saved.  The *.SCN file will
+         also be updated for all users to scan this file area.
+
+      I. The Message Area Delete command will no longer prompt to
+         delete the data files if the message area file name is being
+         utilized by another file area. This option has also been
+         modified to prompt you to delete the message directory if it
+         is not being utilized by another message area.
+
+      J. The Message Area Modify command will auto-create the
+         message directory and data files after editing or
+         changing to another file area.  The *.SCN file will
+         also be updated to ensure all users are toggled to
+         scan this message area.  You will not be able to save the
+         message area you are editing until all of the above items
+         are correct. This command has also been modified
+         to scan the user file for deleted users and to set the
+         *.SCN file to allow new scan for the next user to utilize
+         this message area.
+
+      K. Other changes included added some missing help data for
+         certain commands and color changes.
+
+  4.  I recommend that you access the File Area Modify command
+      once you have installed this update and toggle thru all
+      file areas and make corrections to your file areas as they
+      are presented to you.
+
+
+

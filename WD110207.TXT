@@ -1,0 +1,6 @@
+Renegade Updates
+
+FC Cmd (Files.BBS Importer)
+
+1.  File_ID.DIZ will only be checked if allowed by System Config
+    setting.

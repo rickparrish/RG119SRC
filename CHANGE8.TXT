@@ -1,0 +1,25 @@
+Renegade Enhancements:
+
+  1.  The Conference Editor has made modified with the following:
+
+      A. The Conference Name can not be blank or the default of
+         << New Conference Record >>.
+
+      B. Unused fields in the Insert/Modify command will now
+         display *None*.
+
+      C. The Conference Insert option command will now display the
+         Conference information for editing verses just inserting the
+         new record and then requiring you to go to the modify
+         command to edit. You will not be able to save the
+         new conference until the item above is correct.
+         Upon completion of editing the inserted record, you will
+         be prompted to save or discard the new conference area.
+
+      D. The Conference Modify command will also require that the
+         above item is correct before saving the record being edited.
+
+  2.  I recommend that you access the Conference Modify command
+      once you have installed this update and toggle thru all
+      conferences and make corrections to your conferences as they
+      are presented to you.

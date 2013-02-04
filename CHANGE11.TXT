@@ -1,0 +1,28 @@
+Renegade Bug Fix's/Enhancements:
+
+  1.  The Archive Editor has made modified with the following:
+
+      A. The Archive Editor extension can not be blank or the default
+         of "AAA".
+
+      B. Unused fields in the Archive Editor Insert/Modify command
+         will now display *None*.
+
+      C. The Archive Editor Insert command will now display the
+         archive record information for editing verses just inserting
+         the new record and then requiring you to go to the modify
+         command to edit. You will not be able to save the new archive
+         record until all of the above items are correct. Upon completion
+         of editing the inserted record, you will be prompted to save
+         or discard the new archive record.
+
+      D. Other changes included adding some missing help data for
+         certain commands and color changes.
+
+  2.  I recommend that you access the Archive Modify Command
+      once you have installed this update and toggle thru all
+      of the archive records and make corrections as they are
+      presented to you.
+
+
+

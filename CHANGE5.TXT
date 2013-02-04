@@ -1,0 +1,42 @@
+Renegade Updates/Enhancements:
+
+  1. The message area display header was off by one character, fixed.
+
+  2. In the past, the maximum number of message areas allowed was 2048 with
+     compression turned on and 32767 with it turned off.  Renegade will
+     now support 32767 message areas with compression on or off.
+
+  3. The message area listing will now display the message areas one page
+     at a time vice scrolling thru the entire list.  The '?' will now
+     re-list the message areas starting from message area 1. Pressing <CR>
+     will now display the next page (it will also restart the listing from
+     message area 1 when the last message area is reached). Pressing 'Q'
+     will exit the message area display. Previously, this procedure opened
+     all 3 files associated to a message (*.HDR, *.DAT & *.SCN) to read
+     the message area scan flag. This process sould now be faster since it
+     now only opens the *.SCN file.
+
+  4. The message area change listing will now display the message areas
+     one page at a time vice scrolling thru the entire list.  The '?' will
+     now re-list the message areas starting from message area 1. Pressing
+     <CR> will now display the next page (it will also restart the listing
+     from message area 1 when the last message area is reached). Pressing
+     'Q' will exit the message area display. Entering an invalid message
+     area will redisplay the current page.
+
+  5. The message area set scan listing will now display the message areas
+     one page at a time vice scrolling thru the entire list.  The '?' will
+     now re-list the message areas starting from message area 1. Pressing
+     <CR> will now display the next page (it will also restart the listing
+     from message area 1 when the last message area is reached). Pressing
+     'Q' will exit the message area display. Previously, this procedure
+     opened all 3 files associated to a message area (*.HDR, *.DAT & *.SCN)
+     to set the message area scan flag on or off. This process sould now be
+     faster since it now only opens the *.SCN file. Also, this procedure
+     will now only set the scan on message areas the user has access to.
+     The message area scan char has been moved to the left of the message
+     area number vice between it and the message area description.
+
+  6. The file area delete command will now prompt to remove the download
+     and upload directory if they are not being utilized by another file
+     area.

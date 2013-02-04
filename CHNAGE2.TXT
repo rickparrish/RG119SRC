@@ -1,0 +1,27 @@
+Renegade Enhancements/Bug Fix's:
+
+  1.  Close Mail Box/Mail Forwarding -
+
+      A. Both of these procedures have been cleaned up with
+         slight verbage changes and a reduction of variables
+         required.
+
+      B. A user with access to the User Editor can no longer
+         setup a user with mail forwarding back to the same
+         user.
+
+      C. Mail can no longer be forwarded to a locked out user.
+
+  2.  Private Message Read -
+
+      A. This procedure has been cleaned up with slight verbage
+         changes and a reduction of variables required.
+
+      B. The Message Listing will now display one screen at a
+         time vice scrolling to the prompt.  Entering a "?"
+         will redisplay the message listing starting at the
+         first message. Pressing <Enter> will display the
+         next screen of messages and or start back at the
+         first message. A valid message number must be entered
+         in order to exit to read the message.
+

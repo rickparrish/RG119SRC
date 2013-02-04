@@ -1,0 +1,187 @@
+$System_Configuration_Menu
+%CL^5System Configuration:^1
+
+^1A. Main BBS Configuration                 B. Modem/Node Configuration
+^1C. System ACS Settings                    D. System Variables
+^1E. System Toggles                         F. File System Configuration
+^1G. Subscription/Validation System         H. Network Configuration
+^1I. Offline Mail Configuration             J. Color Configuration
+^1K. Archive Configuration                  L. Credit System Configuration
+^1M. New User Log-In Toggles
+
+^11. Time allowed per %CD                  2. Max calls per day
+^13. UL/DL # files ratio                    4. UL/DL K-bytes ratio
+^15. Post/Call ratio                        6. Max downloads per day
+^17. Max download kbytes per day            8. Update System Averages
+
+Enter selection [^5A^4-^5M^4,^51^4-^58^4,^5Q^4=^5Quit^4]: @
+$
+
+$Main_BBS_Configuration
+%CL^5Main BBS Configuration:^1
+
+^1A. BBS name/number  : ^5%BN ^1(^5%BP^1)
+^1B. Telnet Url       : ^5%TN
+^1C. SysOp's name     : ^5%SN{15 ^1D. Renegade Version   : ^5%VR
+^1E. SysOp chat hours : ^5%CS  ^1F. Minimum baud hours : ^5%BL
+^1G. Regular DL hours : ^5%DH  ^1H. Minimum baud DL hrs: ^5%BM
+^1I. BBS Passwords    :                 ^1J. Pre-event warning  : ^5%ET seconds
+^1K. System Menus     :                 ^1L. Bulletin Prefix    : ^5%PB
+^1M. MultiNode support: ^5%MN             ^1N. Network mode       : ^5%NM
+
+^10. Main data files dir.    : ^5%PD
+^11. Miscellaneous Files dir.: ^5%PM
+^12. Message file storage dir: ^5%P1
+^13. Nodelist (Version 7) dir: ^5%P2
+^14. Log files/trap files dir: ^5%PL
+^15. Temporary directory     : ^5%PT
+^16. Protocols directory     : ^5%PP
+^17. Archivers directory     : ^5%P7
+^18. File attach directory   : ^5%PF
+^19. String directory        : ^5%P3
+
+Enter selection [^5A^4-^5N^4,^50^4-^59^4,^5Q^4=^5Quit^4]: @
+$
+
+$Main_BBS_Configuration_BBS_Name
+%LFNew BBS name: @
+$
+
+$Main_BBS_Configuration_BBS_Phone
+%LFNew BBS phone number: @
+$
+
+$Main_BBS_Configuration_Telnet_URL
+%LF^1New Telnet Url:%LF^4: @
+$
+
+$Main_BBS_Configuration_SysOp_Name
+%LFNew SysOp name: @
+$
+
+$Main_BBS_Configuration_SysOp_Chat_Hours
+%LFDo you want to declare sysop chat hours? @
+$
+
+$Main_BBS_Configuration_Minimum_Baud_Hours
+%LFDo you want to declare hours people at the minimum baud can logon? @
+$
+
+$Main_BBS_Configuration_Download_Hours
+%LFDo you want to declare download hours? @
+$
+
+$Main_BBS_Configuration_Minimum_Baud_Download_Hours
+%LFDo you want to declare hours people at minimum baud can download? @
+$
+
+$Main_BBS_Configuration_SysOp_Password_Menu
+%CL^5System Passwords:^1
+
+^1A. SysOp password        : ^5%P4
+^1B. New user password     : ^5%P5
+^1C. Baud override password: ^5%P6
+
+Enter selection [^5A^4-^5C^4,^5<CR>^4=^5Quit^4]: @
+$
+
+$Main_BBS_Configuration_SysOp_Password
+%LFNew SysOp password: @
+$
+
+$Main_BBS_Configuration_New_User_Password
+%LFNew new-user password: @
+$
+
+$Main_BBS_Configuration_Baud_Override_Password
+%LFNew minimum baud rate override password: @
+$
+
+$Main_BBS_Configuration_Pre_Event_Time
+%LFNew pre-event warning time@
+$
+
+$Main_BBS_Configuration_System_Menus
+%CL^5System Menus:^1
+
+^11. Global       : ^5%M1
+^12. All Start    : ^5%M2
+^13. Shutle logon : ^5%M3
+^14. New user info: ^5%M4
+^15. Message Read : ^5%M5
+^16. File List    : ^5%M6
+
+Enter selection [^51^4-^56^4,^5<CR>^4=^5Quit^4]: @
+$
+
+$Main_BBS_Configuration_System_Menus_Global
+%LFMenu for global commands (^50^4=^5None^4)@
+$
+
+$Main_BBS_Configuration_System_Menus_Start
+%LFMenu to start all users at@
+$
+
+$Main_BBS_Configuration_System_Menus_Shuttle
+%LFMenu for shuttle logon (^50^4=^5None^4)@
+$
+
+$Main_BBS_Configuration_System_Menus_New_User
+%LFMenu for new user information@
+$
+
+$Main_BBS_Configuration_System_Menus_Message_Read
+%LFMenu for message read@
+$
+
+$Main_BBS_Configuration_System_Menus_File_Listing
+%LFMenu for file listing@
+$
+
+$Main_BBS_Configuration_Bulletin_Prefix
+%LFDefault bulletin prefix: @
+$
+
+$Main_BBS_Configuration_Local_Security
+%LFDo you want local security to remain on? @
+$
+
+$Main_BBS_Configuration_Data_Path
+%LF^1New data files path (^5End with a ^1"^5\^1"):%LF^4: @
+$
+
+$Main_BBS_Configuration_Misc_Path
+%LF^1New miscellaneous files path (^5End with a ^1"^5\^1"):%LF^4: @
+$
+
+$Main_BBS_Configuration_Msg_Path
+%LF^1New message files path (^5End with a ^1"^5\^1"):%LF^4: @
+$
+
+$Main_BBS_Configuration_NodeList_Path
+%LF^1New nodelist files path (^5End with a ^1"^5\^1"):%LF^4: @
+$
+
+$Main_BBS_Configuration_Log_Path
+%LF^1New sysop log files path (^5End with a ^1"^5\^1"):%LF^4: @
+$
+
+$Main_BBS_Configuration_Temp_Path
+%LF^1New temporary files path (^5End with a ^1"^5\^1"):%LF^4: @
+$
+
+$Main_BBS_Configuration_Protocol_Path
+%LF^1New protocol files path (^5End with a ^1"^5\^1"):%LF^4: @
+$
+
+$Main_BBS_Configuration_Archive_Path
+%LF^1New archive files path (^5End with a ^1"^5\^1"):%LF^4: @
+$
+
+$Main_BBS_Configuration_Attach_Path
+%LF^1New file attach files path (^5End with a ^1"^5\^1"):%LF^4: @
+$
+
+$Main_BBS_Configuration_String_Path
+%LF^1New string files path (^5End with a ^1"^5\^1"):%LF^4: @
+$

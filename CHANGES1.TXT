@@ -1,0 +1,44 @@
+File download buf fixes/enhancements:
+
+  1.  The Star procedure would carry the last color to the next
+      line, fixed.
+
+  2.  Downloading a file locally would increment various dl statistics,
+      fixed.
+
+  3.  Downloading an unlisted file locally will now prompt the sysop
+      or user for a path to copy the file to (Like a regular download
+      currently does).
+
+  4.  The copy command for local downloads, local unlisted downloads
+      and copy from CDRom now gives more detail as to the status of
+      the copy both to the user and sysop.log.
+
+  5.  Viewing a text file will now indicate that it was viewed vice
+      downloaded both to the user and sysop.log.
+
+  6.  Attemtping to view a text file that is missing will no longer
+      increment the DL statistics.
+
+  7.  The system should no longer allow downloading or uploading of
+      batch files locally.  It should also no longer increment DL/UL
+      statistics for batch transfers.
+
+  8.  The user record was saved everytime a file was selected for
+      download even if the download was aborted or not completed,
+      fixed.
+
+  9.  There was an error in the checking of DL codes against the
+      returncode when downloading files.  The DL codes in the
+      protocol record are currently strings.  This string was being
+      converted to a numeric value internally even if it were empty.
+      The string to numeric conversion routine would interpret this
+      empty string as a value of zero.  Since the value for success
+      was set to a zero also, the system would assume a successful
+      result.  Now, if the DLCode is a null string, it is not compared
+      against the return code.  You may now have to input a zero into
+      one of the DLCodes in the protocol record for a proper comparison.
+      This also applies to the ULCodes in the protocol record.
+
+ 10.  Removed an extra file area initialization procedure in the DLX
+      procedure.

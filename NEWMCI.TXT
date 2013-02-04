@@ -1,0 +1,40 @@
+36 New MCI Codes (08/25/06):
+
+CD - Time allowed per (day/call)
+CS - SysOp Chat Hours (Always Available or Low Time....High Time)
+BL - Baud Hours (Always Available or Low Time....High Time)
+DH - DL Hours (Always Available or Low Time....High Time)
+BM - Min Baud DL Hours (Always Available or Low Time....High Time)
+ET - Event Warning Time (Seconds)
+PB - Bulletin Prefix (8 Characters)
+MN - Multinode (On/Off)
+PD - Data Path (Complete Path)
+PM - Misc Path (Complete Path)
+P1 - Msg Path (Complete Path)
+P2 - Node Path (Complete Path)
+PL - Logs Path (Complete Path)
+PT - Temp Path (Complete Path)
+PP - Prot Path (Complete Path)
+PA - Acs Path (Complete Path)
+PF - File AttachPath (Complete Path)
+P3 - Mult Path (Complete Path)
+M1 - Global Menu (Menu Number)
+M2 - All Start Menu (Menu Number)
+M3 - Shuttle Logon Menu (Menu Number)
+M4 - New User Information Menu (Menu Number)
+M5 - Message Read Menu (Menu Number)
+M6 - File Listing Menu (Menu Number)
+P4 - SysOp PW
+P5 - NewUser PW
+P6 - MinBaudOverride PW
+H1 - SysOp Low Time
+H2 - SysOp Hi Time
+H3 - Minimum Baud Low Time
+H4 - Minimum Baud High Time
+H5 - Download Low Time
+H6 - Download High Time
+H7 - Minimum Baud Download Low Time
+H8 - Minimum Baud Download High Time
+M7 - Minimum Baud
+CA - Calls Allowed Per Day
+T1 - Time Allowed Per Day/Call
