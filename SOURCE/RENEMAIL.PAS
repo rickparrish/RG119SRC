@@ -68,7 +68,7 @@ VAR
 
   FidoFile: FILE;
 
-  HiWaterF: FILE OF Word;
+  HiWaterF: FILE OF SmallWord;
 
   General: GeneralRecordType;
 
@@ -719,7 +719,7 @@ END;
 PROCEDURE GetMsgLst(MemMsgPath: STRING; VAR LowMsg,HighMsg: Word);
 VAR
   FidoMsgNum,
-  HiWater: Word;
+  HiWater: SmallWord;
 BEGIN
   HiWater := 1;
   IF (NOT IsNetMail) THEN
@@ -797,7 +797,7 @@ BEGIN
       LowMsg := 2;
 END;
 
-PROCEDURE UpdateHiWater(MemMsgPath: STRING; HighWater: Word);
+PROCEDURE UpdateHiWater(MemMsgPath: STRING; HighWater: SmallWord);
 BEGIN
   Assign(HiWaterF,MemMsgPath+'HI_WATER.MRK');
   {$I-} ReWrite(HiWaterF); {$I+}

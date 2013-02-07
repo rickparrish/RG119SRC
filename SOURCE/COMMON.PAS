@@ -161,7 +161,7 @@ TYPE
 
   ConferenceKeyType = SET OF '@'..'Z';
 
-  CompArrayType = ARRAY[0..1] OF INTEGER;
+  CompArrayType = ARRAY[0..1] OF SMALLINT;
 
 CONST
   MCIBuffer: MCIBufferPtr = NIL;

@@ -46,6 +46,10 @@ CONST
   User_Phone_None = '';           {None for user phone fields}
 
 TYPE
+{$IFDEF MSDOS}
+  SmallInt = Integer;
+  SmallWord = Word;
+{$ENDIF}
   AStr = STRING[160];
   Str1 = STRING[1];
   Str2 = STRING[2];

@@ -50,7 +50,7 @@ USES
   TimeFunc;
 
 TYPE
-  DownLoadArrayType = ARRAY [0..99] OF Integer;
+  DownLoadArrayType = ARRAY [0..99] OF SmallInt;
 
 VAR
   DLArray: DownloadArrayType;

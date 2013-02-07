@@ -671,7 +671,7 @@ END;
 
 PROCEDURE ReadMail;
 TYPE
-  MessageArrayType = ARRAY [1..255] OF Word;
+  MessageArrayType = ARRAY [1..255] OF SmallWord;
 VAR
   MessageArray: MessageArrayType;
   User: UserRecordType;
