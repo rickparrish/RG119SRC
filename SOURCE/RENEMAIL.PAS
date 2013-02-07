@@ -2,7 +2,9 @@
 {$I DEFINES.INC}
 {$ENDIF}
 
+{$IFDEF MSDOS}
 {$M 49152,0,65536}
+{$ENDIF}
 {$A+,I-,E-,F+}
 
 PROGRAM ReneMail;
@@ -80,7 +82,9 @@ VAR
 
   FidoMsgHdr: FidoRecordType;
 
+{$IFDEF MSDOS}
   Regs: Registers;
+{$ENDIF}
 
   DirInfo: SearchRec;
 
@@ -842,11 +846,16 @@ BEGIN
       FCB[1] := Chr(Ord(MemMsgPath[1]) - 64)
     ELSE
       FCB[1] := Chr(Ord(StartDir[1]) - 64);
+{$IFDEF MSDOS}
     Regs.DS := Seg(FCB);
     Regs.DX := Ofs(FCB);
     Regs.AX := $1300;
     MSDOS(Regs);
     Purged := (Lo(Regs.AX) = 0);
+{$ENDIF}
+{$IFDEF WIN32}
+  WriteLn('REETODO RENEMAIL PurgeDir'); Halt;
+{$ENDIF}
   END
   ELSE
   BEGIN
@@ -1679,7 +1688,14 @@ BEGIN
       END;
 
       IF (IsNetMail) THEN
+{$IFDEF MSDOS}
         FidoMsgHdr.Attribute := Word(RGMsgHdr.NetAttribute)
+{$ENDIF}
+{$IFDEF WIN32}
+BEGIN
+  WriteLn('REETODO RENEMAIL Scan'); Halt;
+END
+{$ENDIF}
       ELSE IF (Prvt IN RGMsgHdr.Status) THEN
         FidoMsgHdr.Attribute := 257
       ELSE
