@@ -15,7 +15,7 @@ TODO list:<br />
 <ul>
   <li>Implement any REETODOs that appear in compiled executables</li>
   <li>Find/correct any usage of FOR loop variables after the loop (since they are 1 greater in VP than in BP</li>
-  <li>Find/correct any file i/o on untyped files where Words or LongInts are being read</li>
+  <li>Find/correct any file i/o on untyped files where Words or Integers are being read</li>
 </ul>
 
 Completed list<br />
