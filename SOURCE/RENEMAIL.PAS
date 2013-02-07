@@ -1998,6 +1998,9 @@ BEGIN
   GetDir(0,StartDir);
 
   FileMode := 66;
+{$IFDEF WIN32}
+  FileModeReadWrite := FileMode;
+{$ENDIF}
 
   GetGeneral(General);
 

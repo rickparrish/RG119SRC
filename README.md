@@ -14,7 +14,6 @@ Ported to Win32 by Rick Parrish<br />
 TODO list:<br />
 <ul>
   <li>Implement any REETODOs that appear in compiled executables</li>
-  <li>Investigate FILEMODE usage to see if FILEMODEREADWRITE, TEXTMODEREAD or TEXTMODEREADWRITE should be used</li>
   <li>Find/correct any usage of FOR loop variables after the loop (since they are 1 greater in VP than in BP</li>
   <li>Find/correct any file i/o on untyped files where Words or LongInts are being read</li>
 </ul>
@@ -28,4 +27,5 @@ Completed list<br />
   <li>WORD in RECORD to SMALLWORD</li>
   <li>INTEGER in RECORD to SMALLINT</li>
   <li>Anything passing 0 for the Attr parameter to FindFirst should pass AnyFile instead (VP returns no files when 0 is passed for Attr)</li>
+  <li>Investigate FILEMODE usage to see if FILEMODEREADWRITE, TEXTMODEREAD or TEXTMODEREADWRITE should be used</li>
 </ul>

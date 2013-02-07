@@ -236,6 +236,9 @@ BEGIN
   GetIntVec($14,Interrupt14);
 {$ENDIF}
   FileMode := 66;
+{$IFDEF WIN32}
+  FileModeReadWrite := FileMode;
+{$ENDIF}
   ExitSave := ExitProc;
   ExitProc := @ErrorHandle;
 
