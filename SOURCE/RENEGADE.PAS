@@ -1,3 +1,7 @@
+{$IFDEF WIN32}
+{$I DEFINES.INC}
+{$ENDIF}
+
 {$M 35500,0,131072}
 
 {                             R E N E G A D E                                }

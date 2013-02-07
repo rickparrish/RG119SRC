@@ -1,3 +1,7 @@
+{$IFDEF WIN32}
+{$I DEFINES.INC}
+{$ENDIF}
+
 {$M 49152,0,65536}
 {$A+,I-,E-,F+}
 
