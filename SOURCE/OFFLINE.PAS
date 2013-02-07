@@ -52,7 +52,7 @@ TYPE
     RNum: STRING[7];
     NumBlocks: ARRAY [1..6] OF Char;
     Status: Byte;
-    MBase: Word;
+    MBase: SmallWord;
     Crap: STRING[3];
   END;
 

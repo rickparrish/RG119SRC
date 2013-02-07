@@ -169,7 +169,7 @@ TYPE
     Name: STRING[36];                 { the user's name }
     Number,                           { user number          }
     Left,                             { Left node }
-    Right: Integer;                   { Right node }
+    Right: SmallInt;                   { Right node }
     RealName,                         { User's real name?    }
     Deleted: Boolean;                 { deleted or not       }
   END;
@@ -233,11 +233,11 @@ TYPE
     LastMsgArea,                       { # last msg area    }
     LastFileArea,                      { # last file area   }
     UnUsedInteger1,
-    UnUsedInteger2: Integer;
+    UnUsedInteger2: SmallInt;
 
     PasswordChanged,                   { Numeric date pw changed - was UnixTime }
     UnUsedWord1,
-    UnUsedWord2: Word;
+    UnUsedWord2: SmallWord;
 
     lCredit,                            { Amount OF credit   }
     Debit,                             { Amount OF debit    }
@@ -287,14 +287,14 @@ TYPE
   FromToInfo =                  { from/to information for mheaderrec }
 {$IFDEF WIN32} PACKED {$ENDIF} RECORD
     Anon: Byte;
-    UserNum: Word;              { user number   }
+    UserNum: SmallWord;              { user number   }
     A1S: STRING[36];            { posted as     }
     Real: STRING[36];           { real name     }
     Name: STRING[36];           { system name   }
     Zone,
     Net,
     Node,
-    Point: Word;
+    Point: SmallWord;
   END;
 
   MHeaderRec =
@@ -302,12 +302,12 @@ TYPE
     From,
     MTO: FromToInfo;                 { message from/to info    }
     Pointer: LongInt;                { starting record OF text }
-    TextSize: Word;                  { size OF text            }
-    ReplyTo: Word;                   { ORIGINAL + REPLYTO = CURRENT }
+    TextSize: SmallWord;                  { size OF text            }
+    ReplyTo: SmallWord;                   { ORIGINAL + REPLYTO = CURRENT }
     Date: UnixTime;                  { date/time PACKED STRING }
     DayOfWeek: Byte;                 { message day OF week     }
     Status: SET OF MsgStatusR;       { message status flags    }
-    Replies: Word;                   { times replied to        }
+    Replies: SmallWord;                   { times replied to        }
     Subject: STRING[40];             { subject OF message      }
     OriginDate: STRING[19];          { date OF echo/group msgs }
     FileAttached: Byte;              { 0=No, 1=Yes&Del, 2=Yes&Save }
@@ -341,7 +341,7 @@ TYPE
     UnArcLine,                     { de-compression cmdline }
     TestLine,                      { integrity test cmdline }
     CmtLine: STRING[25];           { comment cmdline        }
-    SuccLevel: Integer;            { success errorlevel, -1=ignore results }
+    SuccLevel: SmallInt;            { success errorlevel, -1=ignore results }
   END;
 
   ModemFlagType =         { MODEM.DAT status flags }
@@ -395,7 +395,7 @@ TYPE
     NewSL,                             { new SL }
     NewDSL,                            { new DSL }
     NewMenu: Byte;                     { User start out menu }
-    Expiration: Word;                  { days until expiration }
+    Expiration: SmallWord;                  { days until expiration }
     NewFP,                             { nothing }
     NewCredit: LongInt;                { new credit }
     SoftAR,                            { TRUE=AR added to current, else replaces }
@@ -530,13 +530,13 @@ TYPE
     CreditInternetMail,                { cost for Internet mail }
     BirthDateCheck,                    { check user's birthdate every xx logons }
     UnUsedInteger1,
-    UnUsedInteger2: Integer;
+    UnUsedInteger2: SmallInt;
 
     MaxQWKTotal,                       { max msgs in a packet, period }
     MaxQWKBase,                        { max msgs in a area }
     DaysOnline,                        { days online }
     UnUsedWord1,
-    UnUsedWord2: Word;
+    UnUsedWord2: SmallWord;
 
     MinimumBaud,                       { minimum baud rate to logon }
     MinimumDLBaud,                     { minimum baud rate to download }
@@ -618,7 +618,7 @@ TYPE
       Zone,                           { 21st is for UUCP address }
       Net,
       Node,
-      Point: Word;
+      Point: SmallWord;
     END;
 
     NewUserToggles: ARRAY [1..20] OF Byte;
@@ -639,7 +639,7 @@ TYPE
   ShortMessageRecordType =        { SHORTMSG.DAT : One-line messages }
 {$IFDEF WIN32} PACKED {$ENDIF} RECORD
     Msg: AStr;
-    Destin: Integer;
+    Destin: SmallInt;
   END;
 
   VotingRecordType =               { VOTING.DAT : Voting records }
@@ -648,14 +648,14 @@ TYPE
     Question2: STRING[60];         { Voting Question 2 }
     ACS: ACString;                 { ACS required to vote on this }
     ChoiceNumber: Byte;            { number OF choices }
-    NumVotedQuestion: Integer;     { number OF votes on it }
+    NumVotedQuestion: SmallInt;     { number OF votes on it }
     CreatedBy: STRING[36];         { who created it }
     AddAnswersACS: ACString;       { ACS required to add choices }
     Answers: ARRAY [1..25] OF
   {$IFDEF WIN32} PACKED {$ENDIF} RECORD
       Answer1,                     { answer description }
       Answer2: STRING[65];         { answer description #2 }
-      NumVotedAnswer: Integer;     { # user's who picked this answer }
+      NumVotedAnswer: SmallInt;     { # user's who picked this answer }
     END;
   END;
 
@@ -684,11 +684,11 @@ TYPE
     PostACS,                      { post access requirement }
     MCIACS,                       { MCI usage requirement }
     SysOpACS: ACString;           { Message area sysop requirement }
-    MaxMsgs: Word;                { max message count }
+    MaxMsgs: SmallWord;                { max message count }
     Anonymous: AnonTyp;           { anonymous type }
     Password: STRING[20];         { area password }
     MAFlags: MAFlagSet;           { message area status vars }
-    MAType: Integer;             { Area type (0=Local,1=Echo, 3=Qwk) }
+    MAType: SmallInt;             { Area type (0=Local,1=Echo, 3=Qwk) }
     Origin: STRING[50];           { origin line }
     Text_Color,                   { color OF standard text }
     Quote_Color,                  { color OF quoted text }
@@ -699,7 +699,7 @@ TYPE
     QuoteEnd: STRING[70];
     PrePostFile: STRING[8];
     AKA: Byte;                    { alternate address }
-    QWKIndex: Word;               { QWK indexing number }
+    QWKIndex: SmallWord;               { QWK indexing number }
   END;
 
   FileAreaFlagType =
@@ -720,7 +720,7 @@ TYPE
     FileName: STRING[8];          { filename + ".DIR" }
     DLPath,                       { download path     }
     ULPath: STRING[40];           { upload path       }
-    MaxFiles: Integer;            { max files allowed - VerbRec Limit would allow up to LongInt Value or Maximum 433835}
+    MaxFiles: SmallInt;            { max files allowed - VerbRec Limit would allow up to LongInt Value or Maximum 433835}
     Password: STRING[20];         { password required }
     ArcType,                      { wanted archive type (1..max,0=inactive) }
     CmtType: Byte;                { wanted comment type (1..3,0=inactive) }
@@ -746,14 +746,14 @@ TYPE
   {$IFDEF WIN32} PACKED {$ENDIF} RECORD
     FileName: STRING[12];          { Filename }
     Description: STRING[50];       { File description }
-    FilePoints: Integer;           { File points }
+    FilePoints: SmallInt;           { File points }
     Downloaded: LongInt;           { Number DLs }
     FileSize: LongInt;             { File size in Bytes }
-    OwnerNum: Integer;             { ULer OF file }
+    OwnerNum: SmallInt;             { ULer OF file }
     OwnerName: STRING[36];         { ULer's name }
     FileDate: UnixTime;            { Date ULed }
     VPointer: LongInt;             { Pointer to verbose descr, -1 if none }
-    VTextSize: Integer;            { Verbose descr textsize - 50 Bytes x 99 Lines = 4950 max }
+    VTextSize: SmallInt;            { Verbose descr textsize - 50 Bytes x 99 Lines = 4950 max }
     FIFlags: FIFlagSet;            { File status }
   END;
 
@@ -774,7 +774,7 @@ TYPE
     MsgRead,                       { Messages Read }
     MsgPost,                       { Messages Posted }
     EmailSent,                     { Email sent }
-    FeedbackSent: Word;             { Feedback sent }
+    FeedbackSent: SmallWord;             { Feedback sent }
     UK,                            { Upload/Download kbytes during call }
     DK: LongInt;
     Reserved: ARRAY [1..17] OF Byte; { Reserved }
@@ -813,7 +813,7 @@ TYPE
     EventDayOfMonth: BYTE;        {If monthly, the Day of Month}
     EventDays: EventDaysType;     {If Daily, the Days Active}
     EventStartTime,               {Start Time in Min from Mid.}
-    EventFinishTime: WORD;        {Finish Time}
+    EventFinishTime: SmallWord;        {Finish Time}
     EventQualMsg,                 {Msg/Path if he qualifies}
     EventNotQualMsg: STRING[64];  {Msg/Path if he doesn't}
     EventPreTime: BYTE;           {Min. B4 event to rest. Call}
@@ -824,7 +824,7 @@ TYPE
     LoBaud,                       {Low baud rate limit}
     HiBaud: LongInt;              {High baud rate limit}
     EventACS: ACString;           {Event ACS}
-    MaxTimeAllowed: WORD;         {Max Time per user this event}
+    MaxTimeAllowed: SmallWord;         {Max Time per user this event}
     SetARflag,                    {AR Flag to Set}
     ClearARflag: CHAR;            {AR Flag to Clear}
     EFlags: EFlagSet;             {Kinds of Events Supported}   { Changed }
@@ -881,7 +881,7 @@ TYPE
 
   NodeRecordType =                         { MULTNODE.DAT }
 {$IFDEF WIN32} PACKED {$ENDIF} RECORD
-    User: Word;                                 { What user number }
+    User: SmallWord;                                 { What user number }
     UserName: STRING[36];                       { User's name }
     CityState: STRING[30];                      { User's location }
     Sex: Char;                                  { User's sex }
@@ -891,7 +891,7 @@ TYPE
     ActivityDesc: STRING[50];                   { Activity STRING }
     Status: NodeFlagSet;
     Room: Byte;                                 { What room are they in? }
-    Channel: Word;                              { What channel are they in? }
+    Channel: SmallWord;                              { What channel are they in? }
     Invited,                                    { Have they been invited ? }
     Booted,                                     { Have they been kicked off ? }
     Forget: ARRAY [0..31] OF SET OF 0..7;       { Who are they forgetting? }
@@ -903,7 +903,7 @@ TYPE
     Anonymous: Boolean;            { Is Room anonymous ?         }
     Private: Boolean;              { Is Room private ?           }
     Occupied: Boolean;             { Is anyone in here?          }
-    Moderator: Word;               { Who's the moderator?        }
+    Moderator: SmallWord;               { Who's the moderator?        }
   END;
 
   ScanRec =                         { *.SCN files / MESSAGES }

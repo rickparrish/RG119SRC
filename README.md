@@ -13,8 +13,6 @@ Ported to Win32 by Rick Parrish<br />
 
 TODO list:<br />
 <ul>
-  <li>WORD in RECORD to SMALLWORD</li>
-  <li>INTEGER in RECORD to SMALLINT</li>
   <li>Implement any REETODOs that appear in compiled executables</li>
   <li>Anything passing 0 for the Attr parameter to FindFirst should pass AnyFile instead (VP returns no files when 0 is passed for Attr)</li>
   <li>Investigate FILEMODE usage to see if FILEMODEREADWRITE, TEXTMODEREAD or TEXTMODEREADWRITE should be used</li>
@@ -28,4 +26,6 @@ Completed list<br />
   <li>IFDEF out any ASM code blocks and handle the same as above</li>
   <li>TYPEs of OF WORD to OF SMALLWORD (just in case they're used in a RECORD)</li>
   <li>TYPEs of OF INTEGER to OF SMALLINT (just in case they're used in a RECORD)</li>
+  <li>WORD in RECORD to SMALLWORD</li>
+  <li>INTEGER in RECORD to SMALLINT</li>
 </ul>

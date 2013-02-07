@@ -35,16 +35,16 @@ TYPE
     ToUserName: STRING[35];
     Subject: STRING[71];
     DateTime: STRING[19];
-    TimesRead: Word;
-    DestNode: Word;
-    OrigNode: Word;
-    Cost: Word;
-    OrigNet: Word;
-    DestNet: Word;
+    TimesRead: SmallWord;
+    DestNode: SmallWord;
+    OrigNode: SmallWord;
+    Cost: SmallWord;
+    OrigNet: SmallWord;
+    DestNet: SmallWord;
     Filler: ARRAY[1..8] OF Char;
-    ReplyTo: Word;
-    Attribute: Word;
-    NextReply: Word;
+    ReplyTo: SmallWord;
+    Attribute: SmallWord;
+    NextReply: SmallWord;
   END;
 
   BufferArrayType = ARRAY[1..32767] OF Char;

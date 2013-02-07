@@ -52,7 +52,7 @@ TYPE
   LightBarRecordType = RECORD
     XPos,
     YPos: Byte;
-    CmdToExec: Integer;
+    CmdToExec: SmallInt;
     CmdToShow: STRING[40];
   END;
 
@@ -99,7 +99,7 @@ TYPE
     BDLUserNum,
     BDLSection,
     BDLPoints,
-    BDLUploader: Integer;
+    BDLUploader: SmallInt;
     BDLFSize,
     BDLTime: LongInt;
     BDLFlags: TransferFlagSet;
@@ -108,10 +108,10 @@ TYPE
   BatchULRecordType = RECORD
     BULFileName: Str12;
     BULUserNum,
-    BULSection: Integer;
+    BULSection: SmallInt;
     BULDescription: Str50;
     BULVPointer: LongInt;
-    BULVTextSize: Integer;
+    BULVTextSize: SmallInt;
   END;
 
   ExtendedDescriptionArray = ARRAY [1..99] OF Str50;

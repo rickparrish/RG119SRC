@@ -25,7 +25,7 @@ TYPE
     Drive: Char;
     FirstRecNum,
     LastRecNum,
-    RecNumToEdit: Integer;
+    RecNumToEdit: SmallInt;
   END;
 
 CONST

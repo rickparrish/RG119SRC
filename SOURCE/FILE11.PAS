@@ -14,7 +14,7 @@ USES
 TYPE
   FileRecType = RECORD
     FArrayFileArea,
-    FArrayDirFileRecNum: Integer;
+    FArrayDirFileRecNum: SmallInt;
   END;
 
   FileArrayType = ARRAY [0..99] OF FileRecType;

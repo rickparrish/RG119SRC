@@ -52,23 +52,23 @@ TYPE
   ArcRecordType = RECORD   {* structure of ARC archive file header *}
     FileName: ARRAY [0..12] OF Char; {* FileName *}
     C_Size: LongInt;     {* compressed size *}
-    Mod_Date: Integer;   {* last mod file Date *}
-    Mod_Time: Integer;   {* last mod file Time *}
-    CRC: Integer;        {* CRC *}
+    Mod_Date: SmallInt;   {* last mod file Date *}
+    Mod_Time: SmallInt;   {* last mod file Time *}
+    CRC: SmallInt;        {* CRC *}
     U_Size: LongInt;     {* uncompressed size *}
   END;
 
   ZipRecordType = RECORD   {* structure of ZIP archive file header *}
-    Version: Integer;    {* Version needed to extract *}
-    Bit_Flag: Integer;   {* General purpose bit flag *}
-    Method: Integer;     {* compression Method *}
-    Mod_Time: Integer;   {* last mod file Time *}
-    Mod_Date: Integer;   {* last mod file Date *}
+    Version: SmallInt;    {* Version needed to extract *}
+    Bit_Flag: SmallInt;   {* General purpose bit flag *}
+    Method: SmallInt;     {* compression Method *}
+    Mod_Time: SmallInt;   {* last mod file Time *}
+    Mod_Date: SmallInt;   {* last mod file Date *}
     CRC: LongInt;        {* CRC-32 *}
     C_Size: LongInt;     {* compressed size *}
     U_Size: LongInt;     {* uncompressed size *}
-    F_Length: Integer;   {* FileName Length *}
-    E_Length: Integer;   {* extra field Length *}
+    F_Length: SmallInt;   {* FileName Length *}
+    E_Length: SmallInt;   {* extra field Length *}
   END;
 
   ZooRecordType = RECORD   {* structure of ZOO archive file header *}
@@ -77,9 +77,9 @@ TYPE
     Method: Byte;     {* 0 = Stored, 1 = Crunched *}
     Next: LongInt;    {* position of Next directory entry *}
     Offset: LongInt;  {* position of this file *}
-    Mod_Date: Word;   {* modification Date (DOS format) *}
-    Mod_Time: Word;   {* modification Time (DOS format) *}
-    CRC: Word;        {* CRC *}
+    Mod_Date: SmallWord;   {* modification Date (DOS format) *}
+    Mod_Time: SmallWord;   {* modification Time (DOS format) *}
+    CRC: SmallWord;        {* CRC *}
     U_Size: LongInt;  {* uncompressed size *}
     C_Size: LongInt;  {* compressed size *}
     Major_V: Char;    {* major Version number *}
@@ -87,11 +87,11 @@ TYPE
     Deleted: Byte;    {* 0 = active, 1 = Deleted *}
     Struc: Char;      {* file structure if any *}
     Comment: LongInt; {* location of file Comment (0 = none) *}
-    Cmt_Size: Word;   {* Length of Comment (0 = none) *}
+    Cmt_Size: SmallWord;   {* Length of Comment (0 = none) *}
     FName: ARRAY [0..12] OF Char; {* FileName *}
-    Var_DirLen: Integer; {* Length of variable part of dir entry *}
+    Var_DirLen: SmallInt; {* Length of variable part of dir entry *}
     TZ: Char;         {* timezone where file was archived *}
-    Dir_Crc: Word;    {* CRC of directory entry *}
+    Dir_Crc: SmallWord;    {* CRC of directory entry *}
   END;
 
   LZHRecordType = RECORD   {* structure of LZH archive file header *}
@@ -100,11 +100,11 @@ TYPE
     Method: ARRAY [1..5] OF Char; {* compression TYPE "-lh#-" *}
     C_Size: LongInt;  {* compressed size *}
     U_Size: LongInt;  {* uncompressed size *}
-    Mod_Time: Integer;{* last mod file Time *}
-    Mod_Date: Integer;{* last mod file Date *}
-    Attrib: Integer;  {* file attributes *}
+    Mod_Time: SmallInt;{* last mod file Time *}
+    Mod_Date: SmallInt;{* last mod file Date *}
+    Attrib: SmallInt;  {* file attributes *}
     F_Length: Byte;   {* Length of FileName *}
-    CRC: Integer;     {* CRC *}
+    CRC: SmallInt;     {* CRC *}
   END;
 
   ARJRecordType = RECORD
@@ -117,20 +117,20 @@ TYPE
     FileType: Byte;
     GarbleMod: Byte;
     Time,
-    Date: Integer;
+    Date: SmallInt;
     CompSize: LongInt;
     OrigSize: LongInt;
     OrigCRC: ARRAY[1..4] OF Byte;
-    EntryName: Word;
-    AccessMode: Word;
-    HostData: Word;
+    EntryName: SmallWord;
+    AccessMode: SmallWord;
+    HostData: SmallWord;
   END;
 
   OutRec = RECORD      {* output information structure *}
     FileName: AStr;    {* output file name *}
     Date,              {* output Date *}
     Time,              {* output Time *}
-    Method: Integer;   {* output storage type *}
+    Method: SmallInt;   {* output storage type *}
     CSize,             {* output compressed size *}
     USize: LongInt;    {* output uncompressed size *}
   END;
@@ -316,8 +316,8 @@ PROCEDURE ARJ_Proc(VAR ArjFile: FILE;
                    VAR Aborted: Boolean);
 TYPE
   ARJSignature = RECORD
-    MagicNumber: Word;
-    BasicHdrSiz: Word;
+    MagicNumber: SmallWord;
+    BasicHdrSiz: SmallWord;
   END;
 VAR
   Hdr: ARJRecordType;

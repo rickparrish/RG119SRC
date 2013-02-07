@@ -30,10 +30,10 @@ TYPE
     Zone, 											{ Zone of board 							}
     Net,												{ Net Address of board				}
     Node, 											{ Node Address of board 			}
-    Point: Integer;				{ Either Point number OR 0		}
+    Point: SmallInt;				{ Either Point number OR 0		}
     CallCost, 									{ Cost to sysop to send 			}
     MsgFee, 										{ Cost to user to send				}
-    NodeFlags: Word; 				{ Node flags									}
+    NodeFlags: SmallWord; 				{ Node flags									}
     ModemType,									{ Modem TYPE									}
     PassWord: STRING[9];
     Phone,
@@ -46,34 +46,34 @@ TYPE
 
   IndxRefBlk = RECORD
     IndxOfs,  		{ Offset of STRING into block }
-    IndxLen: Word; 	{ Length of STRING						}
+    IndxLen: SmallWord; 	{ Length of STRING						}
     IndxData,         	{ RECORD number of STRING 		}
     IndxPtr: LongInt;	{ Block number of lower index }
   END;  { IndxRef }
 
   LeafRefBlk = RECORD
     KeyOfs,  		{ Offset of STRING into block }
-    KeyLen: Word;	{ Length of STRING						}
+    KeyLen: SmallWord;	{ Length of STRING						}
     KeyVal: LongInt;	{ Pointer to Data block 			}
   END; 	{ LeafRef }
 
   CtlBlk = RECORD
-    CtlBlkSize: Word; 	{ blocksize of Index blocks 	}
+    CtlBlkSize: SmallWord; 	{ blocksize of Index blocks 	}
     CtlRoot,										{ Block number of Root				}
     CtlHiBlk, 									{ Block number of last block	}
     CtlLoLeaf,		{ Block number of first leaf	}
     CtlHiLeaf,		{ Block number of last leaf 	}
     CtlFree: LongInt;	{ Head of freelist						}
     CtlLvls, 		{ Number of index levels			}
-    CtlParity: Word; 	{ XOR of above fields 				}
+    CtlParity: SmallWord; 	{ XOR of above fields 				}
   END;
 
   INodeBlk = RECORD
     IndxFirst,			{ Pointer to next lower level }
     IndxBLink,			{ Pointer to previous link		}
     IndxFLink: LongInt;			{ Pointer to next link				}
-    IndxCnt: Integer;			{ Count of Items IN block 		}
-    IndxStr: Word; 				{ Offset IN block of 1st str	}
+    IndxCnt: SmallInt;			{ Count of Items IN block 		}
+    IndxStr: SmallWord; 				{ Offset IN block of 1st str	}
 								{ IF IndxFirst is NOT -1, this is INode:	}
     IndxRef: ARRAY [0..49] OF IndxRefBlk;
   END;
@@ -82,8 +82,8 @@ TYPE
     IndxFirst,			{ Pointer to next lower level }
     IndxBLink,			{ Pointer to previous link		}
     IndxFLink: LongInt;			{ Pointer to next link				}
-    IndxCnt: Integer;			{ Count of Items IN block 		}
-    IndxStr: Word; 				{ Offset IN block of 1st str	}
+    IndxCnt: SmallInt;			{ Count of Items IN block 		}
+    IndxStr: SmallWord; 				{ Offset IN block of 1st str	}
     LeafRef: ARRAY [0..49] OF LeafRefBlk;
   END;
 
@@ -184,7 +184,7 @@ TYPE
     Zone,
     Net,
     Node,
-    Point: Word;
+    Point: SmallWord;
   END;
 VAR
   Key: NodeType ABSOLUTE ALine;
@@ -253,7 +253,7 @@ VAR
       Zone,
       Net,
       Node,
-      Point: Word;
+      Point: SmallWord;
     END;
   VAR
     Address: NodeType;
@@ -329,10 +329,10 @@ VAR
       Zone, 											{ Zone of board 							}
       Net,												{ Net Address of board				}
       Node, 											{ Node Address of board 			}
-      Point: Integer;				{ Either Point number OR 0		}
+      Point: SmallInt;				{ Either Point number OR 0		}
       CallCost, 									{ Cost to sysop to send 			}
       MsgFee, 										{ Cost to user to send				}
-      NodeFlags: Word; 				{ Node flags									}
+      NodeFlags: SmallWord; 				{ Node flags									}
       ModemType,									{ Modem TYPE									}
       PhoneLen, 									{ Length of Phone Number			}
       PassWordLen,								{ Length of Password					}

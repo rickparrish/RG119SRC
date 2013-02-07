@@ -161,7 +161,7 @@ END;
 PROCEDURE ReZipStuff;
 TYPE
   TotalsRecordType = RECORD
-    TotalFiles: Integer;
+    TotalFiles: SmallInt;
     TotalOldSize,
     TotalNewSize: LongInt
   END;
