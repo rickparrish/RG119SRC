@@ -762,7 +762,7 @@ BEGIN
         LogError(MemMsgPath+'HI_WATER.MRK/Read Record 0 Error - '+IntToStr(LastError)+' (Proc: GetMsgList)');
         Exit;
       END;
-      FindFirst(MemMsgPath+IntToStr(HiWater)+'.MSG',0,DirInfo);
+      FindFirst(MemMsgPath+IntToStr(HiWater)+'.MSG',AnyFile,DirInfo);
       IF (DOSError <> 0) THEN
         HiWater := 1;
     END;
@@ -779,7 +779,7 @@ BEGIN
   END;
   HighMsg := 1;
   LowMsg := 65535;
-  FindFirst(MemMsgPath+'*.MSG',0,DirInfo);
+  FindFirst(MemMsgPath+'*.MSG',AnyFile,DirInfo);
   WHILE (DOSError = 0) DO
   BEGIN
     FidoMsgNum := StrToInt(DirInfo.Name);
@@ -868,7 +868,7 @@ BEGIN
   ELSE
   BEGIN
     Purged := TRUE;
-    FindFirst(MemMsgPath+'*.MSG',0,DirInfo);
+    FindFirst(MemMsgPath+'*.MSG',AnyFile,DirInfo);
     IF (DOSError <> 0) THEN
       Purged := FALSE
     ELSE

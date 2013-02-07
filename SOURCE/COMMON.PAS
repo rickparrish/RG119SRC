@@ -3857,7 +3857,7 @@ FUNCTION MaxChatRec: LongInt;
 VAR
   DirInfo1: SearchRec;
 BEGIN
-  FindFirst(General.TempPath+'MSG'+IntToStr(ThisNode)+'.TMP',0,DirInfo1);
+  FindFirst(General.TempPath+'MSG'+IntToStr(ThisNode)+'.TMP',AnyFile,DirInfo1);
   IF (DOSError = 0) THEN
     MaxChatRec := DirInfo1.Size
   ELSE
@@ -3868,7 +3868,7 @@ FUNCTION MaxNodes: Byte;
 VAR
   DirInfo1: SearchRec;
 BEGIN
-  FindFirst(General.DataPath+'MULTNODE.DAT',0,DirInfo1);
+  FindFirst(General.DataPath+'MULTNODE.DAT',AnyFile,DirInfo1);
   IF (DOSError = 0) THEN
     MaxNodes := (DirInfo1.Size DIV SizeOf(NodeRecordType))
   ELSE
@@ -3963,7 +3963,7 @@ FUNCTION MaxUsers: Integer;
 VAR
   DirInfo1: SearchRec;
 BEGIN
-  FindFirst(General.DataPath+'USERS.DAT',0,DirInfo1);
+  FindFirst(General.DataPath+'USERS.DAT',AnyFile,DirInfo1);
   IF (DOSError = 0) THEN
     MaxUsers := (DirInfo1.Size DIV SizeOf(UserRecordType))
   ELSE
@@ -3974,7 +3974,7 @@ FUNCTION MaxIDXRec: Integer;
 VAR
   DirInfo1: SearchRec;
 BEGIN
-  FindFirst(General.DataPath+'USERS.IDX',0,DirInfo1);
+  FindFirst(General.DataPath+'USERS.IDX',AnyFile,DirInfo1);
   IF (DOSError = 0) THEN
     MaxIDXRec := (DirInfo1.Size DIV SizeOf(UserIDXRec))
   ELSE
@@ -3987,7 +3987,7 @@ FUNCTION HiMsg: Word;
 VAR
   DirInfo1: SearchRec;
 BEGIN
-  FindFirst(General.MsgPath+MemMsgArea.FileName+'.HDR',0,DirInfo1);
+  FindFirst(General.MsgPath+MemMsgArea.FileName+'.HDR',AnyFile,DirInfo1);
   IF (DOSError = 0) THEN
     HiMsg := (DirInfo1.Size DIV SizeOf(MHeaderRec))
   ELSE
