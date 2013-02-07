@@ -47,7 +47,11 @@ USES
   SysOp11,
   SysOp12,
   TimeFunc,
-  MiscUser;
+  MiscUser
+{$IFDEF WIN32}
+  ,Windows
+{$ENDIF}
+  ;
 
 VAR
   LastKeyPress: LongInt;
@@ -946,9 +950,14 @@ BEGIN
 
     DailyMaint;
 
+{$IFDEF MSDOS}
     ASM
       Int 28h
     END;
+{$ENDIF}
+{$IFDEF WIN32}
+    Sleep(1);
+{$ENDIF}
 
     IF (AnswerBaud = 0) THEN
     BEGIN

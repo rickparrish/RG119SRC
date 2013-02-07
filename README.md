@@ -13,7 +13,6 @@ Ported to Win32 by Rick Parrish<br />
 
 TODO list:<br />
 <ul>
-  <li>IFDEF out any ASM code blocks and handle the same as above</li>
   <li>WORD in RECORD to SMALLWORD</li>
   <li>INTEGER in RECORD to SMALLINT</li>
   <li>TYPEs of OF WORD to OF SMALLWORD (just in case they're used in a RECORD)</li>
@@ -27,4 +26,5 @@ TODO list:<br />
 Completed list<br />
 <ul>
   <li>IFDEF out anything that doesn't compile and make a WIN32 placeholder that does a "WriteLn('REETODO UNIT FUNCTION'); Halt;" (then you can grep the executables for REETODO to see which REETODOs actually need to be implemented)</li>
+  <li>IFDEF out any ASM code blocks and handle the same as above</li>
 </ul>

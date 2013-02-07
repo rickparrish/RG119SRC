@@ -29,7 +29,11 @@ USES
   LineChat,
   SysOp2G,
   SysOp3,
-  SplitCha;
+  SplitCha
+{$IFDEF WIN32}
+  ,Windows
+{$ENDIF}
+  ;
 
 CONST
   SYSKEY_LENGTH = 1269;
@@ -155,6 +159,7 @@ CONST
     'H','o','u','r','s',':',#25,#6 ,'M','a','i','l',' ',':',#25,#6 ,'O',
     'v','e','r','l','a','y','s',':',#25,#7 ,#24);
 
+{$IFDEF MSDOS}
 PROCEDURE BiosScroll(up: Boolean); ASSEMBLER;
 ASM
   Mov cx,0
@@ -171,6 +176,13 @@ ASM
   @Go:
   Int 10h
 END;
+{$ENDIF}
+{$IFDEF WIN32}
+PROCEDURE BiosScroll(up: Boolean);
+BEGIN
+  WriteLn('REETODO COMMON2 BiosScroll'); Halt;
+END;
+{$ENDIF}
 
 PROCEDURE CPR(c1,c2: Byte);
 VAR
@@ -845,9 +857,14 @@ BEGIN
              REPEAT
                OutKey(^G);
                Delay(500);
+{$IFDEF MSDOS}
                ASM
                 Int 28h
                END;
+{$ENDIF}
+{$IFDEF WIN32}
+               Sleep(1);
+{$ENDIF}
                CheckHangUp;
              UNTIL ((NOT Empty) OR (HangUp));
              Update_Screen;

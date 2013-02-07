@@ -71,6 +71,7 @@ IMPLEMENTATION
 USES
   Crt;
 
+{$IFDEF MSDOS}
 PROCEDURE CursorOn(b: BOOLEAN); ASSEMBLER;
 ASM
   cmp b, 1
@@ -85,6 +86,13 @@ ASM
   mov ah,1
   int 10h
 END;
+{$ENDIF}
+{$IFDEF WIN32}
+PROCEDURE CursorOn(b: BOOLEAN);
+BEGIN
+  WriteLn('REETODO MYIO CursorOn'); Halt;
+END;
+{$ENDIF}
 
 PROCEDURE infield1(x,y: Byte; VAR s: AStr; Len: Byte);
 VAR

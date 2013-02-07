@@ -672,6 +672,7 @@ USES
   Vote
 {$IFDEF WIN32}
   ,VPUtils
+  ,Windows
 {$ENDIF}
   ;
 
@@ -2810,6 +2811,7 @@ BEGIN
         BEGIN
           IF (ABS((Ticks - LastTimeSlice)) >= General.Slicetimer) THEN
           BEGIN
+{$IFDEF MSDOS}
             CASE Tasker OF
               None : ASM
                        int 28h
@@ -2832,6 +2834,10 @@ BEGIN
                        Pop dx
                      END;
             END;
+{$ENDIF}
+{$IFDEF WIN32}
+            Sleep(1);
+{$ENDIF}
             LastTimeSlice := Ticks;
           END
           ELSE IF (MultiNodeChat) AND (NOT InChat) AND (ABS(Ticks - LastCheckTimeSlice) > 9) THEN
@@ -2996,6 +3002,7 @@ BEGIN
   END;
 END;
 
+{$IFDEF MSDOS}
 FUNCTION AOnOff(b: Boolean; CONST s1,s2:AStr): STRING; ASSEMBLER;
 ASM
   PUSH ds
@@ -3014,6 +3021,13 @@ ASM
   REP  MOVSB
   POP  ds
 END;
+{$ENDIF}
+{$IFDEF WIN32}
+FUNCTION AOnOff(b: Boolean; CONST s1,s2:AStr): STRING;
+BEGIN
+  WriteLn('REETODO COMMON AOnOff'); Halt;
+END;
+{$ENDIF}
 
 FUNCTION ShowOnOff(b: Boolean): STRING;
 BEGIN

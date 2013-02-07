@@ -340,6 +340,7 @@ VAR
     Inc(Cp);
   END;
 
+{$IFDEF MSDOS}
   PROCEDURE SetCursor(InsertMode: Boolean); ASSEMBLER;
   ASM
     cmp InsertMode,0
@@ -354,6 +355,13 @@ VAR
     mov ah,1
     int 10h
   END;
+{$ENDIF}
+{$IFDEF WIN32}
+  PROCEDURE SetCursor(InsertMode: Boolean);
+  BEGIN
+    WriteLn('REETODO COMMON3 SetCursor'); Halt;
+  END;
+{$ENDIF}
 
 BEGIN
   FirstKey := FALSE;

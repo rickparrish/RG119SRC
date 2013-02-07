@@ -817,12 +817,17 @@ FUNCTION SchareLoaded: Boolean;
 VAR
   T_Al: Byte;
 BEGIN
+{$IFDEF MSDOS}
   ASM
     Mov Ah,10h
     Mov Al,0h
     Int 2fh
     Mov T_Al,Al
   END;
+{$ENDIF}
+{$IFDEF WIN32}
+  T_Al := $FF;
+{$ENDIF}
   SchareLoaded := (T_Al = $FF);
 END;
 

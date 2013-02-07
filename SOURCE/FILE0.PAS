@@ -41,7 +41,11 @@ USES
   Dos,
   File1,
   ShortMsg,
-  TimeFunc;
+  TimeFunc
+{$IFDEF WIN32}
+  ,Windows
+{$ENDIF}
+  ;
 
 FUNCTION CompFileArea(FArea,ArrayNum: Integer): Integer;
 VAR
@@ -585,9 +589,14 @@ BEGIN
       SaveTimer := Timer;
     END
     ELSE
+{$IFDEF MSDOS}
       ASM
         Int 28h
       END;
+{$ENDIF}
+{$IFDEF WIN32}
+      Sleep(1);
+{$ENDIF}
   END;
   IF (Cmd <> #27) THEN
   BEGIN
