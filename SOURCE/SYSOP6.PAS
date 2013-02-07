@@ -137,7 +137,7 @@ VAR
     END;
   END;
 
-  PROCEDURE DeleteEvent(TempEvent1: EventRecordType; RecNumToDelete: Integer);
+  PROCEDURE DeleteEvent(TempEvent1: EventRecordType; RecNumToDelete: SmallInt);
   VAR
     RecNum: Integer;
   BEGIN
@@ -192,7 +192,7 @@ VAR
 
 
   PROCEDURE EditEvent(TempEvent1: EventRecordType; VAR Event: EventRecordType; VAR Cmd1: Char;
-                      VAR RecNumToEdit: Integer; VAR Changed: Boolean; Editing: Boolean);
+                      VAR RecNumToEdit: SmallInt; VAR Changed: Boolean; Editing: Boolean);
   CONST
     BaudRates: ARRAY [1..20] OF LongInt = (300,600,1200,2400,4800,7200,9600,
                                           12000,14400,16800,19200,21600,24000,
@@ -750,10 +750,10 @@ VAR
       UNTIL (Pos(Cmd1,'Q[]FJL') <> 0) OR (HangUp);
   END;
 
-  PROCEDURE InsertEvent(TempEvent1: EventRecordType; Cmd1: Char; RecNumToInsertBefore: Integer);
+  PROCEDURE InsertEvent(TempEvent1: EventRecordType; Cmd1: Char; RecNumToInsertBefore: SmallInt);
   VAR
     RecNum,
-    RecNumToEdit: Integer;
+    RecNumToEdit: SmallInt;
     Ok,
     Changed: Boolean;
   BEGIN
@@ -808,7 +808,7 @@ VAR
     END;
   END;
 
-  PROCEDURE ModifyEvent(TempEvent1: EventRecordType; Cmd1: Char; RecNumToEdit: Integer);
+  PROCEDURE ModifyEvent(TempEvent1: EventRecordType; Cmd1: Char; RecNumToEdit: SmallInt);
   VAR
     SaveRecNumToEdit: Integer;
     Ok,
@@ -859,11 +859,11 @@ VAR
     END;
   END;
 
-  PROCEDURE PositionEvent(TempEvent1: EventRecordType; RecNumToPosition: Integer);
+  PROCEDURE PositionEvent(TempEvent1: EventRecordType; RecNumToPosition: SmallInt);
   VAR
     RecNumToPositionBefore,
     RecNum1,
-    RecNum2: Integer;
+    RecNum2: SmallInt;
   BEGIN
     IF (NumEvents = 0) THEN
       Messages(4,0,'events')

@@ -53,7 +53,7 @@ VAR
   END;
 
   PROCEDURE LocateHistoryDate(DisplayStr: AStr; TempHistory1: HistoryRecordType; VAR DateToLocate: Str10;
-                              VAR RecNum1: Integer; ShowErr,Searching: Boolean);
+                              VAR RecNum1: SmallInt; ShowErr,Searching: Boolean);
   VAR
     RecNum: Integer;
   BEGIN
@@ -82,7 +82,7 @@ VAR
     END;
   END;
 
-  PROCEDURE DeleteHistoryRecord(TempHistory1: HistoryRecordType; RecNumToDelete: Integer);
+  PROCEDURE DeleteHistoryRecord(TempHistory1: HistoryRecordType; RecNumToDelete: SmallInt);
   VAR
     DateToDelete: Str10;
     RecNum: Integer;
@@ -143,12 +143,12 @@ VAR
   END;
 
   PROCEDURE EditHistoryRecord(TempHistory1: HistoryRecordType; VAR History: HistoryRecordType; VAR Cmd1: Char;
-                            VAR RecNumToEdit,SaveRecNumToEdit: Integer; VAR Changed: Boolean; Editing: Boolean);
+                            VAR RecNumToEdit,SaveRecNumToEdit: SmallInt; VAR Changed: Boolean; Editing: Boolean);
   VAR
     CmdStr,
     TempStr1: AStr;
     DateToLocate: Str10;
-    RecNum: Integer;
+    RecNum: SmallInt;
     Ok: Boolean;
   BEGIN
     WITH History DO
@@ -337,13 +337,13 @@ VAR
       UNTIL (Pos(Cmd1,'Q[]FJL') <> 0) OR (HangUp);
   END;
 
-  PROCEDURE InsertHistoryRecord(TempHistory1: HistoryRecordType; Cmd1: Char; RecNumToInsertBefore: Integer);
+  PROCEDURE InsertHistoryRecord(TempHistory1: HistoryRecordType; Cmd1: Char; RecNumToInsertBefore: SmallInt);
   VAR
     DateToInsert,
     DateToInsertBefore: Str10;
     RecNum,
     RecNum1,
-    SaveRecNumToEdit: Integer;
+    SaveRecNumToEdit: SmallInt;
     Ok,
     Changed: Boolean;
   BEGIN
@@ -414,10 +414,10 @@ VAR
     END;
   END;
 
-  PROCEDURE ModifyHistoryRecord(TempHistory1: HistoryRecordType; Cmd1: Char; RecNumToEdit: Integer);
+  PROCEDURE ModifyHistoryRecord(TempHistory1: HistoryRecordType; Cmd1: Char; RecNumToEdit: SmallInt);
   VAR
     DateToEdit: Str10;
-    SaveRecNumToEdit: Integer;
+    SaveRecNumToEdit: SmallInt;
     Ok,
     Changed: Boolean;
   BEGIN

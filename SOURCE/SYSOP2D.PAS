@@ -23,7 +23,7 @@ VAR
   MaxByte: Byte;
   TempI,
   MinInt,
-  MaxInt: Integer;
+  MaxInt: SmallInt;
   TempL,
   MinLongInt,
   MaxLongInt: LongInt;

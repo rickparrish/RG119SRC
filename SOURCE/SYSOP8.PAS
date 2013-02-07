@@ -25,7 +25,7 @@ VAR
   MsgareaDefFile: FILE OF MessageAreaRecordType;
   TempMemMsgArea: MessageAreaRecordType;
   Cmd: Char;
-  RecNumToList: Integer;
+  RecNumToList: SmallInt;
   Ok,
   Changed,
   SaveTempPause: Boolean;
@@ -163,10 +163,10 @@ VAR
     END;
   END;
 
-  PROCEDURE ChangeMsgAreaDrive(Drive: Char; FirstRecNum: Integer);
+  PROCEDURE ChangeMsgAreaDrive(Drive: Char; FirstRecNum: SmallInt);
   VAR
     LastRecNum,
-    RecNum: Integer;
+    RecNum: SmallInt;
   BEGIN
     IF (NumMsgAreas = 0) THEN
       Messages(4,0,'message areas')
@@ -213,7 +213,7 @@ VAR
     END
   END;
 
-  PROCEDURE DeleteMsgArea(TempMemMsgArea1: MessageAreaRecordType; RecNumToDelete: Integer);
+  PROCEDURE DeleteMsgArea(TempMemMsgArea1: MessageAreaRecordType; RecNumToDelete: SmallInt);
   VAR
     RecNum: Integer;
     Ok,
@@ -315,7 +315,7 @@ VAR
   END;
 
   PROCEDURE EditMessageArea(TempMemMsgArea1: MessageAreaRecordType; VAR MemMsgArea: MessageAreaRecordType; VAR Cmd1: Char;
-                            VAR RecNumToEdit: Integer; VAR Changed: Boolean; Editing: Boolean);
+                            VAR RecNumToEdit: SmallInt; VAR Changed: Boolean; Editing: Boolean);
   VAR
     TempFileName: Str8;
     Path1,
@@ -687,12 +687,12 @@ VAR
       UNTIL (Pos(Cmd1,'Q[]FJL') <> 0) OR (HangUp);
   END;
 
-  PROCEDURE InsertMsgArea(TempMemMsgArea1: MessageAreaRecordType; Cmd1: Char; RecNumToInsertBefore: Integer);
+  PROCEDURE InsertMsgArea(TempMemMsgArea1: MessageAreaRecordType; Cmd1: Char; RecNumToInsertBefore: SmallInt);
   VAR
     MsgAreaScanFile: FILE OF ScanRec;
     RecNum,
     RecNum1,
-    RecNumToEdit: Integer;
+    RecNumToEdit: SmallInt;
     Ok,
     Changed: Boolean;
   BEGIN
@@ -792,7 +792,7 @@ VAR
     END;
   END;
 
-  PROCEDURE ModifyMsgArea(TempMemMsgArea1: MessageAreaRecordType; Cmd1: Char; RecNumToEdit: Integer);
+  PROCEDURE ModifyMsgArea(TempMemMsgArea1: MessageAreaRecordType; Cmd1: Char; RecNumToEdit: SmallInt);
   VAR
     User: UserRecordType;
     MsgAreaScanFile: FILE OF ScanRec;
@@ -916,11 +916,11 @@ VAR
     END;
   END;
 
-  PROCEDURE PositionMsgArea(TempMemMsgArea1: MessageAreaRecordType; RecNumToPosition: Integer);
+  PROCEDURE PositionMsgArea(TempMemMsgArea1: MessageAreaRecordType; RecNumToPosition: SmallInt);
   VAR
     RecNumToPositionBefore,
     RecNum1,
-    RecNum2: Integer;
+    RecNum2: SmallInt;
   BEGIN
     IF (NumMsgAreas = 0) THEN
       Messages(4,0,'message areas')
@@ -1020,7 +1020,7 @@ VAR
       END;
   END;
 
-  PROCEDURE ListMsgAreas(VAR RecNumToList1: Integer);
+  PROCEDURE ListMsgAreas(VAR RecNumToList1: SmallInt);
   VAR
     NumDone: Integer;
   BEGIN

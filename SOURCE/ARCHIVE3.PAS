@@ -21,7 +21,7 @@ USES
   File11,
   TimeFunc;
 
-PROCEDURE CvtFiles(FArea: Integer; FileName,ReZipCmd: AStr; VAR TotalFiles: Integer; VAR TotalOldSize,TotalNewSize: LongInt);
+PROCEDURE CvtFiles(FArea: Integer; FileName,ReZipCmd: AStr; VAR TotalFiles: SmallInt; VAR TotalOldSize,TotalNewSize: LongInt);
 VAR
   S: AStr;
   DS: DirStr;

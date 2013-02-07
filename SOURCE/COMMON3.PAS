@@ -15,10 +15,10 @@ PROCEDURE InputDefault(VAR S: STRING; v: STRING; MaxLen: Byte; InputFlags: Input
 PROCEDURE InputFormatted(DisplayStr: AStr; VAR InputStr: STRING; Format: STRING; Abortable: Boolean);
 PROCEDURE InputLongIntWC(S: AStr; VAR L: LongInt; InputFlags: InputFlagSet; LowNum,HighNum: LongInt; VAR Changed: Boolean);
 PROCEDURE InputLongIntWOC(S: AStr; VAR L: LongInt; InputFlags: InputFlagSet; LowNum,HighNum: LongInt);
-PROCEDURE InputWordWC(S: AStr; VAR W: Word; InputFlags: InputFlagSet; LowNum,HighNum: Word; VAR Changed: Boolean);
-PROCEDURE InputWordWOC(S: AStr; VAR W: Word; InputFlags: InputFlagSet; LowNum,HighNum: Word);
-PROCEDURE InputIntegerWC(S: AStr; VAR I: Integer; InputFlags: InputFlagSet; LowNum,HighNum: Integer; VAR Changed: Boolean);
-PROCEDURE InputIntegerWOC(S: AStr; VAR I: Integer; InputFlags: InputFlagSet; LowNum,HighNum: Integer);
+PROCEDURE InputWordWC(S: AStr; VAR W: SmallWord; InputFlags: InputFlagSet; LowNum,HighNum: Word; VAR Changed: Boolean);
+PROCEDURE InputWordWOC(S: AStr; VAR W: SmallWord; InputFlags: InputFlagSet; LowNum,HighNum: Word);
+PROCEDURE InputIntegerWC(S: AStr; VAR I: SmallInt; InputFlags: InputFlagSet; LowNum,HighNum: Integer; VAR Changed: Boolean);
+PROCEDURE InputIntegerWOC(S: AStr; VAR I: SmallInt; InputFlags: InputFlagSet; LowNum,HighNum: Integer);
 PROCEDURE InputByteWC(S: AStr; VAR B: Byte; InputFlags: InputFlagSet; LowNum,HighNum: Byte; VAR Changed: Boolean);
 PROCEDURE InputByteWOC(S: AStr; VAR B: Byte; InputFlags: InputFlagSet; LowNum,HighNum: Byte);
 PROCEDURE InputWN1(DisplayStr: AStr; VAR InputStr: AStr; MaxLen: Byte; InputFlags: InputFlagSet; VAR Changed: Boolean);
@@ -165,7 +165,7 @@ BEGIN
   InputLongIntWC(S,L,InputFlags,LowNum,HighNum,Changed);
 END;
 
-PROCEDURE InputWordWC(S: AStr; VAR W: Word; InputFlags: InputFlagSet; LowNum,HighNum: Word; VAR Changed: Boolean);
+PROCEDURE InputWordWC(S: AStr; VAR W: SmallWord; InputFlags: InputFlagSet; LowNum,HighNum: Word; VAR Changed: Boolean);
 VAR
   TempStr: Str5;
   SaveW: Word;
@@ -195,7 +195,7 @@ BEGIN
     Changed := TRUE;
 END;
 
-PROCEDURE InputWordWOC(S: AStr; VAR W: Word; InputFlags: InputFlagSet; LowNum,HighNum: Word);
+PROCEDURE InputWordWOC(S: AStr; VAR W: SmallWord; InputFlags: InputFlagSet; LowNum,HighNum: Word);
 VAR
   Changed: Boolean;
 BEGIN
@@ -203,7 +203,7 @@ BEGIN
   InputWordWC(S,W,InputFlags,LowNum,HighNum,Changed);
 END;
 
-PROCEDURE InputIntegerWC(S: AStr; VAR I: Integer; InputFlags: InputFlagSet; LowNum,HighNum: Integer; VAR Changed: Boolean);
+PROCEDURE InputIntegerWC(S: AStr; VAR I: SmallInt; InputFlags: InputFlagSet; LowNum,HighNum: Integer; VAR Changed: Boolean);
 VAR
   TempStr: Str5;
   SaveI: Integer;
@@ -233,7 +233,7 @@ BEGIN
     Changed := TRUE;
 END;
 
-PROCEDURE InputIntegerWOC(S: AStr; VAR I: Integer; InputFlags: InputFlagSet; LowNum,HighNum: Integer);
+PROCEDURE InputIntegerWOC(S: AStr; VAR I: SmallInt; InputFlags: InputFlagSet; LowNum,HighNum: Integer);
 VAR
   Changed: Boolean;
 BEGIN

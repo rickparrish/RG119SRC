@@ -284,7 +284,7 @@ USES
 
      }
 
-  PROCEDURE GetTimeRange(CONST RGStrNum: LongInt; VAR LoTime,HiTime: Integer);
+  PROCEDURE GetTimeRange(CONST RGStrNum: LongInt; VAR LoTime,HiTime: SmallInt);
   VAR
     TempStr: Str5;
     LowTime,

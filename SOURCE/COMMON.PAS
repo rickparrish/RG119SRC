@@ -615,10 +615,10 @@ FUNCTION YN(Len: Byte; DYNY: Boolean): Boolean;
 FUNCTION PYNQ(CONST InString: AStr; MaxLen: Byte; DYNY: Boolean): Boolean;
 PROCEDURE InputLongIntWC(S: AStr; VAR L: LongInt; InputFlags: InputFlagSet; LowNum,HighNum: LongInt; VAR Changed: Boolean);
 PROCEDURE InputLongIntWOC(S: AStr; VAR L: LongInt; InputFlags: InputFlagSet; LowNum,HighNum: LongInt);
-PROCEDURE InputWordWC(S: AStr; VAR W: Word; InputFlags: InputFlagSet; LowNum,HighNum: Word; VAR Changed: Boolean);
-PROCEDURE InputWordWOC(S: AStr; VAR W: Word; InputFlags: InputFlagSet; LowNum,HighNum: Word);
-PROCEDURE InputIntegerWC(S: AStr; VAR I: Integer; InputFlags: InputFlagSet; LowNum,HighNum: Integer; VAR Changed: Boolean);
-PROCEDURE InputIntegerWOC(S: AStr; VAR I: Integer; InputFlags: InputFlagSet; LowNum,HighNum: Integer);
+PROCEDURE InputWordWC(S: AStr; VAR W: SmallWord; InputFlags: InputFlagSet; LowNum,HighNum: Word; VAR Changed: Boolean);
+PROCEDURE InputWordWOC(S: AStr; VAR W: SmallWord; InputFlags: InputFlagSet; LowNum,HighNum: Word);
+PROCEDURE InputIntegerWC(S: AStr; VAR I: SmallInt; InputFlags: InputFlagSet; LowNum,HighNum: Integer; VAR Changed: Boolean);
+PROCEDURE InputIntegerWOC(S: AStr; VAR I: SmallInt; InputFlags: InputFlagSet; LowNum,HighNum: Integer);
 PROCEDURE InputByteWC(S: AStr; VAR B: Byte; InputFlags: InputFlagSet; LowNum,HighNum: Byte; VAR Changed: Boolean);
 PROCEDURE InputByteWOC(S: AStr; VAR B: Byte; InputFlags: InputFlagSet; LowNum,HighNum: Byte);
 PROCEDURE InputDefault(VAR S: STRING; v: STRING; MaxLen: Byte; InputFlags: InputFlagSet; LineFeed: Boolean);
@@ -779,22 +779,22 @@ BEGIN
   Common3.InputLongIntWOC(S,L,InputFlags,LowNum,HighNum);
 END;
 
-PROCEDURE InputWordWC(S: AStr; VAR W: Word; InputFlags: InputFlagSet; LowNum,HighNum: Word; VAR Changed: Boolean);
+PROCEDURE InputWordWC(S: AStr; VAR W: SmallWord; InputFlags: InputFlagSet; LowNum,HighNum: Word; VAR Changed: Boolean);
 BEGIN
   Common3.InputWordWC(S,W,InputFlags,LowNum,HighNum,Changed);
 END;
 
-PROCEDURE InputWordWOC(S: AStr; VAR W: Word; InputFlags: InputFlagSet; LowNum,HighNum: Word);
+PROCEDURE InputWordWOC(S: AStr; VAR W: SmallWord; InputFlags: InputFlagSet; LowNum,HighNum: Word);
 BEGIN
   Common3.InputWordWOC(S,W,InputFlags,LowNum,HighNum);
 END;
 
-PROCEDURE InputIntegerWC(S: AStr; VAR I: Integer; InputFlags: InputFlagSet; LowNum,HighNum: Integer; VAR Changed: Boolean);
+PROCEDURE InputIntegerWC(S: AStr; VAR I: SmallInt; InputFlags: InputFlagSet; LowNum,HighNum: Integer; VAR Changed: Boolean);
 BEGIN
   Common3.InputIntegerWC(S,I,InputFlags,LowNum,HighNum,Changed);
 END;
 
-PROCEDURE InputIntegerWOC(S: AStr; VAR I: Integer; InputFlags: InputFlagSet; LowNum,HighNum: Integer);
+PROCEDURE InputIntegerWOC(S: AStr; VAR I: SmallInt; InputFlags: InputFlagSet; LowNum,HighNum: Integer);
 BEGIN
   Common3.InputIntegerWOC(S,I,Inputflags,LowNum,HighNum);
 END;
@@ -3025,7 +3025,10 @@ END;
 {$IFDEF WIN32}
 FUNCTION AOnOff(b: Boolean; CONST s1,s2:AStr): STRING;
 BEGIN
-  WriteLn('REETODO COMMON AOnOff'); Halt;
+  if (b) then
+    AOnOff := s1
+  else
+    AOnOff := s2;
 END;
 {$ENDIF}
 

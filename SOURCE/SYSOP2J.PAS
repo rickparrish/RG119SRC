@@ -371,7 +371,7 @@ VAR
     END;
   END;
 
-  PROCEDURE DeleteScheme(TempScheme1: SchemeRec; RecNumToDelete: Integer);
+  PROCEDURE DeleteScheme(TempScheme1: SchemeRec; RecNumToDelete: SmallInt);
   VAR
     User: UserRecordType;
     RecNum: Integer;
@@ -450,7 +450,7 @@ VAR
   END;
 
   PROCEDURE EditScheme(TempScheme1: SchemeRec; VAR Scheme: SchemeRec; VAR Cmd1: Char;
-                            VAR RecNumToEdit: Integer; VAR Changed: Boolean; Editing: Boolean);
+                            VAR RecNumToEdit: SmallInt; VAR Changed: Boolean; Editing: Boolean);
   VAR
     CmdStr: AStr;
     Ok: Boolean;
@@ -547,11 +547,11 @@ VAR
       UNTIL (Pos(Cmd1,'Q[]FJL') <> 0) OR (HangUp);
   END;
 
-  PROCEDURE InsertScheme(TempScheme1: SchemeRec; Cmd1: Char; RecNumToInsertBefore: Integer);
+  PROCEDURE InsertScheme(TempScheme1: SchemeRec; Cmd1: Char; RecNumToInsertBefore: SmallInt);
   VAR
     User: UserRecordType;
     RecNum,
-    RecNumToEdit: Integer;
+    RecNumToEdit: SmallInt;
     Ok,
     Changed: Boolean;
   BEGIN
@@ -622,7 +622,7 @@ VAR
     END;
   END;
 
-  PROCEDURE ModifyScheme(TempScheme1: SchemeRec; Cmd1: Char; RecNumToEdit: Integer);
+  PROCEDURE ModifyScheme(TempScheme1: SchemeRec; Cmd1: Char; RecNumToEdit: SmallInt);
   VAR
     SaveRecNumToEdit: Integer;
     Ok,
@@ -678,7 +678,7 @@ VAR
     RecNumToPosition,
     RecNumToPositionBefore,
     RecNum1,
-    RecNum2: Integer;
+    RecNum2: SmallInt;
   BEGIN
     IF (NumSchemes = 0) THEN
       Messages(4,0,'color schemes')

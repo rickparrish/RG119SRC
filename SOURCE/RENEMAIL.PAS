@@ -391,7 +391,10 @@ END;
 {$IFDEF WIN32}
 FUNCTION AOnOff(B: Boolean; S1,S2: STRING): STRING;
 BEGIN
-  WriteLn('REETODO RENEMAIL AOnOff'); Halt;
+  if (B) then
+    AOnOff := S1
+  else
+    AOnOff := S2;
 END;
 {$ENDIF}
 

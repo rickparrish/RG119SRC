@@ -76,7 +76,7 @@ VAR
     END;
   END;
 
-  PROCEDURE DeleteProtocol(TempProtocol1: ProtocolRecordType; RecNumToDelete: Integer);
+  PROCEDURE DeleteProtocol(TempProtocol1: ProtocolRecordType; RecNumToDelete: SmallInt);
   VAR
     RecNum: Integer;
   BEGIN
@@ -243,7 +243,7 @@ VAR
   END;
 
   PROCEDURE EditProtocol(TempProtocol1: ProtocolRecordType; VAR Protocol: ProtocolRecordType; VAR Cmd1: Char;
-                         VAR RecNumToEdit: Integer; VAR Changed: Boolean; Editing: Boolean);
+                         VAR RecNumToEdit: SmallInt; VAR Changed: Boolean; Editing: Boolean);
   VAR
     TempStr,
     CmdStr: AStr;
@@ -600,11 +600,11 @@ VAR
       UNTIL (Pos(Cmd1,'Q[]FJL') <> 0) OR (HangUp);
   END;
 
-  PROCEDURE InsertProtocol(TempProtocol1: ProtocolRecordType; RecNumToInsertBefore: Integer);
+  PROCEDURE InsertProtocol(TempProtocol1: ProtocolRecordType; RecNumToInsertBefore: SmallInt);
   VAR
     Cmd1: Char;
     RecNum,
-    RecNumToEdit: Integer;
+    RecNumToEdit: SmallInt;
     Ok,
     Changed: Boolean;
   BEGIN
@@ -659,7 +659,7 @@ VAR
     END;
   END;
 
-  PROCEDURE ModifyProtocol(TempProtocol1: ProtocolRecordType; Cmd1: Char; RecNumToEdit: Integer);
+  PROCEDURE ModifyProtocol(TempProtocol1: ProtocolRecordType; Cmd1: Char; RecNumToEdit: SmallInt);
   VAR
     SaveRecNumToEdit: Integer;
     Ok,
@@ -710,11 +710,11 @@ VAR
     END;
   END;
 
-  PROCEDURE PositionProtocol(TempProtocol1: ProtocolRecordType; RecNumToPosition: Integer);
+  PROCEDURE PositionProtocol(TempProtocol1: ProtocolRecordType; RecNumToPosition: SmallInt);
   VAR
     RecNumToPositionBefore,
     RecNum1,
-    RecNum2: Integer;
+    RecNum2: SmallInt;
   BEGIN
     IF (NumProtocols = 0) THEN
       Messages(4,0,'protocols')

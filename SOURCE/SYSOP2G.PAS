@@ -401,7 +401,7 @@ VAR
     END;
   END;
 
-  PROCEDURE DeleteValidationLevel(TempValidation1: ValidationRecordType; RecNumToDelete: Integer);
+  PROCEDURE DeleteValidationLevel(TempValidation1: ValidationRecordType; RecNumToDelete: SmallInt);
   VAR
     User: UserRecordType;
     RecNum: Integer;
@@ -478,7 +478,7 @@ VAR
   END;
 
   PROCEDURE EditValidationLevel(TempValidation1: ValidationRecordType; VAR Validation: ValidationRecordType; VAR Cmd1: Char;
-                                VAR RecNumToEdit: Integer; VAR Changed: Boolean; Editing: Boolean);
+                                VAR RecNumToEdit: SmallInt; VAR Changed: Boolean; Editing: Boolean);
   VAR
     User: UserRecordType;
     CmdStr,
@@ -674,11 +674,11 @@ VAR
       UNTIL (Pos(Cmd1,'Q[]FJL') <> 0) OR (HangUp);
   END;
 
-  PROCEDURE InsertValidationLevel(TempValidation1: ValidationRecordType; Cmd1: Char; RecNumToInsertBefore: Integer);
+  PROCEDURE InsertValidationLevel(TempValidation1: ValidationRecordType; Cmd1: Char; RecNumToInsertBefore: SmallInt);
   VAR
     OneKCmds: AStr;
     RecNum,
-    RecNumToEdit: Integer;
+    RecNumToEdit: SmallInt;
     Ok,
     Changed: Boolean;
   BEGIN
@@ -744,7 +744,7 @@ VAR
     END;
   END;
 
-  PROCEDURE ModifyValidationLevel(TempValidation1: ValidationRecordType; Cmd1: Char; RecNumToEdit: Integer);
+  PROCEDURE ModifyValidationLevel(TempValidation1: ValidationRecordType; Cmd1: Char; RecNumToEdit: SmallInt);
   VAR
     SaveRecNumToEdit: Integer;
     Ok,
@@ -795,11 +795,11 @@ VAR
     END;
   END;
 
-  PROCEDURE PositionValidationLevel(TempValidation1: ValidationRecordType; RecNumToPosition: Integer);
+  PROCEDURE PositionValidationLevel(TempValidation1: ValidationRecordType; RecNumToPosition: SmallInt);
   VAR
     RecNumToPositionBefore,
     RecNum1,
-    RecNum2: Integer;
+    RecNum2: SmallInt;
   BEGIN
     IF (NumValKeys = 0) THEN
       Messages(4,0,'validation records')

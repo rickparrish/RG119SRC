@@ -121,7 +121,7 @@ VAR
   PROCEDURE DeleteCommand;
   VAR
     RecNumToDelete,
-    RecNum: Integer;
+    RecNum: SmallInt;
   BEGIN
     IF (CmdNumArray[MenuToModify] = 0) THEN
       Messages(4,0,'commands')
@@ -160,7 +160,7 @@ VAR
   VAR
     RecNumToInsertBefore,
     InsertNum,
-    RecNum: Integer;
+    RecNum: SmallInt;
   BEGIN
     IF (CmdNumArray[MenuToModify] = MaxCmds) THEN
       Messages(5,MaxCmds,'commands')
@@ -208,7 +208,7 @@ VAR
     Cmd1: Char;
     TempB: Byte;
     RecNumToModify,
-    SaveRecNumToModify: Integer;
+    SaveRecNumToModify: SmallInt;
     Changed: Boolean;
   BEGIN
     IF (CmdNumArray[MenuToModify] = 0) THEN
@@ -359,7 +359,7 @@ VAR
     RecNumToPosition,
     RecNumToPositionBefore,
     RecNum1,
-    RecNum2: Integer;
+    RecNum2: SmallInt;
   BEGIN
     IF (CmdNumArray[MenuToModify] = 0) THEN
       Messages(4,0,'commands')

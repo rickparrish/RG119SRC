@@ -744,7 +744,7 @@ VAR
   S,
   ACSReq: AStr;
   OverridePW: Str20;
-  Lng: Integer;
+  Lng: SmallInt;
   Tries,
   I,
   TTimes,

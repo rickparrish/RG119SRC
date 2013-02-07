@@ -26,7 +26,7 @@ VAR
   Cmd1: Char;
   LowNum,
   HiNum,
-  TempInt: Integer;
+  TempInt: SmallInt;
 BEGIN
   REPEAT
     WITH General DO

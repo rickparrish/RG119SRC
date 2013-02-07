@@ -896,7 +896,7 @@ VAR
   VAR
     AScheme: SchemeRec;
     i,
-    Onlin: Integer;
+    Onlin: SmallInt;
   BEGIN
     Reset(SchemeFile);
     CLS;

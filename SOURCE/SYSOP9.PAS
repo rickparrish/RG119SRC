@@ -351,7 +351,7 @@ VAR
   PROCEDURE DeleteFileArea(TempMemFileArea1: FileAreaRecordType; MCIVars1: MCIVarRecord);
   VAR
     RecNum,
-    RecNumToDelete: Integer;
+    RecNumToDelete: SmallInt;
     Ok,
     OK1,
     Ok2: Boolean;
@@ -870,7 +870,7 @@ VAR
     Cmd1: Char;
     RecNum,
     RecNum1,
-    RecNumToInsertBefore: Integer;
+    RecNumToInsertBefore: SmallInt;
     Ok,
     Changed: Boolean;
   BEGIN
@@ -1102,7 +1102,7 @@ VAR
     RecNumToPosition,
     RecNumToPositionBefore,
     RecNum1,
-    RecNum2: Integer;
+    RecNum2: SmallInt;
   BEGIN
     IF (NumFileAreas = 0) THEN
       FAELngStr(5,MemFileArea,MCIVars1,FALSE)

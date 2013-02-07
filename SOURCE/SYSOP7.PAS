@@ -231,7 +231,7 @@ VAR
   PROCEDURE DeleteMenu;
   VAR
     RecNumToDelete,
-    RecNum: Integer;
+    RecNum: SmallInt;
     DeleteOk: Boolean;
   BEGIN
     IF (NumMenus = 0) THEN
@@ -307,7 +307,7 @@ VAR
   VAR
     RecNumToInsertBefore,
     NewMenuNum,
-    RecNum: Integer;
+    RecNum: SmallInt;
   BEGIN
     IF (NumMenus = MaxMenus) THEN
       Messages(5,MaxMenus,'menus')
@@ -367,7 +367,7 @@ VAR
     RecNum,
     RecNum1,
     RecNumToModify,
-    SaveRecNumToModify: Integer;
+    SaveRecNumToModify: SmallInt;
     Changed: Boolean;
   BEGIN
     IF (NumMenus = 0) THEN

@@ -199,7 +199,7 @@ VAR
     END;
   END;
 
-  PROCEDURE DeleteConference(TempConference1: ConferenceRecordType; RecNumToDelete: Integer);
+  PROCEDURE DeleteConference(TempConference1: ConferenceRecordType; RecNumToDelete: SmallInt);
   VAR
     User: UserRecordType;
     RecNum: Integer;
@@ -273,7 +273,7 @@ VAR
   END;
 
   PROCEDURE EditConference(TempConference1: ConferenceRecordType; VAR Conference: ConferenceRecordType; VAR Cmd1: Char;
-                           VAR RecNumToEdit: Integer; VAR Changed: Boolean; Editing: Boolean);
+                           VAR RecNumToEdit: SmallInt; VAR Changed: Boolean; Editing: Boolean);
   VAR
     CmdStr: AStr;
     Ok: Boolean;
@@ -362,11 +362,11 @@ VAR
       UNTIL (Pos(Cmd1,'Q[]FJL') <> 0) OR (HangUp);
   END;
 
-  PROCEDURE InsertConference(TempConference1: ConferenceRecordType; Cmd1: Char; RecNumToInsertBefore: Integer);
+  PROCEDURE InsertConference(TempConference1: ConferenceRecordType; Cmd1: Char; RecNumToInsertBefore: SmallInt);
   VAR
     OneKCmds: AStr;
     RecNum,
-    RecNumToEdit: Integer;
+    RecNumToEdit: SmallInt;
     Ok,
     Changed: Boolean;
   BEGIN
@@ -431,7 +431,7 @@ VAR
     END;
   END;
 
-  PROCEDURE ModifyConference(TempConference1: ConferenceRecordType; Cmd1: Char; RecNumToEdit: Integer);
+  PROCEDURE ModifyConference(TempConference1: ConferenceRecordType; Cmd1: Char; RecNumToEdit: SmallInt);
   VAR
     SaveRecNumToEdit: Integer;
     Ok,
@@ -482,11 +482,11 @@ VAR
     END;
   END;
 
-  PROCEDURE PositionConference(TempConference1: ConferenceRecordType; RecNumToPosition: Integer);
+  PROCEDURE PositionConference(TempConference1: ConferenceRecordType; RecNumToPosition: SmallInt);
   VAR
     RecNumToPositionBefore,
     RecNum1,
-    RecNum2: Integer;
+    RecNum2: SmallInt;
   BEGIN
     IF (NumConfKeys = 0) THEN
       Messages(4,0,'conference records')
