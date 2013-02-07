@@ -19,7 +19,11 @@ IMPLEMENTATION
 USES
   Dos,
   Common,
-  TimeFunc;
+  TimeFunc
+{$IFDEF WIN32}
+  ,Windows
+{$ENDIF}
+  ;
 
 FUNCTION InTime(Tim,Tim1,Tim2: LongInt): Boolean;
 BEGIN
@@ -226,11 +230,19 @@ END;
 
 FUNCTION SysOpAvailable: Boolean;
 VAR
+{$IFDEF MSDOS}
   A: Byte ABSOLUTE $0000:$0417;
+{$ENDIF}
   EventNum: Integer;
   ChatOk: Boolean;
 BEGIN
+{$IFDEF MSDOS}
   ChatOk := ((A AND 16) = 0);
+{$ENDIF}
+{$IFDEF WIN32}
+  // Availability is togged with scroll lock key
+  ChatOk := (GetKeyState($91) and $ffff) <> 0;
+{$ENDIF}  
 
   IF (RChat IN ThisUser.Flags) THEN
     ChatOk := FALSE;

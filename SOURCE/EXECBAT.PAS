@@ -43,10 +43,12 @@ VAR
   SaveY: Byte;
   SavCurWind: Integer;
 
+{$IFDEF MSDOS}
 {$L EXECWIN}
 
 PROCEDURE SetCsInts; EXTERNAL;
 PROCEDURE NewInt21; EXTERNAL;
+{$ENDIF}
 
 PROCEDURE ExecWindow(VAR Ok: Boolean;
                      CONST Dir,
@@ -83,6 +85,7 @@ BEGIN
   WindLo := WindMin;
   WindHi := WindMax;
 
+{$IFDEF MSDOS}
   {Assure cursor is in Window}
   INLINE
   (
@@ -119,6 +122,7 @@ BEGIN
    GetIntVec($21,CurInt21);
    SetCsInts;
    SetIntVec($21,@NewInt21);
+{$ENDIF}
 
   {$IFDEF Ver70}
     {Prevent SwapVectors from undoing our int21 change}
@@ -136,8 +140,10 @@ BEGIN
   Window(1,1,MaxDisplayCols,MaxDisplayRows);
   RemoveWindow(Wind);
 
+{$IFDEF MSDOS}
   {Restore interrupt}
   SetIntVec($21,CurInt21);
+{$ENDIF}
   General.CurWindow := SaveCurWindow;
   General.WindowOn := SaveWindowOn;
   LastScreenSwap := (Timer - 5);

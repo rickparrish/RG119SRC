@@ -28,8 +28,13 @@ CONST
 
 VAR
   Wind: WindowRec;
+{$IFDEF MSDOS}
   MonitorType: Byte ABSOLUTE $0000:$0449;
   ScreenAddr: ScreenType ABSOLUTE $B800:$0000;
+{$ENDIF}
+{$IFDEF WIN32}
+  MonitorType: Byte = 3; // REENOTE 3=CO80, a safe assumption I think
+{$ENDIF}
   ScreenSize: Integer;
   MaxDisplayRows,
   MaxDisplayCols,
@@ -529,12 +534,22 @@ END;
 
 PROCEDURE SaveScreen(VAR Wind: WindowRec);
 BEGIN
+{$IFDEF MSDOS}
   Move(ScreenAddr[0],Wind[0],ScreenSize);
+{$ENDIF}
+{$IFDEF WIN32}
+  WriteLn('REETODO MYIO SaveScreen'); Halt;
+{$ENDIF}
 END;
 
 PROCEDURE RemoveWindow(VAR Wind: WindowRec);
 BEGIN
+{$IFDEF MSDOS}
   Move(Wind[0],ScreenAddr[0],ScreenSize);
+{$ENDIF}
+{$IFDEF WIN32}
+  WriteLn('REETODO MYIO RemoveWindow'); Halt;
+{$ENDIF}
 END;
 
 PROCEDURE SetWindow(VAR Wind: WindowRec; TLX,TLY,BRX,BRY,TColr,BColr,BoxType:Integer);
@@ -549,6 +564,7 @@ END;
 
 PROCEDURE Update_Logo(VAR Addr1,Addr2; BlkLen: Integer);
 BEGIN
+{$IFDEF MSDOS}
   INLINE (
     $1E/
     $C5/$B6/ADDR1/
@@ -603,6 +619,10 @@ BEGIN
     $49/
     $E0/$AA/
     $1F);
+{$ENDIF}
+{$IFDEF WIN32}
+  WriteLn('REETODO MYIO Update_Logo'); Halt;
+{$ENDIF}
 END;
 
 END.

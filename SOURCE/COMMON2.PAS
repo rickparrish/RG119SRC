@@ -280,7 +280,12 @@ BEGIN
   CASE WhichScreen OF
     1 : WITH ThisUser DO
         BEGIN
+{$IFDEF MSDOS}
           Update_Logo(Win1,ScreenAddr[(FirstRow - 1) * 160],WIN1_LENGTH);
+{$ENDIF}
+{$IFDEF WIN32}
+  WriteLn('REETODO COMMON2 Update_Logo(Win1'); Halt;
+{$ENDIF}
           GoToXY(02,FirstRow);
           Write(Caps(Name));
           GoToXY(33,FirstRow);
@@ -325,7 +330,12 @@ BEGIN
         END;
     2 : WITH ThisUser DO
         BEGIN
+{$IFDEF MSDOS}
           Update_Logo(Win2,ScreenAddr[(FirstRow - 1) * 160],WIN2_LENGTH);
+{$ENDIF}
+{$IFDEF WIN32}
+  WriteLn('REETODO COMMON2 Update_Logo(Win2'); Halt;
+{$ENDIF}
           GoToXY(02,FirstRow);
           Write(Street);
           GoToXY(33,FirstRow);
@@ -358,7 +368,12 @@ BEGIN
         END;
     3 : WITH ThisUser DO
         BEGIN
+{$IFDEF MSDOS}
           Update_Logo(Win3,ScreenAddr[(FirstRow - 1) * 160],WIN3_LENGTH);
+{$ENDIF}
+{$IFDEF WIN32}
+  WriteLn('REETODO COMMON2 Update_Logo(Win3'); Halt;
+{$ENDIF}
           GoToXY(06,FirstRow);
           Write(Loggedon);
           GoToXY(16,FirstRow);
@@ -407,7 +422,12 @@ BEGIN
           Close(HistoryFile);
           WITH History DO
           BEGIN
+{$IFDEF MSDOS}
             Update_Logo(Win4,ScreenAddr[(FirstRow - 1) * 160],WIN4_LENGTH);
+{$ENDIF}
+{$IFDEF WIN32}
+  WriteLn('REETODO COMMON2 Update_Logo(Win4'); Halt;
+{$ENDIF}
             GoToXY(20,FirstRow);
             Write(Callers);
             GoToXY(34,FirstRow);
@@ -430,7 +450,12 @@ BEGIN
         END;
     5 : WITH History DO
         BEGIN
+{$IFDEF MSDOS}
           Update_Logo(Win5,ScreenAddr[(FirstRow - 1) * 160],WIN5_LENGTH);
+{$ENDIF}
+{$IFDEF WIN32}
+  WriteLn('REETODO COMMON2 Update_Logo(Win5'); Halt;
+{$ENDIF}
           GoToXY(20,FirstRow);
           Write(General.CallerNum);
           GoToXY(31,FirstRow);
@@ -555,7 +580,12 @@ BEGIN
     CASE Ord(C) OF
       119 : BEGIN                                              { CTRL-HOME     }
               SaveScreen(Wind);
+{$IFDEF MSDOS}
               Update_Logo(SYSKEY,ScreenAddr[0],SYSKEY_LENGTH);
+{$ENDIF}
+{$IFDEF WIN32}
+  WriteLn('REETODO COMMON2 Update_Logo(SYSKEY'); Halt;
+{$ENDIF}
               CursorOn(FALSE);
               C := ReadKey;
               IF (C = #0) THEN

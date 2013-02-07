@@ -223,7 +223,12 @@ VAR
   END;
 
 BEGIN
+{$IFDEF MSDOS}
   Mark(TopHeap);
+{$ENDIF}
+{$IFDEF WIN32}
+  // REETODO Prepare to leak memory...
+{$ENDIF}
   Used := NIL;
   Top := NIL;
   Bottom := NIL;
@@ -396,7 +401,12 @@ BEGIN
                     Cur := NIL;
                     Top := NIL;
                     Bottom := NIL;
+{$IFDEF MSDOS}
                     Release(TopHeap);
+{$ENDIF}
+{$IFDEF WIN32}
+  // REETODO Likely going to leak memory right about now
+{$ENDIF}
                   END;
             'D' : BEGIN
                     I := StrToInt(Copy(S,2,9));
@@ -540,7 +550,12 @@ BEGIN
       UNTIL ((Done) OR (HangUp));
     END;
   END;
+{$IFDEF MSDOS}  
   Release(TopHeap);
+{$ENDIF}
+{$IFDEF WIN32}
+  // REETODO Likely going to leak memory right about now
+{$ENDIF}
   PrintingFile := FALSE;
   LastError := IOResult;
 END;

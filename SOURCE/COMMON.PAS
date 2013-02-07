@@ -276,7 +276,9 @@ VAR
 
   DatFilePath: STRING[40];
   Interrupt14: Pointer;     { far ptr TO interrupt 14 }
+{$IFDEF MSDOS}
   Ticks: LongInt ABSOLUTE $0040:$006C;
+{$ENDIF}
   IEMSIRec: IEMSIRecord;
   FossilPort: Word;
   SockHandle: STRING;      { Telnet Handle }
@@ -464,6 +466,9 @@ VAR
   MQArea,
   VQArea: Boolean;
 
+{$IFDEF WIN32}
+function Ticks: LongInt;
+{$ENDIF}
 FUNCTION GetC(c: Byte): STRING;
 PROCEDURE ShowColors;
 FUNCTION CheckDriveSpace(S,Path: AStr; MinSpace: Integer): Boolean;
@@ -664,10 +669,29 @@ USES
   MultNode,
   SpawnO,
   SysOp12,
-  Vote;
+  Vote
+{$IFDEF WIN32}
+  ,VPUtils
+{$ENDIF}
+  ;
 
+{$IFDEF WIN32}
+function Ticks: LongInt;
+begin
+  Ticks := GetTimeMSec div 55;
+end;
+{$ENDIF}
+
+{$IFDEF MSDOS}
 FUNCTION UpdateCRC32(CRC: LongInt; VAR Buffer; Len: Word): LongInt; EXTERNAL;
 {$L CRC32.OBJ }
+{$ENDIF}
+{$IFDEF WIN32}
+FUNCTION UpdateCRC32(CRC: LongInt; VAR Buffer; Len: Word): LongInt;
+BEGIN
+  WriteLn('REETODO COMMON UpdateCRC32');
+END;
+{$ENDIF}
 
 FUNCTION CheckPW: Boolean;
 BEGIN
@@ -2692,16 +2716,23 @@ CONST
   LastTimeSlice: LongInt = 0;
   LastCheckTimeSlice: LongInt = 0;
 VAR
+{$IFDEF MSDOS}
   Killme: Pointer ABSOLUTE $0040 :$F000;
+{$ENDIF}
   Tf: Boolean;
   I: Integer;
   C: Word;
   TempTimer: LongInt;
 BEGIN
   IF (DieLater) THEN
+{$IFDEF MSDOS}
     ASM
       Call Killme
     END;
+{$ENDIF}
+{$IFDEF WIN32}
+    Halt;
+{$ENDIF}
   LIL := 1;
   IF (Buf <> '') THEN
   BEGIN
@@ -2741,11 +2772,16 @@ BEGIN
           BEGIN
             FOR I := 1 TO 100 DO
             BEGIN
+{$IFDEF MSDOS}
               Sound(500 + (I * 10));
               Delay(2);
               Sound(100 + (I * 10));
               Delay(2);
               NoSound;
+{$ENDIF}
+{$IFDEF WIN32}
+  WriteLn('REETODO COMMON GetKey'); Halt;
+{$ENDIF}
             END;
             LastBeep := TempTimer;
           END;
@@ -4008,7 +4044,12 @@ BEGIN
     TempStr := '';
     FOR XPos := 1 TO MaxDisplayCols DO
     BEGIN
+{$IFDEF MSDOS}
       c := Chr(Mem[VidSeg:(160 * (YPos - 1) + 2 * (XPos - 1))]);
+{$ENDIF}
+{$IFDEF WIN32}
+  WriteLn('REETODO COMMON ScreenDump'); Halt;
+{$ENDIF}
       IF (c = #0) THEN
         c := #32;
       IF ((XPos = WhereX) AND (YPos = WhereY)) THEN
@@ -4338,7 +4379,9 @@ BEGIN
   SaveCurCo := CurrentColor;
   SaveMCIAllowed := MCIAllowed;
   MCIAllowed := TRUE;
+{$IFDEF MSDOS}
   NoSound;
+{$ENDIF}
   IF (NOT AllowContinue) AND NOT (PrintingFile AND AllowAbort) THEN
     IsCont := FALSE;
   IF (IsCont) THEN
@@ -4804,7 +4847,9 @@ END;
 FUNCTION DiskKBFree(DrivePath: AStr): LongInt;
 VAR
   F: TEXT;
+{$IFDEF MSDOS}
   Regs: Registers;
+{$ENDIF}
   S,
   S1: STRING;
   Counter: Integer;
@@ -4843,6 +4888,7 @@ BEGIN
   END
   ELSE
   BEGIN
+{$IFDEF MSDOS}  
     FillChar(Regs,SizeOf(Regs),#0);
     Regs.Ah := $36;
     Regs.Dl := ExtractDriveNumber(DrivePath);
@@ -4850,6 +4896,10 @@ BEGIN
     C := (1.0 * Regs.Ax);
     C1 := ((1.0 * Regs.Cx) * C);
     C2 := ((1.0 * Regs.Bx) * C1);
+{$ENDIF}
+{$IFDEF WIN32}
+  WriteLn('REETODO COMMON DiskKBFree'); Halt;
+{$ENDIF}
   END;
   DiskKBFree := Round(C2 / 1024.0);
 END;

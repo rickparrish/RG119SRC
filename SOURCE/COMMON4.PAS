@@ -367,6 +367,7 @@ PROCEDURE Com_Flush_Recv;
 BEGIN
   IF (NOT LocalIOOnly) THEN
   BEGIN
+{$IFDEF MSDOS}
     ASM
       Cmp InWfcMenu,1
       Je @TheEnd
@@ -375,6 +376,10 @@ BEGIN
       Int 14h
       @TheEnd:
     END;
+{$ENDIF}
+{$IFDEF WIN32}
+  WriteLn('REETODO COMMON4 Com_Flush_Recv'); Halt;
+{$ENDIF}
   END
   ELSE WHILE NOT (Com_IsRecv_Empty) DO
     WriteWFC(CInKey);
@@ -399,6 +404,7 @@ the output buffer (not transmitted yet) is discarded.
 
 PROCEDURE Com_Purge_Send;
 BEGIN
+{$IFDEF MSDOS}
   ASM
     Cmp LocalIOOnly,1
     Je @TheEnd
@@ -407,6 +413,10 @@ BEGIN
     Int 14h
     @TheEnd:
   END;
+{$ENDIF}
+{$IFDEF WIN32}
+  WriteLn('REETODO COMMON4 Com_Purge_Send'); Halt;
+{$ENDIF}
 END;
 
 (*
@@ -436,6 +446,7 @@ VAR
   Dummy: Byte;
 BEGIN
   Dummy := 0; (* New *)
+{$IFDEF MSDOS}
   ASM
     Cmp LocalIOOnly,1
     Je @TheEnd
@@ -445,6 +456,10 @@ BEGIN
     Mov Dummy,AL
     @TheEnd:
   END;
+{$ENDIF}
+{$IFDEF WIN32}
+  WriteLn('REETODO COMMON4 Com_Carrier'); Halt;
+{$ENDIF}
   Com_Carrier := (Dummy AND $80) = $80;
 END;
 
@@ -478,6 +493,7 @@ VAR
 BEGIN
   Com_Recv := #0;
   T_RecvChar := FALSE;
+{$IFDEF MSDOS}
   ASM
     Cmp LocalIOOnly,1
     Je @TheEnd
@@ -493,6 +509,10 @@ BEGIN
     Mov T_RecvChar,1
     @TheEnd:
   END;
+{$ENDIF}
+{$IFDEF WIN32}
+  WriteLn('REETODO COMMON4 Com_Recv'); Halt;
+{$ENDIF}
   IF (T_RecvChar) THEN
     Com_Recv := Char(Dummy);
 END;
@@ -524,6 +544,7 @@ VAR
   Dummy: Byte;
 BEGIN
   Dummy := 0;  (* New *)
+{$IFDEF MSDOS}
   ASM
     Cmp LocalIOOnly,1
     Je @TheEnd
@@ -533,6 +554,10 @@ BEGIN
     Mov Dummy,AH
     @TheEnd:
   END;
+{$ENDIF}
+{$IFDEF WIN32}
+  WriteLn('REETODO COMMON4 Com_IsRecv_Empty'); Halt;
+{$ENDIF}
   Com_IsRecv_Empty := NOT ((Dummy AND $01) = $01);
 END;
 
@@ -563,6 +588,7 @@ VAR
   Dummy: Byte;
 BEGIN
   Dummy := 0;  (* New *)
+{$IFDEF MSDOS}
   ASM
     Cmp LocalIOOnly,1
     Je @TheEnd
@@ -572,6 +598,10 @@ BEGIN
     Mov Dummy,AH
     @TheEnd:
   END;
+{$ENDIF}
+{$IFDEF WIN32}
+  WriteLn('REETODO COMMON4 Com_IsSend_Empty'); Halt;
+{$ENDIF}
   Com_IsSend_Empty := ((Dummy AND $40) = $40);
 END;
 
@@ -589,6 +619,7 @@ value of 0000h is returned in AX. If the driver accepts the character
 
 PROCEDURE Com_Send(C: Char);
 BEGIN
+{$IFDEF MSDOS}
   ASM
     Cmp LocalIOOnly,1
     Je @TheEnd
@@ -598,6 +629,10 @@ BEGIN
     Int 14h
     @TheEnd:
   END;
+{$ENDIF}
+{$IFDEF WIN32}
+  WriteLn('REETODO COMMON4 Com_Send'); Halt;
+{$ENDIF}
 END;
 
 (*
@@ -673,12 +708,17 @@ BEGIN
       T_AL := 32;
     END;
     Inc(T_AL,3);
+{$IFDEF MSDOS}
     ASM
       Mov AH,00h
       Mov AL,T_AL
       Mov DX,FossilPort
       Int 14h
     END;
+{$ENDIF}
+{$IFDEF WIN32}
+  WriteLn('REETODO COMMON4 Com_Set_Speed'); Halt;
+{$ENDIF}
   END;
 END;
 
@@ -696,16 +736,22 @@ PROCEDURE Com_DeInstall;
 BEGIN
   IF (NOT LocalIOOnly) THEN
   BEGIN
+{$IFDEF MSDOS}
     ASM
       Mov AH,05h
       Mov DX,FossilPort
       Int 14h
     END;
+{$ENDIF}
+{$IFDEF WIN32}
+  WriteLn('REETODO COMMON4 Com_DeInstall'); Halt;
+{$ENDIF}
   END;
 END;
 
 PROCEDURE Com_Install;
 
+{$IFDEF MSDOS}
   FUNCTION DriverInstalled: Word; ASSEMBLER;
   ASM
     Mov AH,5
@@ -716,6 +762,13 @@ PROCEDURE Com_Install;
     PushF
     Call Interrupt14
   END;
+{$ENDIF}
+{$IFDEF WIN32}
+  FUNCTION DriverInstalled: Word;
+  BEGIN
+    DriverInstalled := $1954; // Seems to be what it wants
+  END;
+{$ENDIF}
 
 BEGIN
   FossilPort := (Liner.Comport - 1);
@@ -728,6 +781,7 @@ BEGIN
     Halt;
   END
   ELSE
+{$IFDEF MSDOS}
     ASM
       Xor AL,AL
       Mov BL,Liner.MFlags
@@ -744,9 +798,14 @@ BEGIN
       PushF
       Call Interrupt14
     END;
+{$ENDIF}
+{$IFDEF WIN32}
+  WriteLn('REETODO COMMON4 Com_Install'); Halt;
+{$ENDIF}
   Com_Set_Speed(Liner.InitBaud);
 END;
 
+{$IFDEF MSDOS}
 PROCEDURE CheckHangup; ASSEMBLER;
 ASM
   Cmp LocalIOOnly,1
@@ -762,6 +821,13 @@ ASM
   Mov HangUp,1
   @GetOut:
 END;
+{$ENDIF}
+{$IFDEF WIN32}
+PROCEDURE CheckHangup;
+BEGIN
+  WriteLn('REETODO COMMON4 CheckHangup'); Halt;
+END;
+{$ENDIF}
 
 (*
 AH = 19h Write block (transfer from user buffer to FOSSIL)
@@ -790,6 +856,7 @@ BEGIN
       T_DI := OFS(S[1]);
       T_CX := Length(S);
       T_ES := Seg(S[1]);
+{$IFDEF MSDOS}
       ASM
         Mov AH,19h
         Mov DI,T_DI
@@ -799,6 +866,10 @@ BEGIN
         Int 14h
         Mov T_AX,AX
       END;
+{$ENDIF}
+{$IFDEF WIN32}
+  WriteLn('REETODO COMMON4 SerialOut'); Halt;
+{$ENDIF}
       Move(S[T_AX + 1],S[1],Length(S) - T_AX);
       Dec(S[0],T_AX);
     UNTIL (S = '');
@@ -834,12 +905,17 @@ BEGIN
   Empty := NOT KeyPressed;
   IF (InCom) AND (NOT KeyPressed) THEN
   BEGIN
+{$IFDEF MSDOS}
     ASM
       Mov DX,FossilPort
       Mov AH,03h
       Int 14h
       Mov T_AH,AH
     END;
+{$ENDIF}
+{$IFDEF WIN32}
+  WriteLn('REETODO COMMON4 Empty'); Halt;
+{$ENDIF}
     Empty := NOT (T_AH AND 1 = 1);
   END;
 END;
@@ -862,12 +938,17 @@ BEGIN
   IF (NOT LocalIOOnly) THEN
   BEGIN
     T_AL := Byte(Status);
+{$IFDEF MSDOS}
     ASM
       Mov AH,06h
       Mov DX,FossilPort
       Mov AL,T_AL
       Int 14h
     END;
+{$ENDIF}
+{$IFDEF WIN32}
+  WriteLn('REETODO COMMON4 DTR'); Halt;
+{$ENDIF}
   END;
 END;
 

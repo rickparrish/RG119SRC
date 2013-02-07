@@ -36,11 +36,24 @@ FUNCTION Spawn(ProgName: STRING; Arguments: STRING; EnvSeg: Integer): Integer;
 
 IMPLEMENTATION
 
+{$IFDEF MSDOS}
 {$L SPAWNTP.OBJ}
 
 PROCEDURE Init_Spawno(Swap_Dirs: STRING; Swap_Types: Integer; Min_Res: Integer; Res_Stack: Integer); EXTERNAL;
 
 FUNCTION Spawn(ProgName: STRING; Arguments: STRING; EnvSeg: Integer): Integer;  EXTERNAL;
+{$ENDIF}
+{$IFDEF WIN32}
+PROCEDURE Init_Spawno(Swap_Dirs: STRING; Swap_Types: Integer; Min_Res: Integer; Res_Stack: Integer);
+BEGIN
+  WriteLn('REETODO SPAWNO Init_Spawno'); Halt;
+END;
+
+FUNCTION Spawn(ProgName: STRING; Arguments: STRING; EnvSeg: Integer): Integer;
+BEGIN
+  WriteLn('REETODO SPAWNO Spawn'); Halt;
+END;
+{$ENDIF}
 
 END.
 

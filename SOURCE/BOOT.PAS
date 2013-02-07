@@ -837,6 +837,7 @@ VAR
   WinOk,
   WinNTOk: Boolean;
 
+{$IFDEF MSDOS}
   FUNCTION TrueDosVer(VAR WinNTOk: Boolean): Word;
   VAR
     Regs: Registers;
@@ -852,7 +853,15 @@ VAR
       TrueDosVer := Bl;
     END;
   END;
+{$ENDIF}
+{$IFDEF WIN32}
+  FUNCTION TrueDosVer(VAR WinNTOk: Boolean): Word;
+  BEGIN
+    WriteLn('REETODO BOOT TrueDosVer'); Halt;
+  END;
+{$ENDIF}
 
+{$IFDEF MSDOS}
   FUNCTION DosVer(VAR Minor,OS2Ver: Word): Word;
   VAR
     Regs: Registers;
@@ -870,7 +879,15 @@ VAR
         OS2Ver := 2;
     END;
   END;
+{$ENDIF}
+{$IFDEF WIN32}
+  FUNCTION DosVer(VAR Minor,OS2Ver: Word): Word;
+  BEGIN
+    WriteLn('REETODO BOOT DosVer'); Halt;
+  END;
+{$ENDIF}
 
+{$IFDEF MSDOS}
   FUNCTION Win3_Check_On: Boolean;
   VAR
     Regs: Registers;
@@ -885,7 +902,15 @@ VAR
         Win3_Check_On := TRUE;
      END;
   END;
+{$ENDIF}
+{$IFDEF WIN32}
+  FUNCTION Win3_Check_On: Boolean;
+  BEGIN
+    WriteLn('REETODO BOOT Win3_Check_On'); Halt;
+  END;
+{$ENDIF}
 
+{$IFDEF MSDOS}
   FUNCTION DV_Check_On: Boolean;
   VAR
     Regs: Registers;
@@ -903,6 +928,13 @@ VAR
     ELSE
       DV_Check_On := TRUE;
   END;
+{$ENDIF}
+{$IFDEF WIN32}
+  FUNCTION DV_Check_On: Boolean;
+  BEGIN
+    WriteLn('REETODO BOOT DV_Check_On'); Halt;
+  END;
+{$ENDIF}
 
 BEGIN
   D5 := 0;

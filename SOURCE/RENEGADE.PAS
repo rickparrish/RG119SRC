@@ -2,7 +2,9 @@
 {$I DEFINES.INC}
 {$ENDIF}
 
+{$IFDEF MSDOS}
 {$M 35500,0,131072}
+{$ENDIF}
 
 {                             R E N E G A D E                                }
 {                             ===============                                }
@@ -230,7 +232,9 @@ END;
 BEGIN
   ClrScr;
   TextColor(Yellow);
+{$IFDEF MSDOS}
   GetIntVec($14,Interrupt14);
+{$ENDIF}
   FileMode := 66;
   ExitSave := ExitProc;
   ExitProc := @ErrorHandle;
@@ -266,6 +270,7 @@ BEGIN
 
   ReadP;
 
+{$IFDEF MSDOS}
   OvrFileMode := 0;
   Write('Initializing RENEGADE.OVR ... ');
   OvrInit('RENEGADE.OVR');
@@ -316,6 +321,7 @@ BEGIN
     END;
   END;
   WriteLn('Initial size of the overlay buffer is '+FormatNumber(OvrGetBuf)+' bytes.');
+{$ENDIF}
 
   Init;
 

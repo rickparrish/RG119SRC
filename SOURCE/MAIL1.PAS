@@ -1223,7 +1223,7 @@ VAR
                Insert_Char(Char(GKey));
          127 :
              Delete_Char;
-         32..254 :
+         32..46, 48..126, 128..254 :
              Insert_Char(Char(GKey));
          8 : BEGIN
                IF (CCol = 1) THEN

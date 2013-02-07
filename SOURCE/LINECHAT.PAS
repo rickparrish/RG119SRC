@@ -74,6 +74,7 @@ BEGIN
             Delay(600)
           ELSE
           BEGIN
+{$IFDEF MSDOS}
             FOR Counter1 := 300 DOWNTO 2 DO
             BEGIN
               Delay(1);
@@ -84,8 +85,12 @@ BEGIN
               Delay(1);
               Sound(Counter1 * 10);
             END;
+            NoSound;
+{$ENDIF}
+{$IFDEF WIN32}
+  WriteLn('REETODO LINECHAT RequestSysOpChat'); Halt;
+{$ENDIF}
           END;
-          NoSound;
           IF (KeyPressed) THEN
           BEGIN
             Cmd := ReadKey;
@@ -364,6 +369,7 @@ BEGIN
       CLS
     ELSE IF (S = '/PAGE') THEN
     BEGIN
+{$IFDEF MSDOS}
       FOR Counter := 650 TO 700 DO
       BEGIN
         Sound(Counter);
@@ -376,6 +382,10 @@ BEGIN
         Delay(2);
         NoSound;
       UNTIL (Counter = 200);
+{$ENDIF}
+{$IFDEF WIN32}
+  WriteLn('REETODO LINECHAT SysOpLineChat'); Halt;
+{$ENDIF}
       Prompt(^G^G);
     END
     ELSE IF (S = '/BYE') THEN

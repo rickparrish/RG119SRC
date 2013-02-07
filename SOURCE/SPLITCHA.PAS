@@ -82,10 +82,11 @@ BEGIN
           lRGLngStr(15,FALSE);
           IF (OutCom) THEN
             Com_Send(^G);
-          IF (ShutUpChatCall) THEN
+         IF (ShutUpChatCall) THEN
             Delay(600)
           ELSE
           BEGIN
+ {$IFDEF MSDOS}
             FOR Counter1 := 300 DOWNTO 2 DO
             BEGIN
               Delay(1);
@@ -96,8 +97,12 @@ BEGIN
               Delay(1);
               Sound(Counter1 * 10);
             END;
+            NoSound;
+{$ENDIF}
+{$IFDEF WIN32}
+  WriteLn('REETODO SPLITCHA RequestSysOpChat'); Halt;
+{$ENDIF}
           END;
-          NoSound;
           IF (KeyPressed) THEN
           BEGIN
             Cmd := ReadKey;

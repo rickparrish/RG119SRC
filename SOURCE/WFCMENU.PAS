@@ -309,7 +309,12 @@ BEGIN
     Com_Send_Str(Liner.Answer);
 
   IF (SysOpOn) THEN
+{$IFDEF MSDOS}
     Update_Logo(ANSWER,ScreenAddr[(3*2)+(19*160)-162],ANSWER_LENGTH);
+{$ENDIF}
+{$IFDEF WIN32}
+  WriteLn('REETODO WFCMENU GetConnection'); Halt;
+{$ENDIF}
 
   rl := 0;
   SaveTimer := Timer;
@@ -416,10 +421,19 @@ BEGIN
     IF (SysOpOn) THEN
     BEGIN
 
+{$IFDEF MSDOS}
       Update_Logo(WFC,ScreenAddr[0],WFC_LENGTH);
-
+{$ENDIF}
+{$IFDEF WIN32}
+  WriteLn('REETODO WFCMENU WFCDraw1'); Halt;
+{$ENDIF}
       IF (General.NetworkMode) THEN
+{$IFDEF MSDOS}
         Update_Logo(WFCNET,ScreenAddr[(3*2)+(19*160)-162],WFCNET_LENGTH);
+{$ENDIF}
+{$IFDEF WIN32}
+  WriteLn('REETODO WFCMENU WFCDraw2'); Halt;
+{$ENDIF}
 
       LoadURec(ThisUser,1);
 
@@ -589,7 +603,12 @@ BEGIN
       END;
     END
     ELSE
+{$IFDEF MSDOS}
       Update_Logo(WFC0,ScreenAddr[0],WFC0_LENGTH);
+{$ENDIF}
+{$IFDEF WIN32}
+  WriteLn('REETODO WFCMENU WFCDraw3'); Halt;
+{$ENDIF}
   END;
 END;
 
@@ -714,6 +733,7 @@ VAR
     BeepEnd := FALSE;
     rl := Timer;
     REPEAT
+{$IFDEF MSDOS}
       Sound(1500);
       Delay(20);
       Sound(1000);
@@ -721,6 +741,10 @@ VAR
       Sound(800);
       Delay(20);
       NoSound;
+{$ENDIF}
+{$IFDEF WIN32}
+  WriteLn('REETODO WFCMENU BeepHim'); Halt;
+{$ENDIF}
       rl1 := Timer;
       WHILE (ABS(rl1 - Timer) < 0.9) AND (NOT KeyPressed) DO;
     UNTIL (ABS(rl - Timer) > 30) OR (KeyPressed);
