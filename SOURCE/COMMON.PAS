@@ -467,6 +467,7 @@ VAR
   VQArea: Boolean;
 
 {$IFDEF WIN32}
+procedure Sound(hz: Word; duration: Word);
 function Ticks: LongInt;
 {$ENDIF}
 FUNCTION GetC(c: Byte): STRING;
@@ -677,6 +678,11 @@ USES
   ;
 
 {$IFDEF WIN32}
+procedure Sound(hz: Word; duration: Word);
+begin
+  Windows.Beep(hz, duration);
+end;
+
 function Ticks: LongInt;
 begin
   Ticks := GetTimeMSec div 55;

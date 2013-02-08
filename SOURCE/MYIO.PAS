@@ -50,7 +50,12 @@ VAR
   Infield_Arrow_Exit_Types,
   Infield_Normal_Exit_Keys: STRING;
 
+{$IFDEF MSDOS}
 PROCEDURE Update_Logo(VAR Addr1,Addr2; BlkLen: Integer);
+{$ENDIF}
+{$IFDEF WIN32}
+procedure Update_Logo(Data: Array of Char; OriginX, OriginY, DataLength: integer);
+{$ENDIF}
 PROCEDURE CursorOn(b: BOOLEAN);
 PROCEDURE infield1(x,y: Byte; VAR s: AStr; Len: Byte);
 PROCEDURE Infielde(VAR s: AStr; Len: Byte);
@@ -69,7 +74,11 @@ PROCEDURE SetWindow(VAR Wind: WindowRec; TLX,TLY,BRX,BRY,TColr,BColr,BoxType: In
 IMPLEMENTATION
 
 USES
-  Crt;
+  Crt
+{$IFDEF WIN32}
+  ,VpSysLow
+{$ENDIF}
+  ;
 
 {$IFDEF MSDOS}
 PROCEDURE CursorOn(b: BOOLEAN); ASSEMBLER;
@@ -570,9 +579,9 @@ BEGIN
   Box(BoxType,TLX,TLY,BRX,BRY);            { Set the border }
 END;
 
+{$IFDEF MSDOS}
 PROCEDURE Update_Logo(VAR Addr1,Addr2; BlkLen: Integer);
 BEGIN
-{$IFDEF MSDOS}
   INLINE (
     $1E/
     $C5/$B6/ADDR1/
@@ -627,10 +636,61 @@ BEGIN
     $49/
     $E0/$AA/
     $1F);
+END;
 {$ENDIF}
 {$IFDEF WIN32}
-  WriteLn('REETODO MYIO Update_Logo'); Halt;
+procedure Update_Logo(Data: Array of Char; OriginX, OriginY, DataLength: integer);
+var 
+  i, x, y, count, counter: Integer;
+  character: Char;
+  spaces: String;
+begin
+  i := 0;
+  x := OriginX;
+  y := OriginY;
+  spaces := '                                                                                '; // 80 spaces
+  
+  while (i < DataLength) do
+  begin
+    case Data[i] of
+	  #0..#15: begin
+	             TextColor(Ord(Data[i]));
+	           end;
+	  #16..#23: begin
+	              TextBackground(Ord(Data[i]) - 16);
+				end;
+	  #24: begin
+	         x := OriginX;
+			 Inc(y);
+		   end;
+	  #25: begin
+	         Inc(i);
+			 count := Ord(Data[i])+1;
+			 SysWrtCharStrAtt(@spaces[1], count, x-1, y-1, TextAttr);
+			 Inc(x, count);
+	       end;
+	  #26: begin
+	         Inc(i);
+			 count := Ord(Data[i])+1;
+			 Inc(i);
+			 character := Data[i];
+			 for counter := 1 to count do
+			 begin
+			   SysWrtCharStrAtt(@Data[i], 1, x-1, y-1, TextAttr);
+			   Inc(x);
+			 end;
+	       end;
+	  #27: begin
+	         TextAttr := TextAttr XOR $80; // Invert blink flag
+	       end;
+	  #32..#255: begin
+	               SysWrtCharStrAtt(@Data[i], 1, x-1, y-1, TextAttr);
+				   Inc(x);
+	             end;
+    end;
+	Inc(i);
+  end;
+end;
 {$ENDIF}
-END;
 
 END.
