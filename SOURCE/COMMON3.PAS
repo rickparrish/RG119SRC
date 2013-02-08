@@ -32,7 +32,11 @@ PROCEDURE InputCaps(VAR S: STRING; MaxLen: Byte);
 IMPLEMENTATION
 
 USES
-  Crt;
+  Crt
+{$IFDEF WIN32}
+  ,RPScreen
+{$ENDIF}
+  ;
 
 PROCEDURE InputDefault(VAR S: STRING; v: STRING; MaxLen: Byte; InputFlags: InputFlagSet; LineFeed: Boolean);
 VAR
@@ -359,7 +363,13 @@ VAR
 {$IFDEF WIN32}
   PROCEDURE SetCursor(InsertMode: Boolean);
   BEGIN
-    WriteLn('REETODO COMMON3 SetCursor'); Halt;
+    if (InsertMode) then
+    begin
+      RPInsertCursor;
+    end else
+    begin
+      RPBlockCursor;
+    end;
   END;
 {$ENDIF}
 

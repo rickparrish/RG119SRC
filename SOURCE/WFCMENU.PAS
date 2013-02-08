@@ -317,7 +317,7 @@ BEGIN
     Update_Logo(ANSWER,ScreenAddr[(3*2)+(19*160)-162],ANSWER_LENGTH);
 {$ENDIF}
 {$IFDEF WIN32}
-    Update_logo(ANSWER, 3, 19, ANSWER_LENGTH);
+    Update_Logo(ANSWER, 3, 19, ANSWER_LENGTH);
 {$ENDIF}
 
   rl := 0;
@@ -429,14 +429,14 @@ BEGIN
       Update_Logo(WFC,ScreenAddr[0],WFC_LENGTH);
 {$ENDIF}
 {$IFDEF WIN32}
-      Update_logo(WFC, 1, 1, WFC_LENGTH);
+      Update_Logo(WFC, 1, 1, WFC_LENGTH);
 {$ENDIF}
       IF (General.NetworkMode) THEN
 {$IFDEF MSDOS}
         Update_Logo(WFCNET,ScreenAddr[(3*2)+(19*160)-162],WFCNET_LENGTH);
 {$ENDIF}
 {$IFDEF WIN32}
-        Update_logo(WFCNET, 3, 19, WFCNET_LENGTH);
+        Update_Logo(WFCNET, 3, 19, WFCNET_LENGTH);
 {$ENDIF}
 
       LoadURec(ThisUser,1);
@@ -611,7 +611,7 @@ BEGIN
       Update_Logo(WFC0,ScreenAddr[0],WFC0_LENGTH);
 {$ENDIF}
 {$IFDEF WIN32}
-      Update_logo(WFC0, 1, 1, WFC0_LENGTH);
+      Update_Logo(WFC0, 1, 1, WFC0_LENGTH);
 {$ENDIF}
   END;
 END;

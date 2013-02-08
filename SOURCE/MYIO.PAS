@@ -76,9 +76,15 @@ IMPLEMENTATION
 USES
   Crt
 {$IFDEF WIN32}
+  ,RPScreen
   ,VpSysLow
 {$ENDIF}
   ;
+
+{$IFDEF WIN32}
+VAR
+  SavedScreen: TScreenBuf;
+{$ENDIF}
 
 {$IFDEF MSDOS}
 PROCEDURE CursorOn(b: BOOLEAN); ASSEMBLER;
@@ -99,7 +105,13 @@ END;
 {$IFDEF WIN32}
 PROCEDURE CursorOn(b: BOOLEAN);
 BEGIN
-  WriteLn('REETODO MYIO CursorOn'); Halt;
+  if (b) then
+  begin
+    RPShowCursor;
+  end else
+  begin
+    RPHideCursor;
+  end;
 END;
 {$ENDIF}
 
@@ -555,7 +567,7 @@ BEGIN
   Move(ScreenAddr[0],Wind[0],ScreenSize);
 {$ENDIF}
 {$IFDEF WIN32}
-  WriteLn('REETODO MYIO SaveScreen'); Halt;
+  RPSaveScreen(SavedScreen);
 {$ENDIF}
 END;
 
@@ -565,7 +577,7 @@ BEGIN
   Move(Wind[0],ScreenAddr[0],ScreenSize);
 {$ENDIF}
 {$IFDEF WIN32}
-  WriteLn('REETODO MYIO RemoveWindow'); Halt;
+  RPRestoreScreen(SavedScreen);
 {$ENDIF}
 END;
 

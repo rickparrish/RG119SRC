@@ -862,7 +862,8 @@ VAR
 {$IFDEF WIN32}
   FUNCTION TrueDosVer(VAR WinNTOk: Boolean): Word;
   BEGIN
-    WriteLn('REETODO BOOT TrueDosVer'); Halt;
+    WinNtOK := TRUE;
+    TrueDosVer := 5;
   END;
 {$ENDIF}
 
@@ -888,7 +889,9 @@ VAR
 {$IFDEF WIN32}
   FUNCTION DosVer(VAR Minor,OS2Ver: Word): Word;
   BEGIN
-    WriteLn('REETODO BOOT DosVer'); Halt;
+    Minor := 0;
+    OS2Ver := 0;
+    DosVer := 5;
   END;
 {$ENDIF}
 
@@ -911,7 +914,7 @@ VAR
 {$IFDEF WIN32}
   FUNCTION Win3_Check_On: Boolean;
   BEGIN
-    WriteLn('REETODO BOOT Win3_Check_On'); Halt;
+    Win3_Check_On := FALSE;
   END;
 {$ENDIF}
 
@@ -937,7 +940,7 @@ VAR
 {$IFDEF WIN32}
   FUNCTION DV_Check_On: Boolean;
   BEGIN
-    WriteLn('REETODO BOOT DV_Check_On'); Halt;
+    DV_Check_On := FALSE;
   END;
 {$ENDIF}
 

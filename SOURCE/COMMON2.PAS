@@ -31,6 +31,7 @@ USES
   SysOp3,
   SplitCha
 {$IFDEF WIN32}
+  ,VPSysLow
   ,Windows
 {$ENDIF}
   ;
@@ -180,7 +181,13 @@ END;
 {$IFDEF WIN32}
 PROCEDURE BiosScroll(up: Boolean);
 BEGIN
-  WriteLn('REETODO COMMON2 BiosScroll'); Halt;
+  if (up) then
+  begin
+    SysScrollUp(0, 0, MaxDisplayCols-1, MaxDisplayRows-1, 2, 7);
+  end else
+  begin
+    SysScrollDn(0, 0, MaxDisplayCols-1, MaxDisplayRows-1, 2, 7);
+  end;
 END;
 {$ENDIF}
 
@@ -296,7 +303,7 @@ BEGIN
           Update_Logo(Win1,ScreenAddr[(FirstRow - 1) * 160],WIN1_LENGTH);
 {$ENDIF}
 {$IFDEF WIN32}
-  WriteLn('REETODO COMMON2 Update_Logo(Win1'); Halt;
+          Update_Logo(Win1, 1, FirstRow, WIN1_LENGTH);
 {$ENDIF}
           GoToXY(02,FirstRow);
           Write(Caps(Name));
@@ -346,7 +353,7 @@ BEGIN
           Update_Logo(Win2,ScreenAddr[(FirstRow - 1) * 160],WIN2_LENGTH);
 {$ENDIF}
 {$IFDEF WIN32}
-  WriteLn('REETODO COMMON2 Update_Logo(Win2'); Halt;
+          Update_Logo(Win2, 1, FirstRow, WIN2_LENGTH);
 {$ENDIF}
           GoToXY(02,FirstRow);
           Write(Street);
@@ -384,7 +391,7 @@ BEGIN
           Update_Logo(Win3,ScreenAddr[(FirstRow - 1) * 160],WIN3_LENGTH);
 {$ENDIF}
 {$IFDEF WIN32}
-  WriteLn('REETODO COMMON2 Update_Logo(Win3'); Halt;
+          Update_Logo(Win3, 1, FirstRow, WIN3_LENGTH);
 {$ENDIF}
           GoToXY(06,FirstRow);
           Write(Loggedon);
@@ -438,7 +445,7 @@ BEGIN
             Update_Logo(Win4,ScreenAddr[(FirstRow - 1) * 160],WIN4_LENGTH);
 {$ENDIF}
 {$IFDEF WIN32}
-  WriteLn('REETODO COMMON2 Update_Logo(Win4'); Halt;
+            Update_Logo(Win4, 1, FirstRow, WIN4_LENGTH);
 {$ENDIF}
             GoToXY(20,FirstRow);
             Write(Callers);
@@ -466,7 +473,7 @@ BEGIN
           Update_Logo(Win5,ScreenAddr[(FirstRow - 1) * 160],WIN5_LENGTH);
 {$ENDIF}
 {$IFDEF WIN32}
-  WriteLn('REETODO COMMON2 Update_Logo(Win5'); Halt;
+          Update_Logo(Win5, 1, FirstRow, WIN5_LENGTH);
 {$ENDIF}
           GoToXY(20,FirstRow);
           Write(General.CallerNum);
@@ -596,7 +603,7 @@ BEGIN
               Update_Logo(SYSKEY,ScreenAddr[0],SYSKEY_LENGTH);
 {$ENDIF}
 {$IFDEF WIN32}
-  WriteLn('REETODO COMMON2 Update_Logo(SYSKEY'); Halt;
+              Update_Logo(SYSKEY, 1, 1, SYSKEY_LENGTH);
 {$ENDIF}
               CursorOn(FALSE);
               C := ReadKey;

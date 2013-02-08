@@ -88,7 +88,9 @@ BEGIN
             NoSound;
 {$ENDIF}
 {$IFDEF WIN32}
-  WriteLn('REETODO LINECHAT RequestSysOpChat'); Halt;
+            Sound(3000, 200);
+			Sound(1000, 200);
+			Sound(3000, 200);
 {$ENDIF}
           END;
           IF (KeyPressed) THEN
@@ -384,7 +386,12 @@ BEGIN
       UNTIL (Counter = 200);
 {$ENDIF}
 {$IFDEF WIN32}
-  WriteLn('REETODO LINECHAT SysOpLineChat'); Halt;
+      Sound(650, 200);
+	  Sound(700, 200);
+	  Sound(600, 200);
+	  Sound(500, 200);
+	  Sound(400, 200);
+	  Sound(300, 200);
 {$ENDIF}
       Prompt(^G^G);
     END
