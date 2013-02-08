@@ -20,7 +20,12 @@ CONST
   Activity_Log: Boolean = FALSE;
   NetMailOnly: Boolean = FALSE;
   IsNetMail: Boolean = FALSE;
+{$IFDEF MSDOS}
   FastPurge: Boolean = TRUE;
+{$ENDIF}
+{$IFDEF WIN32}
+  FastPurge: Boolean = FALSE;
+{$ENDIF}
   Process_NetMail: Boolean = TRUE;
   Purge_NetMail: Boolean = TRUE;
   Absolute_Scan: Boolean = FALSE;
@@ -96,6 +101,51 @@ VAR
   MsgArea: Integer;
 
   ParamFound: Boolean;
+
+{$IFDEF WIN32}
+(* REENOTE 
+   In BP/TP you can do this:
+
+   var
+     MySet: NetAttribs;
+     MyWord: Word;
+   begin
+     MySet := [Private, Crash];
+     MyWord := Word(MySet);
+     { MyWord now contains the value 3 in BP/TP }
+	 { but VP refuses to compile the code due to Word(MySet) }
+   end;
+
+   In VP this typecast isn't allowed (maybe there's a compiler setting to allow it, didn't look actually)
+   so this function converts from a set to a word type.
+   
+   While this function should work for both BP/TP and for VP, I'm only using it for VP and using the
+   original cast for BP/TP, since there's no need to change what isn't broken
+*)
+function NetAttribsToWord(inSet: NetAttribs): Word;
+var
+  Result: Word;
+begin
+  Result := 0;
+  if (Private in inSet) then result := result + 1;
+  if (Crash in inSet) then result := result + 2;
+  if (Recd in inSet) then result := result + 4;
+  if (NSent in inSet) then result := result + 8;
+  if (FileAttach in inSet) then result := result + 16;
+  if (Intransit in inSet) then result := result + 32;
+  if (Orphan in inSet) then result := result + 64;
+  if (KillSent in inSet) then result := result + 128;
+  if (Local in inSet) then result := result + 256;
+  if (Hold in inSet) then result := result + 512;
+  if (Unused in inSet) then result := result + 1024;
+  if (FileRequest in inSet) then result := result + 2048;
+  if (ReturnReceiptRequest in inSet) then result := result + 4096;
+  if (IsReturnReceipt in inSet) then result := result + 8192;
+  if (AuditRequest in inSet) then result := result + 16384;
+  if (FileUpdateRequest in inSet) then result := result + 32768;
+  NetAttribsToWord := Result;
+end;
+{$ENDIF}
 
 FUNCTION CenterStr(S: STRING): STRING;
 VAR
@@ -865,7 +915,7 @@ BEGIN
     Purged := (Lo(Regs.AX) = 0);
 {$ENDIF}
 {$IFDEF WIN32}
-  WriteLn('REETODO RENEMAIL PurgeDir'); Halt;
+  // We ensure FastPurge is false in Win32, so this is never called
 {$ENDIF}
   END
   ELSE
@@ -1703,9 +1753,7 @@ BEGIN
         FidoMsgHdr.Attribute := Word(RGMsgHdr.NetAttribute)
 {$ENDIF}
 {$IFDEF WIN32}
-BEGIN
-  WriteLn('REETODO RENEMAIL Scan'); Halt;
-END
+        FidoMsgHdr.Attribute := NetAttribsToWord(RGMsgHdr.NetAttribute)
 {$ENDIF}
       ELSE IF (Prvt IN RGMsgHdr.Status) THEN
         FidoMsgHdr.Attribute := 257
