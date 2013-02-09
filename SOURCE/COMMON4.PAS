@@ -352,7 +352,17 @@ IMPLEMENTATION
 
 USES
   Crt,
-  Common;
+  Common
+{$IFDEF WIN32}
+  ,EleNorm
+{$ENDIF}
+  ;
+
+{$IFDEF WIN32}
+VAR 
+  DidClose: Boolean = false;
+  DidInit: Boolean = false;
+{$ENDIF}
 
 (*
 AH = 0Ah Purge input buffer
@@ -378,7 +388,10 @@ BEGIN
     END;
 {$ENDIF}
 {$IFDEF WIN32}
-  WriteLn('REETODO COMMON4 Com_Flush_Recv'); Halt;
+    if Not(DidInit) then Exit;
+    if (DidClose) then Exit;
+    if Not(EleNorm.Com_Carrier) then Exit;
+    EleNorm.Com_PurgeInBuffer; // REENOTE Is this right?  Function says flush not purge
 {$ENDIF}
   END
   ELSE WHILE NOT (Com_IsRecv_Empty) DO
@@ -415,7 +428,11 @@ BEGIN
   END;
 {$ENDIF}
 {$IFDEF WIN32}
-  WriteLn('REETODO COMMON4 Com_Purge_Send'); Halt;
+  if (LocalIOOnly) then Exit;
+  if Not(DidInit) then Exit;
+  if (DidClose) then Exit;
+  if Not(EleNorm.Com_Carrier) then Exit;
+  EleNorm.Com_PurgeOutBuffer;
 {$ENDIF}
 END;
 
@@ -456,11 +473,15 @@ BEGIN
     Mov Dummy,AL
     @TheEnd:
   END;
+  Com_Carrier := (Dummy AND $80) = $80;
 {$ENDIF}
 {$IFDEF WIN32}
-  WriteLn('REETODO COMMON4 Com_Carrier'); Halt;
+  Com_Carrier := Not(DidClose);
+  if (LocalIOOnly) then Exit;
+  if Not(DidInit) then Exit;
+  if (DidClose) then Exit;
+  Com_Carrier := EleNorm.Com_Carrier;
 {$ENDIF}
-  Com_Carrier := (Dummy AND $80) = $80;
 END;
 
 (*
@@ -490,6 +511,9 @@ CONST
 VAR
   Dummy: Byte;
   T_RecvChar: Boolean;
+{$IFDEF WIN32}
+  Ch: Char;
+{$ENDIF}
 BEGIN
   Com_Recv := #0;
   T_RecvChar := FALSE;
@@ -509,12 +533,34 @@ BEGIN
     Mov T_RecvChar,1
     @TheEnd:
   END;
-{$ENDIF}
-{$IFDEF WIN32}
-  WriteLn('REETODO COMMON4 Com_Recv'); Halt;
-{$ENDIF}
   IF (T_RecvChar) THEN
     Com_Recv := Char(Dummy);
+{$ENDIF}
+{$IFDEF WIN32}
+  if (LocalIOOnly) then Exit;
+  if Not(DidInit) then Exit;
+  if (DidClose) then Exit;
+  if Not(EleNorm.Com_Carrier) then Exit;
+  if Not(EleNorm.Com_CharAvail) then Exit;
+
+  // Get character from buffer
+  Ch := EleNorm.Com_GetChar;
+  if (Ch = #10) then
+  begin
+    // Translate bare LF to CR
+    Com_Recv := #13;
+  end else
+  begin
+    Com_Recv := Ch;
+  end;
+
+  // If this char is CR, check if the next char is LF (so we can discard it)
+  if (Ch = #13) and (EleNorm.Com_CharAvail) then
+  begin
+    Ch := EleNorm.Com_PeekChar;
+    if (Ch = #10) then EleNorm.Com_GetChar; // Discard that LF
+  end;
+{$ENDIF}
 END;
 
 (*
@@ -554,11 +600,15 @@ BEGIN
     Mov Dummy,AH
     @TheEnd:
   END;
+  Com_IsRecv_Empty := NOT ((Dummy AND $01) = $01);
 {$ENDIF}
 {$IFDEF WIN32}
-  WriteLn('REETODO COMMON4 Com_IsRecv_Empty'); Halt;
+  if (LocalIOOnly) then Exit;
+  if Not(DidInit) then Exit;
+  if (DidClose) then Exit;
+  if Not(EleNorm.Com_Carrier) then Exit;
+  Com_IsRecv_Empty := Not(EleNorm.Com_CharAvail);
 {$ENDIF}
-  Com_IsRecv_Empty := NOT ((Dummy AND $01) = $01);
 END;
 
 (*
@@ -586,6 +636,9 @@ bit on hardwired (null modem) links.
 FUNCTION Com_IsSend_Empty: Boolean;
 VAR
   Dummy: Byte;
+{$IFDEF WIN32}
+  InFree, OutFree, InUsed, OutUsed: LongInt;
+{$ENDIF}
 BEGIN
   Dummy := 0;  (* New *)
 {$IFDEF MSDOS}
@@ -598,11 +651,16 @@ BEGIN
     Mov Dummy,AH
     @TheEnd:
   END;
+  Com_IsSend_Empty := ((Dummy AND $40) = $40);
 {$ENDIF}
 {$IFDEF WIN32}
-  WriteLn('REETODO COMMON4 Com_IsSend_Empty'); Halt;
+  if (LocalIOOnly) then Exit;
+  if Not(DidInit) then Exit;
+  if (DidClose) then Exit;
+  if Not(EleNorm.Com_Carrier) then Exit;
+  EleNorm.Com_GetBufferStatus(InFree, OutFree, InUsed, OutUsed);
+  Com_IsSend_Empty := (OutUsed = 0);
 {$ENDIF}
-  Com_IsSend_Empty := ((Dummy AND $40) = $40);
 END;
 
 (*
@@ -631,7 +689,11 @@ BEGIN
   END;
 {$ENDIF}
 {$IFDEF WIN32}
-  WriteLn('REETODO COMMON4 Com_Send'); Halt;
+  if (LocalIOOnly) then Exit;
+  if Not(DidInit) then Exit;
+  if (DidClose) then Exit;
+  if Not(EleNorm.Com_Carrier) then Exit;
+  EleNorm.Com_SendChar(C);
 {$ENDIF}
 END;
 
@@ -717,7 +779,7 @@ BEGIN
     END;
 {$ENDIF}
 {$IFDEF WIN32}
-  WriteLn('REETODO COMMON4 Com_Set_Speed'); Halt;
+  // REENOTE Telnet can't set speed
 {$ENDIF}
   END;
 END;
@@ -744,7 +806,13 @@ BEGIN
     END;
 {$ENDIF}
 {$IFDEF WIN32}
-  WriteLn('REETODO COMMON4 Com_DeInstall'); Halt;
+    if Not(DidInit) then Exit;
+    if Not(DidClose) then 
+    begin
+      EleNorm.Com_Close;
+      DidClose := true;
+    end;
+    EleNorm.Com_ShutDown;
 {$ENDIF}
   END;
 END;
@@ -766,7 +834,7 @@ PROCEDURE Com_Install;
 {$IFDEF WIN32}
   FUNCTION DriverInstalled: Word;
   BEGIN
-    DriverInstalled := $1954; // Seems to be what it wants
+    // REENOTE Never gets called in Win32
   END;
 {$ENDIF}
 
@@ -774,6 +842,7 @@ BEGIN
   FossilPort := (Liner.Comport - 1);
   IF (LocalIOOnly) THEN
     Exit;
+{$IFDEF MSDOS}
   IF (DriverInstalled <> $1954) THEN
   BEGIN
     ClrScr;
@@ -781,7 +850,6 @@ BEGIN
     Halt;
   END
   ELSE
-{$IFDEF MSDOS}
     ASM
       Xor AL,AL
       Mov BL,Liner.MFlags
@@ -800,7 +868,12 @@ BEGIN
     END;
 {$ENDIF}
 {$IFDEF WIN32}
-  WriteLn('REETODO COMMON4 Com_Install'); Halt;
+  if (DidInit) then Exit;
+  if (DidClose) then Exit;
+  DidInit := true;
+  EleNorm.Com_StartUp(2);
+  EleNorm.Com_SetDontClose(false);
+  EleNorm.Com_OpenQuick(answerbaud); // REENOTE Should come up with a better solution, this works for now though
 {$ENDIF}
   Com_Set_Speed(Liner.InitBaud);
 END;
@@ -825,7 +898,14 @@ END;
 {$IFDEF WIN32}
 PROCEDURE CheckHangup;
 BEGIN
-  WriteLn('REETODO COMMON4 CheckHangup'); Halt;
+  if (LocalIOOnly) then exit;
+  if Not(OutCom) then exit;
+  
+  if Not(Com_Carrier) then
+  begin
+    HangUp := true;
+    HungUp := true;
+  end;
 END;
 {$ENDIF}
 
@@ -852,11 +932,11 @@ VAR
 BEGIN
   IF (OutCom) THEN
   BEGIN
+{$IFDEF MSDOS}
     REPEAT
       T_DI := OFS(S[1]);
       T_CX := Length(S);
       T_ES := Seg(S[1]);
-{$IFDEF MSDOS}
       ASM
         Mov AH,19h
         Mov DI,T_DI
@@ -866,13 +946,16 @@ BEGIN
         Int 14h
         Mov T_AX,AX
       END;
-{$ENDIF}
-{$IFDEF WIN32}
-  WriteLn('REETODO COMMON4 SerialOut'); Halt;
-{$ENDIF}
       Move(S[T_AX + 1],S[1],Length(S) - T_AX);
       Dec(S[0],T_AX);
     UNTIL (S = '');
+{$ENDIF}
+{$IFDEF WIN32}
+    if Not(DidInit) then Exit;
+    if (DidClose) then Exit;
+    if Not(EleNorm.Com_Carrier) then Exit;
+    EleNorm.Com_SendString(S);
+{$ENDIF}
   END;
 END;
 
@@ -912,11 +995,14 @@ BEGIN
       Int 14h
       Mov T_AH,AH
     END;
+    Empty := NOT (T_AH AND 1 = 1);
 {$ENDIF}
 {$IFDEF WIN32}
-  WriteLn('REETODO COMMON4 Empty'); Halt;
+    if Not(DidInit) then Exit;
+    if (DidClose) then Exit;
+    if Not(EleNorm.Com_Carrier) then Exit;
+    Empty := Not(EleNorm.Com_CharAvail);
 {$ENDIF}
-    Empty := NOT (T_AH AND 1 = 1);
   END;
 END;
 
@@ -947,7 +1033,14 @@ BEGIN
     END;
 {$ENDIF}
 {$IFDEF WIN32}
-  WriteLn('REETODO COMMON4 DTR'); Halt;
+    if Not(DidInit) then Exit;
+    if (DidClose) then Exit;
+    if Not(EleNorm.Com_Carrier) then Exit;
+    if Not(Status) then
+    begin
+        EleNorm.Com_Close;
+        DidClose := true;
+    end;
 {$ENDIF}
   END;
 END;
