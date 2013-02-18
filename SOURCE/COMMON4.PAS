@@ -388,6 +388,7 @@ BEGIN
     END;
 {$ENDIF}
 {$IFDEF WIN32}
+    if (InWfcMenu) then Exit;
     if Not(DidInit) then Exit;
     if (DidClose) then Exit;
     if Not(EleNorm.Com_Carrier) then Exit;
@@ -476,7 +477,7 @@ BEGIN
   Com_Carrier := (Dummy AND $80) = $80;
 {$ENDIF}
 {$IFDEF WIN32}
-  Com_Carrier := Not(DidClose);
+  Com_Carrier := false;
   if (LocalIOOnly) then Exit;
   if Not(DidInit) then Exit;
   if (DidClose) then Exit;
@@ -603,6 +604,7 @@ BEGIN
   Com_IsRecv_Empty := NOT ((Dummy AND $01) = $01);
 {$ENDIF}
 {$IFDEF WIN32}
+  Com_IsRecv_Empty := true;
   if (LocalIOOnly) then Exit;
   if Not(DidInit) then Exit;
   if (DidClose) then Exit;
@@ -654,6 +656,7 @@ BEGIN
   Com_IsSend_Empty := ((Dummy AND $40) = $40);
 {$ENDIF}
 {$IFDEF WIN32}
+  Com_IsSend_Empty := false;
   if (LocalIOOnly) then Exit;
   if Not(DidInit) then Exit;
   if (DidClose) then Exit;
@@ -898,8 +901,8 @@ END;
 {$IFDEF WIN32}
 PROCEDURE CheckHangup;
 BEGIN
-  if (LocalIOOnly) then exit;
-  if Not(OutCom) then exit;
+  if (LocalIOOnly) then Exit;
+  if Not(OutCom) then Exit;
   
   if Not(Com_Carrier) then
   begin
