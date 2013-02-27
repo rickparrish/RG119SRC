@@ -10,7 +10,7 @@ CONST
 {$ENDIF}
 
 {$IFDEF OS/2}
-  OS = '/OS/2';
+  OS = '/2';
 {$ENDIF}
 
   Ver = Build + OS;
