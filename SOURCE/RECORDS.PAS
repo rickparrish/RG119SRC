@@ -2,15 +2,15 @@ CONST
   Build = '1.20';
 
 {$IFDEF MSDOS}
-  OS = '/Alpha';
+  OS = '/DOS';
 {$ENDIF}
 
 {$IFDEF WIN32}
-  OS = 'WIN32';
+  OS = '/Win32';
 {$ENDIF}
 
 {$IFDEF OS/2}
-  OS = 'OS/2';
+  OS = '/2';
 {$ENDIF}
 
   Ver = Build + OS;
